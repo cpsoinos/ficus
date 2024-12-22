@@ -7,7 +7,7 @@
 </script>
 
 <div class="flex h-screen w-full items-center justify-center px-4">
-	<form method="post" action="?/login" use:enhance>
+	<form method="post" action="?/register" use:enhance>
 		<!-- <label>
 		Email
 		<input name="email" type="email" required />
@@ -18,7 +18,7 @@
 	</label>
 	<button>Login</button>
 	<button formaction="?/register">Register</button> -->
-		<AuthForm mode="login" />
+		<AuthForm mode="register" />
 	</form>
 	<p style="color: red">{form?.message ?? ''}</p>
 </div>

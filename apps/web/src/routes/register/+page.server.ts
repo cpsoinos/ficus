@@ -1,11 +1,9 @@
-import { verify } from '@node-rs/argon2';
+import { hash } from '@node-rs/argon2';
 import { fail, redirect } from '@sveltejs/kit';
-import { and, eq, isNotNull } from 'drizzle-orm';
-import { db } from '$lib/server/db';
-import * as table from '$lib/server/db/schema';
 import type { Actions, PageServerLoad } from './$types';
 import {
 	createSession,
+	createUser,
 	generateSessionToken,
 	setSessionTokenCookie,
 	validateEmail,
@@ -20,7 +18,7 @@ export const load: PageServerLoad = async (event) => {
 };
 
 export const actions: Actions = {
-	login: async (event) => {
+	register: async (event) => {
 		const formData = await event.request.formData();
 		const email = formData.get('email');
 		const password = formData.get('password');
@@ -32,28 +30,24 @@ export const actions: Actions = {
 			return fail(400, { message: 'Invalid password' });
 		}
 
-		const existingUser = await db.query.user.findFirst({
-			where: and(eq(table.user.email, email), isNotNull(table.user.passwordHash))
-		});
-
-		if (!existingUser) {
-			return fail(400, { message: 'Incorrect email or password' });
-		}
-
-		const validPassword = await verify(existingUser.passwordHash!, password, {
+		const passwordHash = await hash(password, {
+			// recommended minimum parameters
 			memoryCost: 19456,
 			timeCost: 2,
 			outputLen: 32,
 			parallelism: 1
 		});
-		if (!validPassword) {
-			return fail(400, { message: 'Incorrect email or password' });
+
+		try {
+			const { id: userId } = await createUser({ email, passwordHash });
+
+			const sessionToken = generateSessionToken();
+			const session = await createSession(sessionToken, userId);
+			setSessionTokenCookie(event, sessionToken, session.expiresAt);
+		} catch (e) {
+			console.error(e);
+			return fail(500, { message: 'An error has occurred' });
 		}
-
-		const sessionToken = generateSessionToken();
-		const session = await createSession(sessionToken, existingUser.id);
-		setSessionTokenCookie(event, sessionToken, session.expiresAt);
-
 		return redirect(302, '/');
 	}
 };
