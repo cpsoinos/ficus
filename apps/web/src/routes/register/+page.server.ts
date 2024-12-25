@@ -36,12 +36,6 @@ export const actions: Actions = {
 			return fail(400, { message: 'Invalid password' });
 		}
 
-		// const hashResp = await event.platform!.env.ARGON2.fetch('http://internal/hash', {
-		// 	method: 'POST',
-		// 	body: JSON.stringify({ password })
-		// });
-		// const resp = await hashResp.json<{ hash: string }>();
-		// const passwordHash = resp.hash;
 		const passwordHash = await hashPassword(password);
 
 		try {
