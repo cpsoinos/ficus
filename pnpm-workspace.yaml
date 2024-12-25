@@ -2,3 +2,4 @@ packages:
   - "libs/**"
   - "packages/**"
   - apps/web
+  - workers/argon2
