@@ -1,4 +1,3 @@
-import { verify } from '@node-rs/argon2';
 import { fail, redirect } from '@sveltejs/kit';
 import { and, eq, isNotNull } from 'drizzle-orm';
 import { db } from '$lib/server/db';
@@ -11,6 +10,7 @@ import {
 	validateEmail,
 	validatePassword
 } from '$lib/server/auth';
+import { verifyPassword } from '$lib/server/password';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
@@ -32,20 +32,16 @@ export const actions: Actions = {
 			return fail(400, { message: 'Invalid password' });
 		}
 
-		const existingUser = await db.query.user.findFirst({
-			where: and(eq(table.user.email, email), isNotNull(table.user.passwordHash))
-		});
+		const [existingUser] = await db
+			.select()
+			.from(table.user)
+			.where(and(eq(table.user.email, email), isNotNull(table.user.passwordHash)));
 
 		if (!existingUser) {
 			return fail(400, { message: 'Incorrect email or password' });
 		}
 
-		const validPassword = await verify(existingUser.passwordHash!, password, {
-			memoryCost: 19456,
-			timeCost: 2,
-			outputLen: 32,
-			parallelism: 1
-		});
+		const validPassword = await verifyPassword(existingUser.passwordHash!, password);
 		if (!validPassword) {
 			return fail(400, { message: 'Incorrect email or password' });
 		}

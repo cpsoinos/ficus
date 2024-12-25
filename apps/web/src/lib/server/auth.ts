@@ -1,7 +1,5 @@
 import type { RequestEvent } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
-import { sha256 } from '@oslojs/crypto/sha2';
-import { encodeBase64url, encodeHexLowerCase } from '@oslojs/encoding';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 
@@ -9,18 +7,34 @@ const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
 export const sessionCookieName = 'auth-session';
 
-export function generateSessionToken() {
+export function generateSessionToken(): string {
+	// Generate 18 random bytes
 	const bytes = crypto.getRandomValues(new Uint8Array(18));
-	const token = encodeBase64url(bytes);
+
+	// Convert bytes to a Base64 URL-safe string
+	const token = btoa(String.fromCharCode(...bytes))
+		.replace(/\+/g, '-')
+		.replace(/\//g, '_')
+		.replace(/=+$/, '');
+
 	return token;
 }
 
-function encodeSessionToken(token: string) {
-	return encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+export async function encodeSessionToken(token: string): Promise<string> {
+	// Hash the token using SHA-256
+	const encoder = new TextEncoder();
+	const data = encoder.encode(token);
+	const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+
+	// Convert the hash to a lowercase hex string
+	const hashArray = Array.from(new Uint8Array(hashBuffer));
+	const hexString = hashArray.map((byte) => byte.toString(16).padStart(2, '0')).join('');
+
+	return hexString;
 }
 
 export async function createSession(token: string, userId: string) {
-	const sessionId = encodeSessionToken(token);
+	const sessionId = await encodeSessionToken(token);
 	const sessionToInsert: table.NewSession = {
 		id: sessionId,
 		userId,
@@ -31,7 +45,7 @@ export async function createSession(token: string, userId: string) {
 }
 
 export async function validateSessionToken(token: string) {
-	const sessionId = encodeSessionToken(token);
+	const sessionId = await encodeSessionToken(token);
 	const [result] = await db
 		.select({
 			// Adjust user table here to tweak returned data

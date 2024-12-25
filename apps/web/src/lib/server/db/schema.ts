@@ -25,6 +25,20 @@ export const session = sqliteTable('session', {
 export type Session = typeof session.$inferSelect;
 export type NewSession = typeof session.$inferInsert;
 
+export const passwordResetSession = sqliteTable('password_reset_session', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
+	userId: text('user_id')
+		.notNull()
+		.references(() => user.id),
+	code: text('code').notNull(),
+	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
+});
+
+export type PasswordResetSession = typeof passwordResetSession.$inferSelect;
+export type NewPasswordResetSession = typeof passwordResetSession.$inferInsert;
+
 export const oAuthAccount = sqliteTable('oauth_account', {
 	id: text('id')
 		.primaryKey()

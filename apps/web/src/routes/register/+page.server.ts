@@ -1,4 +1,3 @@
-import { hash } from '@node-rs/argon2';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import {
@@ -6,9 +5,9 @@ import {
 	createUser,
 	generateSessionToken,
 	setSessionTokenCookie,
-	validateEmail,
-	validatePassword
+	validateEmail
 } from '$lib/server/auth';
+import { hashPassword, verifyPasswordStrength } from '$lib/server/password';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
@@ -20,23 +19,30 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
 	register: async (event) => {
 		const formData = await event.request.formData();
-		const email = formData.get('email');
-		const password = formData.get('password');
+		const email = formData.get('email') as string;
+		const password = formData.get('password') as string;
+
+		if (!email) {
+			return fail(400, { email, missing: true });
+		}
+		if (!password) {
+			return fail(400, { message: 'Password is required' });
+		}
 
 		if (!validateEmail(email)) {
 			return fail(400, { message: 'Invalid email' });
 		}
-		if (!validatePassword(password)) {
+		if (!verifyPasswordStrength(password)) {
 			return fail(400, { message: 'Invalid password' });
 		}
 
-		const passwordHash = await hash(password, {
-			// recommended minimum parameters
-			memoryCost: 19456,
-			timeCost: 2,
-			outputLen: 32,
-			parallelism: 1
-		});
+		// const hashResp = await event.platform!.env.ARGON2.fetch('http://internal/hash', {
+		// 	method: 'POST',
+		// 	body: JSON.stringify({ password })
+		// });
+		// const resp = await hashResp.json<{ hash: string }>();
+		// const passwordHash = resp.hash;
+		const passwordHash = await hashPassword(password);
 
 		try {
 			const { id: userId } = await createUser({ email, passwordHash });

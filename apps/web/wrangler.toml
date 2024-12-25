@@ -1,6 +1,9 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "ficus-web"
 compatibility_date = "2024-12-18"
+compatibility_flags = [
+  "nodejs_compat",
+]
 pages_build_output_dir = ".svelte-kit/cloudflare"
 
 # Automatically place your workloads in an optimal location to minimize latency.
@@ -60,9 +63,9 @@ migrations_table = "__drizzle_migrations"
 
 # Bind another Worker service. Use this binding to call another Worker without network overhead.
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#service-bindings
-# [[services]]
-# binding = "MY_SERVICE"
-# service = "my-service"
+[[services]]
+binding = "ARGON2"
+service = "argon2"
 
 # To use different bindings for preview and production environments, follow the examples below.
 # When using environment-specific overrides for bindings, ALL bindings must be specified on a per-environment basis.

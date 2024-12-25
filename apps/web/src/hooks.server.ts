@@ -3,6 +3,7 @@ import type { Handle } from '@sveltejs/kit';
 import * as auth from '$lib/server/auth.js';
 import { DbSingleton } from '$lib/server/db';
 import { sequence } from '@sveltejs/kit/hooks';
+import { Bindings } from '$lib/server/bindings';
 
 let platform: App.Platform;
 
@@ -20,6 +21,11 @@ const devShim: Handle = async ({ event, resolve }) => {
 
 const initDb: Handle = async ({ event, resolve }) => {
 	DbSingleton.initialize(event.platform!.env.DB);
+	return resolve(event);
+};
+
+const initBindings: Handle = async ({ event, resolve }) => {
+	Bindings.initialize(event.platform!.env);
 	return resolve(event);
 };
 
@@ -44,4 +50,4 @@ const authHook: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-export const handle: Handle = sequence(devShim, initDb, authHook);
+export const handle: Handle = sequence(devShim, initBindings, initDb, authHook);
