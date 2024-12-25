@@ -8,16 +8,6 @@
 
 <div class="flex h-screen w-full items-center justify-center px-4">
 	<form method="post" action="?/login" use:enhance>
-		<!-- <label>
-		Email
-		<input name="email" type="email" required />
-	</label>
-	<label>
-		Password
-		<input type="password" name="password" required />
-	</label>
-	<button>Login</button>
-	<button formaction="?/register">Register</button> -->
 		<AuthForm mode="login" />
 	</form>
 	<p style="color: red">{form?.message ?? ''}</p>

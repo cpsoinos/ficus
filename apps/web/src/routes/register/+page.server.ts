@@ -19,8 +19,8 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
 	register: async (event) => {
 		const formData = await event.request.formData();
-		const email = formData.get('email') as string;
-		const password = formData.get('password') as string;
+		const email = formData.get('email') as string | undefined;
+		const password = formData.get('password') as string | undefined;
 
 		if (!email) {
 			return fail(400, { email, missing: true });
