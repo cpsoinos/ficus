@@ -1,5 +1,5 @@
 packages:
-  - "libs/**"
-  - "packages/**"
-  - apps/web
-  - workers/argon2
+  - 'libs/**'
+  - 'packages/**'
+  - 'apps/**'
+  - 'workers/**'
