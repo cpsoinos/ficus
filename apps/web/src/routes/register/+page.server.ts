@@ -1,13 +1,14 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
+import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/auth';
+import { createUser } from '$lib/server/user';
+import { verifyPasswordStrength } from '$lib/server/password';
+import { checkEmailAvailability, verifyEmailInput } from '$lib/server/email';
 import {
-	createSession,
-	createUser,
-	generateSessionToken,
-	setSessionTokenCookie,
-	validateEmail
-} from '$lib/server/auth';
-import { hashPassword, verifyPasswordStrength } from '$lib/server/password';
+	createEmailVerificationRequest,
+	sendVerificationEmail,
+	setEmailVerificationRequestCookie
+} from '$lib/server/email-verification';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
@@ -29,17 +30,27 @@ export const actions: Actions = {
 			return fail(400, { message: 'Password is required' });
 		}
 
-		if (!validateEmail(email)) {
+		if (!verifyEmailInput(email)) {
 			return fail(400, { message: 'Invalid email' });
 		}
 		if (!verifyPasswordStrength(password)) {
-			return fail(400, { message: 'Invalid password' });
+			return fail(400, { message: 'Weak password' });
 		}
 
-		const passwordHash = await hashPassword(password);
+		const emailAvailable = await checkEmailAvailability(email);
+		if (!emailAvailable) {
+			return fail(400, {
+				message: 'Email is already used',
+				email
+			});
+		}
 
 		try {
-			const { id: userId } = await createUser({ email, passwordHash });
+			const { id: userId } = await createUser({ email, password });
+
+			const emailVerificationRequest = await createEmailVerificationRequest(userId, email);
+			await sendVerificationEmail(emailVerificationRequest.email, emailVerificationRequest.code);
+			setEmailVerificationRequestCookie(event, emailVerificationRequest);
 
 			const sessionToken = generateSessionToken();
 			const session = await createSession(sessionToken, userId);

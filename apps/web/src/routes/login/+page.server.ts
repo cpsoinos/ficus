@@ -7,10 +7,10 @@ import {
 	createSession,
 	generateSessionToken,
 	setSessionTokenCookie,
-	validateEmail,
 	validatePassword
 } from '$lib/server/auth';
 import { verifyPassword } from '$lib/server/password';
+import { verifyEmailInput } from '$lib/server/email';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
@@ -22,10 +22,17 @@ export const load: PageServerLoad = async (event) => {
 export const actions: Actions = {
 	login: async (event) => {
 		const formData = await event.request.formData();
-		const email = formData.get('email');
-		const password = formData.get('password');
+		const email = formData.get('email') as string | undefined;
+		const password = formData.get('password') as string | undefined;
 
-		if (!validateEmail(email)) {
+		if (!email) {
+			return fail(400, { email, missing: true });
+		}
+		if (!password) {
+			return fail(400, { message: 'Password is required' });
+		}
+
+		if (!verifyEmailInput(email)) {
 			return fail(400, { message: 'Invalid email' });
 		}
 		if (!validatePassword(password)) {

@@ -1,9 +1,14 @@
 import { dev } from '$app/environment';
 import type { Handle } from '@sveltejs/kit';
-import * as auth from '$lib/server/auth.js';
 import { DbSingleton } from '$lib/server/db';
 import { sequence } from '@sveltejs/kit/hooks';
 import { Bindings } from '$lib/server/bindings';
+import {
+	sessionCookieName,
+	validateSessionToken,
+	setSessionTokenCookie,
+	deleteSessionTokenCookie
+} from '$lib/server/auth';
 
 let platform: App.Platform;
 
@@ -30,18 +35,18 @@ const initBindings: Handle = async ({ event, resolve }) => {
 };
 
 const authHook: Handle = async ({ event, resolve }) => {
-	const sessionToken = event.cookies.get(auth.sessionCookieName);
+	const sessionToken = event.cookies.get(sessionCookieName);
 	if (!sessionToken) {
 		event.locals.user = null;
 		event.locals.session = null;
 		return resolve(event);
 	}
 
-	const { session, user } = await auth.validateSessionToken(sessionToken);
+	const { session, user } = await validateSessionToken(sessionToken);
 	if (session) {
-		auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
+		setSessionTokenCookie(event, sessionToken, session.expiresAt);
 	} else {
-		auth.deleteSessionTokenCookie(event);
+		deleteSessionTokenCookie(event);
 	}
 
 	event.locals.user = user;

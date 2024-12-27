@@ -6,12 +6,8 @@ import type { GithubUser } from '$lib/server/oauth.types';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 import { and, eq } from 'drizzle-orm';
-import {
-	createSession,
-	createUser,
-	generateSessionToken,
-	setSessionTokenCookie
-} from '$lib/server/auth';
+import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/auth';
+import { createUser } from '$lib/server/user';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');

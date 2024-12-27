@@ -1,18 +1,31 @@
 import { drizzle, type DrizzleD1Database } from 'drizzle-orm/d1';
 import * as schema from './schema';
 
-export type SchematizedDatabase = DrizzleD1Database<typeof schema>;
+type SchematizedDatabase = DrizzleD1Database<typeof schema>;
 
+/**
+ * Singleton for the database connection.
+ *
+ * Initialize this in `hooks.server.ts` with the database connection
+ * so that it can be accessed from anywhere in the server code without
+ * having to pass around the fetch event.
+ */
 export class DbSingleton {
 	static _db: SchematizedDatabase;
 
 	static initialize(database: D1Database) {
-		DbSingleton._db = drizzle(database);
+		DbSingleton._db = drizzle(database, {
+			schema,
+			logger: false // set to true to log all queries
+		});
 	}
 }
 
 type DbSingletonType = typeof DbSingleton & SchematizedDatabase;
 
+/**
+ * Syntax sugar for accessing the database singleton.
+ */
 export const db = new Proxy(DbSingleton, {
 	get(target, prop, receiver) {
 		if (prop in target) {

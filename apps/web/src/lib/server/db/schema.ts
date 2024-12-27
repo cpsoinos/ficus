@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+import { sqliteTable, text, integer, blob } from 'drizzle-orm/sqlite-core';
 import { timestamps } from './util';
 
 export const user = sqliteTable('user', {
@@ -8,6 +8,9 @@ export const user = sqliteTable('user', {
 	email: text('email').notNull().unique(),
 	name: text('name'),
 	passwordHash: text('password_hash'),
+	emailVerified: integer('email_verified', { mode: 'boolean' }).notNull().default(false),
+	totpKey: blob('totp_key', { mode: 'buffer' }).$type<Uint8Array>(),
+	recoveryCode: blob('recovery_code', { mode: 'buffer' }).$type<Uint8Array>().notNull(),
 	...timestamps
 });
 
@@ -19,7 +22,8 @@ export const session = sqliteTable('session', {
 	userId: text('user_id')
 		.notNull()
 		.references(() => user.id),
-	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
+	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
+	twoFactorVerified: integer('two_factor_verified', { mode: 'boolean' }).notNull().default(false)
 });
 
 export type Session = typeof session.$inferSelect;
@@ -38,6 +42,21 @@ export const passwordResetSession = sqliteTable('password_reset_session', {
 
 export type PasswordResetSession = typeof passwordResetSession.$inferSelect;
 export type NewPasswordResetSession = typeof passwordResetSession.$inferInsert;
+
+export const emailVerificationRequest = sqliteTable('email_verification_request', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
+	userId: text('user_id')
+		.notNull()
+		.references(() => user.id),
+	code: text('code').notNull(),
+	email: text('email').notNull(),
+	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
+});
+
+export type EmailVerificationRequest = typeof emailVerificationRequest.$inferSelect;
+export type NewEmailVerificationRequest = typeof emailVerificationRequest.$inferInsert;
 
 export const oAuthAccount = sqliteTable('oauth_account', {
 	id: text('id')

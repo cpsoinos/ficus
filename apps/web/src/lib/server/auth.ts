@@ -49,7 +49,7 @@ export async function validateSessionToken(token: string) {
 	const [result] = await db
 		.select({
 			// Adjust user table here to tweak returned data
-			user: { id: table.user.id, email: table.user.email },
+			user: table.user,
 			session: table.session
 		})
 		.from(table.session)
@@ -98,19 +98,6 @@ export function deleteSessionTokenCookie(event: RequestEvent) {
 	});
 }
 
-export async function createUser(newUser: table.NewUser) {
-	const [createdUser] = await db.insert(table.user).values(newUser).returning();
-	return createdUser;
-}
-
-export function validateEmail(email: unknown): email is string {
-	return (
-		typeof email === 'string' &&
-		email.length >= 5 &&
-		email.length <= 254 &&
-		/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-	);
-}
 export function validatePassword(password: unknown): password is string {
 	return typeof password === 'string' && password.length >= 6 && password.length <= 255;
 }
