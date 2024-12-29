@@ -7,13 +7,26 @@ import { describe, it, expect } from 'vitest';
 import { RefillingTokenBucket } from './RefillingTokenBucket';
 
 describe('RefillingTokenBucket', () => {
+  it('should throw an error if params are not set', async () => {
+    const id = env.REFILLING_TOKEN_BUCKET.idFromName('/path');
+    const stub = env.REFILLING_TOKEN_BUCKET.get(id);
+
+    await runInDurableObject(stub, (instance) => {
+      expect(instance.consume(1)).rejects.toThrow('Params not set!');
+    });
+  });
+
   it('should allow token consumption within capacity', async () => {
-    // Check sending request directly to instance
     const id = env.REFILLING_TOKEN_BUCKET.idFromName('/path');
     const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
     const response = await runInDurableObject(stub, (instance) => {
       expect(instance).toBeInstanceOf(RefillingTokenBucket); // Exact same class as import
+      instance.setParams({
+        refillRate: 2,
+        capacity: 10,
+        millisecondsForUpdates: 1000,
+      });
       return instance.consume(1);
     });
 
@@ -25,6 +38,11 @@ describe('RefillingTokenBucket', () => {
     const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
     const response = await runInDurableObject(stub, (instance) => {
+      instance.setParams({
+        refillRate: 2,
+        capacity: 10,
+        millisecondsForUpdates: 1000,
+      });
       return instance.consume(11);
     });
 
@@ -38,11 +56,16 @@ describe('RefillingTokenBucket', () => {
       const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
       await runInDurableObject(stub, (instance) => {
-        return instance.consume(10);
+        instance.setParams({
+          refillRate: 2,
+          capacity: 10,
+          millisecondsForUpdates: 1000,
+        });
+        instance.consume(10);
       });
 
       await runInDurableObject(stub, (instance) => {
-        return instance.storage.setAlarm(Date.now() + env.UPDATE_INTERVAL_MS);
+        return instance.storage.setAlarm(Date.now() + 1000);
       });
 
       // Immediately execute the alarm to reset the counter
@@ -61,14 +84,18 @@ describe('RefillingTokenBucket', () => {
       const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
       await runInDurableObject(stub, async (instance) => {
+        instance.setParams({
+          refillRate: 2,
+          capacity: 10,
+          millisecondsForUpdates: 1000,
+        });
         await instance.consume(10);
         await instance.storage.put('lastRefillTime', Date.now() - 3000);
-        await instance.storage.setAlarm(Date.now() + env.UPDATE_INTERVAL_MS);
+        await instance.storage.setAlarm(Date.now() + 1000);
       });
 
-      // Immediately execute the alarm to reset the counter
       let ran = await runDurableObjectAlarm(stub);
-      expect(ran).toBe(true); // ...as there was an alarm scheduled
+      expect(ran).toBe(true);
 
       const remainingTokens = await runInDurableObject(stub, (instance) => {
         return instance.storage.get<number>('remainingTokens');

@@ -3,23 +3,36 @@ import { DurableObject } from 'cloudflare:workers';
 export class RefillingTokenBucket extends DurableObject {
   storage: DurableObjectStorage;
 
-  refillRate: number; // Tokens added per second
-  capacity: number; // Maximum number of tokens
-  millisecondsForUpdates: number; // Interval to update the token count (Alarm interval in milliseconds)
+  refillRate: number | null = null; // Tokens added per second
+  capacity: number | null = null; // Maximum number of tokens
+  millisecondsForUpdates: number | null = null; // Interval to update the token count (Alarm interval in milliseconds)
 
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
     this.storage = ctx.storage;
+  }
 
-    this.refillRate = env.REFILL_RATE;
-    this.capacity = env.CAPACITY;
-    this.millisecondsForUpdates = env.UPDATE_INTERVAL_MS;
+  setParams({
+    refillRate,
+    capacity,
+    millisecondsForUpdates,
+  }: {
+    refillRate: number;
+    capacity: number;
+    millisecondsForUpdates: number;
+  }): void {
+    this.refillRate = refillRate;
+    this.capacity = capacity;
+    this.millisecondsForUpdates = millisecondsForUpdates;
   }
 
   // RPC method to consume tokens
   async consume(
     tokens = 1
   ): Promise<{ allowed: boolean; remainingTokens: number }> {
+    if (!this.refillRate || !this.capacity || !this.millisecondsForUpdates) {
+      throw new Error('Params not set!');
+    }
     await this.refillTokens();
 
     let remainingTokens =
@@ -38,6 +51,9 @@ export class RefillingTokenBucket extends DurableObject {
 
   // Refills tokens based on elapsed time
   private async refillTokens(): Promise<void> {
+    if (!this.refillRate || !this.capacity || !this.millisecondsForUpdates) {
+      throw new Error('Params not set!');
+    }
     const now = Date.now();
     const lastRefillTime =
       (await this.storage.get<number>('lastRefillTime')) ?? now;
@@ -65,6 +81,9 @@ export class RefillingTokenBucket extends DurableObject {
 
   // Ensures the alarm is set only when tokens are below capacity
   private async checkAndSetAlarm(): Promise<void> {
+    if (!this.refillRate || !this.capacity || !this.millisecondsForUpdates) {
+      throw new Error('Params not set!');
+    }
     const remainingTokens =
       (await this.storage.get<number>('remainingTokens')) ?? this.capacity;
 
