@@ -5,7 +5,7 @@ export class RefillingTokenBucket extends DurableObject {
 
   refillRate: number | null = null; // Tokens added per second
   capacity: number | null = null; // Maximum number of tokens
-  millisecondsForUpdates: number | null = null; // Interval to update the token count (Alarm interval in milliseconds)
+  updateMs: number | null = null; // Interval to update the token count (Alarm interval in milliseconds)
 
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
@@ -15,22 +15,22 @@ export class RefillingTokenBucket extends DurableObject {
   setParams({
     refillRate,
     capacity,
-    millisecondsForUpdates,
+    updateMs,
   }: {
     refillRate: number;
     capacity: number;
-    millisecondsForUpdates: number;
+    updateMs: number;
   }): void {
     this.refillRate = refillRate;
     this.capacity = capacity;
-    this.millisecondsForUpdates = millisecondsForUpdates;
+    this.updateMs = updateMs;
   }
 
   // RPC method to consume tokens
   async consume(
     tokens = 1
   ): Promise<{ allowed: boolean; remainingTokens: number }> {
-    if (!this.refillRate || !this.capacity || !this.millisecondsForUpdates) {
+    if (!this.refillRate || !this.capacity || !this.updateMs) {
       throw new Error('Params not set!');
     }
     await this.refillTokens();
@@ -51,7 +51,7 @@ export class RefillingTokenBucket extends DurableObject {
 
   // Refills tokens based on elapsed time
   private async refillTokens(): Promise<void> {
-    if (!this.refillRate || !this.capacity || !this.millisecondsForUpdates) {
+    if (!this.refillRate || !this.capacity || !this.updateMs) {
       throw new Error('Params not set!');
     }
     const now = Date.now();
@@ -81,7 +81,7 @@ export class RefillingTokenBucket extends DurableObject {
 
   // Ensures the alarm is set only when tokens are below capacity
   private async checkAndSetAlarm(): Promise<void> {
-    if (!this.refillRate || !this.capacity || !this.millisecondsForUpdates) {
+    if (!this.refillRate || !this.capacity || !this.updateMs) {
       throw new Error('Params not set!');
     }
     const remainingTokens =
@@ -90,7 +90,7 @@ export class RefillingTokenBucket extends DurableObject {
     if (remainingTokens < this.capacity) {
       const currentAlarm = await this.ctx.storage.getAlarm();
       if (currentAlarm == null) {
-        this.storage.setAlarm(Date.now() + this.millisecondsForUpdates);
+        this.storage.setAlarm(Date.now() + this.updateMs);
       }
     }
   }

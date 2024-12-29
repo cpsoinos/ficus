@@ -25,7 +25,7 @@ describe('RefillingTokenBucket', () => {
       instance.setParams({
         refillRate: 2,
         capacity: 10,
-        millisecondsForUpdates: 1000,
+        updateMs: 1000,
       });
       return instance.consume(1);
     });
@@ -41,7 +41,7 @@ describe('RefillingTokenBucket', () => {
       instance.setParams({
         refillRate: 2,
         capacity: 10,
-        millisecondsForUpdates: 1000,
+        updateMs: 1000,
       });
       return instance.consume(11);
     });
@@ -59,7 +59,7 @@ describe('RefillingTokenBucket', () => {
         instance.setParams({
           refillRate: 2,
           capacity: 10,
-          millisecondsForUpdates: 1000,
+          updateMs: 1000,
         });
         instance.consume(10);
       });
@@ -87,7 +87,7 @@ describe('RefillingTokenBucket', () => {
         instance.setParams({
           refillRate: 2,
           capacity: 10,
-          millisecondsForUpdates: 1000,
+          updateMs: 1000,
         });
         await instance.consume(10);
         await instance.storage.put('lastRefillTime', Date.now() - 3000);
