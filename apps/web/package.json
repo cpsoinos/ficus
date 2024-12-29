@@ -31,6 +31,7 @@
 		"@chromatic-com/storybook": "^3.2.3",
 		"@cloudflare/workers-types": "^4.20241218.0",
 		"@eslint/compat": "^1.2.3",
+		"@ficus/rate-limiter": "workspace:*",
 		"@playwright/test": "^1.45.3",
 		"@storybook/addon-essentials": "^8.4.7",
 		"@storybook/addon-interactions": "^8.4.7",
