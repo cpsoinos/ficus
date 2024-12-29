@@ -1,20 +1,19 @@
 import {
   env,
-  listDurableObjectIds,
   runDurableObjectAlarm,
   runInDurableObject,
 } from 'cloudflare:test';
 import { describe, it, expect } from 'vitest';
-import { RateLimiter } from './RateLimiter';
+import { RefillingTokenBucket } from './RefillingTokenBucket';
 
-describe('RateLimiter', () => {
+describe('RefillingTokenBucket', () => {
   it('should allow token consumption within capacity', async () => {
     // Check sending request directly to instance
-    const id = env.RATE_LIMITER.idFromName('/path');
-    const stub = env.RATE_LIMITER.get(id);
+    const id = env.REFILLING_TOKEN_BUCKET.idFromName('/path');
+    const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
     const response = await runInDurableObject(stub, (instance) => {
-      expect(instance).toBeInstanceOf(RateLimiter); // Exact same class as import
+      expect(instance).toBeInstanceOf(RefillingTokenBucket); // Exact same class as import
       return instance.consume(1);
     });
 
@@ -22,8 +21,8 @@ describe('RateLimiter', () => {
   });
 
   it('should disallow token consumption exceeding capacity', async () => {
-    const id = env.RATE_LIMITER.idFromName('/path');
-    const stub = env.RATE_LIMITER.get(id);
+    const id = env.REFILLING_TOKEN_BUCKET.idFromName('/path');
+    const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
     const response = await runInDurableObject(stub, (instance) => {
       return instance.consume(11);
@@ -35,8 +34,8 @@ describe('RateLimiter', () => {
 
   describe('refillTokens', () => {
     it('should not refill tokens more frequently than the refill rate', async () => {
-      const id = env.RATE_LIMITER.idFromName('/path');
-      const stub = env.RATE_LIMITER.get(id);
+      const id = env.REFILLING_TOKEN_BUCKET.idFromName('/path');
+      const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
       await runInDurableObject(stub, (instance) => {
         return instance.consume(10);
@@ -58,8 +57,8 @@ describe('RateLimiter', () => {
     });
 
     it('should refill tokens on alarm based on elapsed time', async () => {
-      const id = env.RATE_LIMITER.idFromName('/path');
-      const stub = env.RATE_LIMITER.get(id);
+      const id = env.REFILLING_TOKEN_BUCKET.idFromName('/path');
+      const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
       await runInDurableObject(stub, async (instance) => {
         await instance.consume(10);
