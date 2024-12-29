@@ -200,6 +200,10 @@ importers:
         version: 3.99.0(@cloudflare/workers-types@4.20241224.0)
 
   packages/rate-limiter:
+    dependencies:
+      hono:
+        specifier: ^4.6.15
+        version: 4.6.15
     devDependencies:
       '@cloudflare/vitest-pool-workers':
         specifier: ^0.5.40
@@ -4246,6 +4250,10 @@ packages:
   he@1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
+
+  hono@4.6.15:
+    resolution: {integrity: sha512-OiQwvAOAaI2JrABBH69z5rsctHDzFzIKJge0nYXgtzGJ0KftwLWcBXm1upJC23/omNRtnqM0gjRMbtXshPdqhQ==}
+    engines: {node: '>=16.9.0'}
 
   hosted-git-info@7.0.2:
     resolution: {integrity: sha512-puUZAUKT5m8Zzvs72XWy3HtvVbTWljRE66cP60bxJzAqf2DgICo7lYTY2IHUmLnNpjYvw5bvmoHvPc0QO2a62w==}
@@ -11072,6 +11080,8 @@ snapshots:
       function-bind: 1.1.2
 
   he@1.2.0: {}
+
+  hono@4.6.15: {}
 
   hosted-git-info@7.0.2:
     dependencies:
