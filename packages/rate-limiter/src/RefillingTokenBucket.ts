@@ -27,7 +27,7 @@ export class RefillingTokenBucket extends DurableObject {
   }
 
   // Fetch handler since RPC is not yet supported between multiple `wrangler dev` sessions
-  async fetch(request: Request) {
+  fetch(request: Request) {
     return this.app.fetch(request);
   }
 
