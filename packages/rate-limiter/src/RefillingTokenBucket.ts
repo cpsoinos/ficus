@@ -19,6 +19,12 @@ export class RefillingTokenBucket extends DurableObject {
       return c.status(200);
     });
 
+    this.app.post('/check', async (c) => {
+      const { tokens } = await c.req.json();
+      const response = await this.consume(tokens);
+      return c.json(response);
+    });
+
     this.app.post('/consume', async (c) => {
       const { tokens } = await c.req.json();
       const response = await this.consume(tokens);
@@ -59,6 +65,13 @@ export class RefillingTokenBucket extends DurableObject {
     this.refillRate = refillRate ?? null;
     this.capacity = capacity ?? null;
     this.updateMs = updateMs ?? null;
+  }
+
+  async check(tokens: number): Promise<boolean> {
+    await this.refillTokens();
+    const remainingTokens =
+      (await this.storage.get<number>('remainingTokens')) ?? this.capacity!;
+    return remainingTokens >= tokens;
   }
 
   // RPC method to consume tokens

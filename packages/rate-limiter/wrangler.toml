@@ -23,6 +23,10 @@ class_name = "RefillingTokenBucket"
 name = "EXPIRING_TOKEN_BUCKET"
 class_name = "ExpiringTokenBucket"
 
+[[durable_objects.bindings]]
+name = "THROTTLER"
+class_name = "Throttler"
+
 # Durable Object migrations.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#migrations
 [[migrations]]
@@ -30,4 +34,5 @@ tag = "v1"
 new_classes = [
   "RefillingTokenBucket",
   "ExpiringTokenBucket",
+  "Throttler",
 ]

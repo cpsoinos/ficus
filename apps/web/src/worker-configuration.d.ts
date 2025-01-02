@@ -7,6 +7,7 @@ interface Env {
 	EXPIRING_TOKEN_BUCKET: DurableObjectNamespace<
 		import('@ficus/rate-limiter/src/index').ExpiringTokenBucket
 	>;
+	THROTTLER: DurableObjectNamespace<import('@ficus/rate-limiter/src/index').Throttler>;
 	DB: D1Database;
 	ARGON2: Fetcher;
 }

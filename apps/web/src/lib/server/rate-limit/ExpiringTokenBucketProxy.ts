@@ -1,10 +1,10 @@
-import type { ExpiringTokenBucket as ExpiringTokenBucketDO } from '@ficus/rate-limiter/src';
+import type { ExpiringTokenBucket } from '@ficus/rate-limiter/src';
 import { Bindings } from '../bindings';
 
-export class ExpiringTokenBucket {
-	stub: DurableObjectStub<ExpiringTokenBucketDO>;
+export class ExpiringTokenBucketProxy {
+	stub: DurableObjectStub<ExpiringTokenBucket>;
 
-	private constructor(stub: DurableObjectStub<ExpiringTokenBucketDO>) {
+	private constructor(stub: DurableObjectStub<ExpiringTokenBucket>) {
 		this.stub = stub;
 	}
 
@@ -16,14 +16,14 @@ export class ExpiringTokenBucket {
 		name: string;
 		max: number;
 		expiresInSeconds: number;
-	}): Promise<ExpiringTokenBucket> {
+	}): Promise<ExpiringTokenBucketProxy> {
 		const id = Bindings.env.EXPIRING_TOKEN_BUCKET.idFromName(name);
 		const stub = Bindings.env.EXPIRING_TOKEN_BUCKET.get(id);
 		await stub.fetch('https://ficus-rate-limiter.local/set-params', {
 			method: 'POST',
 			body: JSON.stringify({ max, expiresInSeconds })
 		});
-		return new ExpiringTokenBucket(stub);
+		return new ExpiringTokenBucketProxy(stub);
 	}
 
 	async check(key: string, cost = 1): Promise<boolean> {

@@ -1,10 +1,10 @@
-import type { RefillingTokenBucket as RefillingTokenBucketDO } from '@ficus/rate-limiter/src';
+import type { RefillingTokenBucket } from '@ficus/rate-limiter/src';
 import { Bindings } from '../bindings';
 
-export class RefillingTokenBucket {
-	stub: DurableObjectStub<RefillingTokenBucketDO>;
+export class RefillingTokenBucketProxy {
+	stub: DurableObjectStub<RefillingTokenBucket>;
 
-	private constructor(stub: DurableObjectStub<RefillingTokenBucketDO>) {
+	private constructor(stub: DurableObjectStub<RefillingTokenBucket>) {
 		this.stub = stub;
 	}
 
@@ -18,14 +18,14 @@ export class RefillingTokenBucket {
 		refillRate: number;
 		capacity: number;
 		updateMs: number;
-	}): Promise<RefillingTokenBucket> {
+	}): Promise<RefillingTokenBucketProxy> {
 		const id = Bindings.env.REFILLING_TOKEN_BUCKET.idFromName(name);
 		const stub = Bindings.env.REFILLING_TOKEN_BUCKET.get(id);
 		await stub.fetch('https://ficus-rate-limiter.local/set-params', {
 			method: 'POST',
 			body: JSON.stringify({ refillRate, capacity, updateMs })
 		});
-		return new RefillingTokenBucket(stub);
+		return new RefillingTokenBucketProxy(stub);
 	}
 
 	async check(cost = 1): Promise<boolean> {

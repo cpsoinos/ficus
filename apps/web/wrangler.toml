@@ -48,6 +48,11 @@ name = "EXPIRING_TOKEN_BUCKET"
 class_name = "ExpiringTokenBucket"
 script_name = 'ficus-rate-limiter'
 
+[[durable_objects.bindings]]
+name = "THROTTLER"
+class_name = "Throttler"
+script_name = 'ficus-rate-limiter'
+
 # Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#kv-namespaces
 # [[kv_namespaces]]

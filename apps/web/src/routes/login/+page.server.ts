@@ -11,7 +11,8 @@ import {
 } from '$lib/server/auth';
 import { verifyPassword } from '$lib/server/password';
 import { verifyEmailInput } from '$lib/server/email';
-import { RefillingTokenBucket } from '$lib/server/rate-limit/RefillingTokenBucket';
+import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
+import { ThrottlerProxy } from '$lib/server/rate-limit/ThrottlerProxy';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
@@ -23,11 +24,12 @@ export const load: PageServerLoad = async (event) => {
 const REFILL_RATE = 1;
 const CAPACITY = 20;
 const UPDATE_MS = 1000;
+const TIMEOUT_SECONDS = [0, 1, 2, 4, 8, 16, 30, 60, 180, 300];
 
 export const actions: Actions = {
 	login: async (event) => {
 		const clientIP = event.getClientAddress();
-		const ipBucket = await RefillingTokenBucket.initialize({
+		const ipBucket = await RefillingTokenBucketProxy.initialize({
 			name: `${clientIP}:login`,
 			refillRate: REFILL_RATE,
 			capacity: CAPACITY,
@@ -68,11 +70,23 @@ export const actions: Actions = {
 			return fail(429, { message: 'Rate limit exceeded' });
 		}
 
+		const throttler = await ThrottlerProxy.initialize({
+			name: existingUser.id,
+			timeoutSeconds: TIMEOUT_SECONDS
+		});
+		if (!(await throttler.consume())) {
+			return fail(429, {
+				message: 'Too many requests',
+				email: ''
+			});
+		}
+
 		const validPassword = await verifyPassword(existingUser.passwordHash!, password);
 		if (!validPassword) {
 			return fail(400, { message: 'Incorrect email or password' });
 		}
 
+		await throttler.reset();
 		const sessionToken = generateSessionToken();
 		const session = await createSession(sessionToken, existingUser.id);
 		setSessionTokenCookie(event, sessionToken, session.expiresAt);

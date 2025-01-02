@@ -9,7 +9,7 @@ import {
 	sendVerificationEmail,
 	setEmailVerificationRequestCookie
 } from '$lib/server/email-verification';
-import { RefillingTokenBucket } from '$lib/server/rate-limit/RefillingTokenBucket';
+import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
@@ -25,7 +25,7 @@ const UPDATE_MS = 10000;
 export const actions: Actions = {
 	register: async (event) => {
 		const clientIP = event.getClientAddress();
-		const bucket = await RefillingTokenBucket.initialize({
+		const bucket = await RefillingTokenBucketProxy.initialize({
 			name: `${clientIP}:register`,
 			refillRate: REFILL_RATE,
 			capacity: CAPACITY,

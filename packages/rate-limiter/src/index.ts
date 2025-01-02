@@ -1,5 +1,6 @@
 export { RefillingTokenBucket } from './RefillingTokenBucket';
 export { ExpiringTokenBucket } from './ExpiringTokenBucket';
+export { Throttler } from './Throttler';
 
 export default {
   async fetch(_request, _env, _ctx): Promise<Response> {

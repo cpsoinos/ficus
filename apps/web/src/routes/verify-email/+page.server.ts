@@ -10,7 +10,7 @@ import {
 // import { invalidateUserPasswordResetSessions } from '$lib/server/password-reset';
 import { updateUserEmailAndSetEmailAsVerified } from '$lib/server/user';
 import type { Actions, RequestEvent } from './$types';
-import { ExpiringTokenBucket } from '$lib/server/rate-limit/ExpiringTokenBucket';
+import { ExpiringTokenBucketProxy } from '$lib/server/rate-limit/ExpiringTokenBucketProxy';
 
 enum VerifyEmailEndpointKeys {
 	VERIFY = 'verify',
@@ -90,7 +90,7 @@ async function verifyCode(event: RequestEvent) {
 	// 	});
 	// }
 
-	const bucket = await ExpiringTokenBucket.initialize({
+	const bucket = await ExpiringTokenBucketProxy.initialize({
 		name: event.locals.user.id,
 		max: 5,
 		expiresInSeconds: 60 * 30
@@ -185,7 +185,7 @@ async function resendEmail(event: RequestEvent) {
 	// 	});
 	// }
 
-	const bucket = await ExpiringTokenBucket.initialize({
+	const bucket = await ExpiringTokenBucketProxy.initialize({
 		name: event.locals.user.id,
 		max: 5,
 		expiresInSeconds: 60 * 30
