@@ -9,8 +9,7 @@ import {
 	sendVerificationEmail,
 	setEmailVerificationRequestCookie
 } from '$lib/server/email-verification';
-import { Bindings } from '$lib/server/bindings';
-import type { RefillingTokenBucket } from '@ficus/rate-limiter/src';
+import { RefillingTokenBucket } from '$lib/server/rate-limit/RefillingTokenBucket';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
@@ -23,34 +22,17 @@ const REFILL_RATE = 1;
 const CAPACITY = 3;
 const UPDATE_MS = 10000;
 
-async function getIpBucket(ip: string | null): Promise<DurableObjectStub<RefillingTokenBucket>> {
-	const name = `${ip}:register`;
-	const id = Bindings.env.REFILLING_TOKEN_BUCKET.idFromName(name);
-	const stub = Bindings.env.REFILLING_TOKEN_BUCKET.get(id);
-	// stub.setParams({ refillRate: REFILL_RATE, capacity: CAPACITY, updateMs: UPDATE_MS });
-	await stub.fetch('https://ficus-rate-limiter.local/set-params', {
-		method: 'POST',
-		body: JSON.stringify({ refillRate: REFILL_RATE, capacity: CAPACITY, updateMs: UPDATE_MS })
-	});
-	return stub;
-}
-
-async function checkIpRateLimit(
-	ip: string | null
-): Promise<{ allowed: boolean; remainingTokens: number; nextRefillTime?: number }> {
-	const ipBucket = await getIpBucket(ip);
-	// return ipBucket.consume(1);
-	const resp = await ipBucket.fetch('https://ficus-rate-limiter.local/consume', {
-		method: 'POST',
-		body: JSON.stringify({ tokens: 1 })
-	});
-	return resp.json();
-}
-
 export const actions: Actions = {
 	register: async (event) => {
 		const clientIP = event.getClientAddress();
-		const { allowed, remainingTokens, nextRefillTime } = await checkIpRateLimit(clientIP);
+		const bucket = await RefillingTokenBucket.initialize({
+			name: `${clientIP}:register`,
+			refillRate: REFILL_RATE,
+			capacity: CAPACITY,
+			updateMs: UPDATE_MS
+		});
+
+		const { allowed, remainingTokens, nextRefillTime } = await bucket.consume();
 		if (!allowed) {
 			console.warn(`Rate limit exceeded for IP: ${clientIP}`, {
 				route: '/register',
