@@ -227,6 +227,8 @@ importers:
         specifier: ^3.99.0
         version: 3.99.0(@cloudflare/workers-types@4.20241224.0)
 
+  workers/argon2/build: {}
+
 packages:
 
   '@adobe/css-tools@4.3.3':

@@ -15,7 +15,7 @@ export class RefillingTokenBucket extends DurableObject {
 
     this.app.post('/set-params', async (c) => {
       const { refillRate, capacity, updateMs } = await c.req.json();
-      this.setParams({ refillRate, capacity, updateMs });
+      await this.setParams({ refillRate, capacity, updateMs });
       return c.status(200);
     });
 

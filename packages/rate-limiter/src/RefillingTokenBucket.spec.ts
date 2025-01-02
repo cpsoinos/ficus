@@ -11,7 +11,7 @@ describe('RefillingTokenBucket', () => {
     const id = env.REFILLING_TOKEN_BUCKET.idFromName('/path');
     const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
-    await runInDurableObject(stub, (instance) => {
+    await runInDurableObject(stub, async (instance) => {
       expect(instance.consume(1)).rejects.toThrow('Params not set!');
     });
   });
@@ -20,9 +20,9 @@ describe('RefillingTokenBucket', () => {
     const id = env.REFILLING_TOKEN_BUCKET.idFromName('/path');
     const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
-    const response = await runInDurableObject(stub, (instance) => {
+    const response = await runInDurableObject(stub, async (instance) => {
       expect(instance).toBeInstanceOf(RefillingTokenBucket); // Exact same class as import
-      instance.setParams({
+      await instance.setParams({
         refillRate: 2,
         capacity: 10,
         updateMs: 1000,
@@ -37,8 +37,8 @@ describe('RefillingTokenBucket', () => {
     const id = env.REFILLING_TOKEN_BUCKET.idFromName('/path');
     const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
-    const response = await runInDurableObject(stub, (instance) => {
-      instance.setParams({
+    const response = await runInDurableObject(stub, async (instance) => {
+      await instance.setParams({
         refillRate: 2,
         capacity: 10,
         updateMs: 1000,
@@ -55,8 +55,8 @@ describe('RefillingTokenBucket', () => {
       const id = env.REFILLING_TOKEN_BUCKET.idFromName('/path');
       const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
-      await runInDurableObject(stub, (instance) => {
-        instance.setParams({
+      await runInDurableObject(stub, async (instance) => {
+        await instance.setParams({
           refillRate: 2,
           capacity: 10,
           updateMs: 1000,
@@ -64,7 +64,7 @@ describe('RefillingTokenBucket', () => {
         instance.consume(10);
       });
 
-      await runInDurableObject(stub, (instance) => {
+      await runInDurableObject(stub, async (instance) => {
         return instance.storage.setAlarm(Date.now() + 1000);
       });
 
@@ -72,9 +72,12 @@ describe('RefillingTokenBucket', () => {
       let ran = await runDurableObjectAlarm(stub);
       expect(ran).toBe(true); // ...as there was an alarm scheduled
 
-      const remainingTokens = await runInDurableObject(stub, (instance) => {
-        return instance.storage.get<number>('remainingTokens');
-      });
+      const remainingTokens = await runInDurableObject(
+        stub,
+        async (instance) => {
+          return instance.storage.get<number>('remainingTokens');
+        }
+      );
 
       expect(remainingTokens).toBe(0);
     });
@@ -84,7 +87,7 @@ describe('RefillingTokenBucket', () => {
       const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
       await runInDurableObject(stub, async (instance) => {
-        instance.setParams({
+        await instance.setParams({
           refillRate: 2,
           capacity: 10,
           updateMs: 1000,
@@ -97,9 +100,12 @@ describe('RefillingTokenBucket', () => {
       let ran = await runDurableObjectAlarm(stub);
       expect(ran).toBe(true);
 
-      const remainingTokens = await runInDurableObject(stub, (instance) => {
-        return instance.storage.get<number>('remainingTokens');
-      });
+      const remainingTokens = await runInDurableObject(
+        stub,
+        async (instance) => {
+          return instance.storage.get<number>('remainingTokens');
+        }
+      );
 
       expect(remainingTokens).toBe(6);
     });
