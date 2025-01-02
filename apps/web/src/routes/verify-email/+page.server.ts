@@ -5,14 +5,17 @@ import {
 	deleteUserEmailVerificationRequest,
 	getUserEmailVerificationRequestFromRequest,
 	sendVerificationEmail,
-	// sendVerificationEmailBucket,
 	setEmailVerificationRequestCookie
 } from '$lib/server/email-verification';
 // import { invalidateUserPasswordResetSessions } from '$lib/server/password-reset';
 import { updateUserEmailAndSetEmailAsVerified } from '$lib/server/user';
-// import { ExpiringTokenBucket } from '$lib/server/rate-limit';
-
 import type { Actions, RequestEvent } from './$types';
+import { Bindings } from '$lib/server/bindings';
+
+enum VerifyEmailEndpointKeys {
+	VERIFY = 'verify',
+	RESEND = 'resend'
+}
 
 export async function load(event: RequestEvent) {
 	if (event.locals.user === null) {
@@ -38,7 +41,33 @@ export async function load(event: RequestEvent) {
 	};
 }
 
-// const bucket = new ExpiringTokenBucket<number>(5, 60 * 30);
+async function getExpiringTokenBucket(userId: string) {
+	const id = Bindings.env.EXPIRING_TOKEN_BUCKET.idFromName(userId);
+	const stub = Bindings.env.EXPIRING_TOKEN_BUCKET.get(id);
+	await stub.fetch('https://ficus-rate-limiter.local/set-params', {
+		method: 'POST',
+		body: JSON.stringify({ max: 5, expiresInSeconds: 60 * 30 })
+	});
+	return stub;
+}
+
+async function checkRateLimit(userId: string, key: VerifyEmailEndpointKeys) {
+	const bucket = await getExpiringTokenBucket(userId);
+	const resp = await bucket.fetch('https://ficus-rate-limiter.local/check', {
+		method: 'POST',
+		body: JSON.stringify({ key, cost: 1 })
+	});
+	return resp.json();
+}
+
+async function consumeExpiringToken(userId: string, key: VerifyEmailEndpointKeys) {
+	const bucket = await getExpiringTokenBucket(userId);
+	const resp = await bucket.fetch('https://ficus-rate-limiter.local/consume', {
+		method: 'POST',
+		body: JSON.stringify({ key, cost: 1 })
+	});
+	return resp.json();
+}
 
 export const actions: Actions = {
 	verify: verifyCode,
@@ -60,13 +89,14 @@ async function verifyCode(event: RequestEvent) {
 	// 		}
 	// 	});
 	// }
-	// if (!bucket.check(event.locals.user.id, 1)) {
-	// 	return fail(429, {
-	// 		verify: {
-	// 			message: 'Too many requests'
-	// 		}
-	// 	});
-	// }
+
+	if (!(await checkRateLimit(event.locals.user.id, VerifyEmailEndpointKeys.VERIFY))) {
+		return fail(429, {
+			verify: {
+				message: 'Too many requests'
+			}
+		});
+	}
 
 	let verificationRequest = await getUserEmailVerificationRequestFromRequest(event);
 	if (verificationRequest === null) {
@@ -94,12 +124,13 @@ async function verifyCode(event: RequestEvent) {
 		});
 	}
 	// if (!bucket.consume(event.locals.user.id, 1)) {
-	// 	return fail(400, {
-	// 		verify: {
-	// 			message: 'Too many requests'
-	// 		}
-	// 	});
-	// }
+	if (!(await consumeExpiringToken(event.locals.user.id, VerifyEmailEndpointKeys.VERIFY))) {
+		return fail(429, {
+			verify: {
+				message: 'Too many requests'
+			}
+		});
+	}
 	if (Date.now() >= verificationRequest.expiresAt.getTime()) {
 		verificationRequest = await createEmailVerificationRequest(
 			verificationRequest.userId,
@@ -148,12 +179,13 @@ async function resendEmail(event: RequestEvent) {
 	// 	});
 	// }
 	// if (!sendVerificationEmailBucket.check(event.locals.user.id, 1)) {
-	// 	return fail(429, {
-	// 		resend: {
-	// 			message: 'Too many requests'
-	// 		}
-	// 	});
-	// }
+	if (!(await checkRateLimit(event.locals.user.id, VerifyEmailEndpointKeys.RESEND))) {
+		return fail(429, {
+			resend: {
+				message: 'Too many requests'
+			}
+		});
+	}
 
 	let verificationRequest = await getUserEmailVerificationRequestFromRequest(event);
 	if (verificationRequest === null) {
@@ -165,24 +197,26 @@ async function resendEmail(event: RequestEvent) {
 			});
 		}
 		// if (!sendVerificationEmailBucket.consume(event.locals.user.id, 1)) {
-		// 	return fail(429, {
-		// 		resend: {
-		// 			message: 'Too many requests'
-		// 		}
-		// 	});
-		// }
+		if (!(await consumeExpiringToken(event.locals.user.id, VerifyEmailEndpointKeys.RESEND))) {
+			return fail(429, {
+				resend: {
+					message: 'Too many requests'
+				}
+			});
+		}
 		verificationRequest = await createEmailVerificationRequest(
 			event.locals.user.id,
 			event.locals.user.email
 		);
 	} else {
 		// if (!sendVerificationEmailBucket.consume(event.locals.user.id, 1)) {
-		// 	return fail(429, {
-		// 		resend: {
-		// 			message: 'Too many requests'
-		// 		}
-		// 	});
-		// }
+		if (!(await consumeExpiringToken(event.locals.user.id, VerifyEmailEndpointKeys.RESEND))) {
+			return fail(429, {
+				resend: {
+					message: 'Too many requests'
+				}
+			});
+		}
 		verificationRequest = await createEmailVerificationRequest(
 			event.locals.user.id,
 			verificationRequest.email

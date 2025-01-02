@@ -4,6 +4,9 @@ interface Env {
 	REFILLING_TOKEN_BUCKET: DurableObjectNamespace<
 		import('@ficus/rate-limiter/src/index').RefillingTokenBucket
 	>;
+	EXPIRING_TOKEN_BUCKET: DurableObjectNamespace<
+		import('@ficus/rate-limiter/src/index').ExpiringTokenBucket
+	>;
 	DB: D1Database;
 	ARGON2: Fetcher;
 }

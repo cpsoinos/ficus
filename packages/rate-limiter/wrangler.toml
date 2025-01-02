@@ -19,10 +19,15 @@ enabled = true
 name = "REFILLING_TOKEN_BUCKET"
 class_name = "RefillingTokenBucket"
 
+[[durable_objects.bindings]]
+name = "EXPIRING_TOKEN_BUCKET"
+class_name = "ExpiringTokenBucket"
+
 # Durable Object migrations.
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#migrations
 [[migrations]]
 tag = "v1"
 new_classes = [
   "RefillingTokenBucket",
+  "ExpiringTokenBucket",
 ]
