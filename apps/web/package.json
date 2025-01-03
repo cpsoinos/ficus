@@ -13,7 +13,7 @@
 		"lint": "prettier --check . && nx eslint:lint",
 		"lint:fix": "prettier --write . && nx eslint:lint --fix",
 		"test:unit": "vitest run",
-		"test": "pnpm run test:unit && pnpm run test:e2e",
+		"test": "pnpm run test:unit",
 		"db:push": "drizzle-kit push",
 		"db:push:local": "DATABASE_URL=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) drizzle-kit push",
 		"db:generate": "drizzle-kit generate",
