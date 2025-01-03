@@ -2,6 +2,9 @@
 name = "argon2-cloudflare"
 version = "0.1.0"
 edition = "2021"
+description = "Argon2 password hashing for Cloudflare Workers"
+license = "MIT"
+repository = "cpsoinos/ficus"
 
 # https://github.com/rustwasm/wasm-pack/issues/1247
 [package.metadata.wasm-pack.profile.release]

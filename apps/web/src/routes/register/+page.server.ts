@@ -9,6 +9,7 @@ import {
 	sendVerificationEmail,
 	setEmailVerificationRequestCookie
 } from '$lib/server/email-verification';
+import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
@@ -17,8 +18,34 @@ export const load: PageServerLoad = async (event) => {
 	return {};
 };
 
+const REFILL_RATE = 1;
+const CAPACITY = 3;
+const UPDATE_MS = 10000;
+
 export const actions: Actions = {
 	register: async (event) => {
+		const clientIP = event.getClientAddress();
+		const bucket = await RefillingTokenBucketProxy.initialize({
+			name: `${clientIP}:register`,
+			refillRate: REFILL_RATE,
+			capacity: CAPACITY,
+			updateMs: UPDATE_MS
+		});
+
+		const { allowed, remainingTokens, nextRefillTime } = await bucket.consume();
+		if (!allowed) {
+			console.warn(`Rate limit exceeded for IP: ${clientIP}`, {
+				route: '/register',
+				clientIP,
+				remainingTokens,
+				...(nextRefillTime && {
+					nextRefillTime: new Date(nextRefillTime).toISOString(),
+					nextRefillIn: nextRefillTime - Date.now()
+				})
+			});
+			return fail(429, { message: 'Rate limit exceeded' });
+		}
+
 		const formData = await event.request.formData();
 		const email = formData.get('email') as string | undefined;
 		const password = formData.get('password') as string | undefined;

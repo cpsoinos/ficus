@@ -1,0 +1,38 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "ficus-rate-limiter"
+main = "src/index.ts"
+compatibility_date = "2024-12-18"
+compatibility_flags = [
+  "nodejs_compat",
+]
+
+# Workers Logs
+# Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
+# Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
+[observability]
+enabled = true
+
+# Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
+# Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
+# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#durable-objects
+[[durable_objects.bindings]]
+name = "REFILLING_TOKEN_BUCKET"
+class_name = "RefillingTokenBucket"
+
+[[durable_objects.bindings]]
+name = "EXPIRING_TOKEN_BUCKET"
+class_name = "ExpiringTokenBucket"
+
+[[durable_objects.bindings]]
+name = "THROTTLER"
+class_name = "Throttler"
+
+# Durable Object migrations.
+# Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#migrations
+[[migrations]]
+tag = "v1"
+new_classes = [
+  "RefillingTokenBucket",
+  "ExpiringTokenBucket",
+  "Throttler",
+]

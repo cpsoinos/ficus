@@ -13,14 +13,20 @@ permissions:
 jobs:
   main:
     runs-on: ubuntu-latest
+    env:
+      ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+      CF_D1_TOKEN: ${{ secrets.CF_D1_TOKEN }}
+      CF_D1_DB_ID: ${{ secrets.CF_D1_DB_ID }}
+      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+      # secrets can't start with GITHUB_ so we need to rename them
+      GITHUB_CLIENT_ID: ${{ secrets.AUTH_GITHUB_CLIENT_ID }}
+      GITHUB_CLIENT_SECRET: ${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       # This enables task distribution via Nx Cloud
       # Run this command as early as possible, before dependencies are installed
@@ -31,7 +37,7 @@ jobs:
       # Cache node_modules
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22.10.0
           cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile
