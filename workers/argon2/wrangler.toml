@@ -1,4 +1,5 @@
-name = "argon2"
+#:schema node_modules/wrangler/config-schema.json
+name = "ficus-argon2"
 main = "build/worker/shim.mjs"
 compatibility_date = "2023-03-22"
 

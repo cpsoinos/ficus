@@ -1,5 +1,5 @@
 {
-  "name": "@./ficus/source",
+  "name": "ficus",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
