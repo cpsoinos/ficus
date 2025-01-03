@@ -12,7 +12,7 @@ describe('RefillingTokenBucket', () => {
     const stub = env.REFILLING_TOKEN_BUCKET.get(id);
 
     await runInDurableObject(stub, async (instance) => {
-      expect(instance.consume(1)).rejects.toThrow('Params not set!');
+      await expect(instance.consume(1)).rejects.toThrow('Params not set!');
     });
   });
 

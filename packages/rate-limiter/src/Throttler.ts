@@ -76,7 +76,7 @@ export class Throttler extends DurableObject {
   }
 }
 
-interface ThrottlingCounter {
+export interface ThrottlingCounter {
   timeout: number;
   updatedAt: number;
 }

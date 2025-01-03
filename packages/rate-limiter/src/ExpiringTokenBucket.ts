@@ -104,7 +104,7 @@ export class ExpiringTokenBucket extends DurableObject {
   }
 }
 
-interface ExpiringBucket {
+export interface ExpiringBucket {
   count: number;
   createdAt: number;
 }
