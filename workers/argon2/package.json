@@ -1,5 +1,5 @@
 {
-  "name": "argon2",
+  "name": "@ficus/argon2",
   "version": "1.0.0",
   "private": true,
   "scripts": {
