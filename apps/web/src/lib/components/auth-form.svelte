@@ -5,6 +5,7 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 
 	export let mode: 'login' | 'register';
+	export let errorMessage: string | undefined = undefined;
 
 	const titleMap = {
 		login: 'Login',
@@ -64,6 +65,13 @@
 				</div>
 				<Input id="password" type="password" name="password" required />
 			</div>
+
+			<div class="h-4">
+				{#if errorMessage}
+					<p class="text-sm text-red-500">{errorMessage}</p>
+				{/if}
+			</div>
+
 			<Button type="submit" class="w-full">{submitText}</Button>
 			<Button variant="outline" class="w-full" href="/oauth/github">Login with Github</Button>
 		</div>

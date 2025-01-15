@@ -8,7 +8,6 @@
 
 <div class="flex h-screen w-full items-center justify-center px-4">
 	<form method="post" action="?/login" use:enhance>
-		<AuthForm mode="login" />
+		<AuthForm mode="login" errorMessage={form?.message} />
 	</form>
-	<p style="color: red">{form?.message ?? ''}</p>
 </div>
