@@ -3,12 +3,7 @@ import { and, eq, isNotNull } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 import type { Actions, PageServerLoad } from './$types';
-import {
-	createSession,
-	generateSessionToken,
-	setSessionTokenCookie,
-	validatePassword
-} from '$lib/server/auth';
+import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/auth';
 import { verifyPassword } from '$lib/server/password';
 import { verifyEmailInput } from '$lib/server/email';
 import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
@@ -36,7 +31,7 @@ export const actions: Actions = {
 			updateMs: UPDATE_MS
 		});
 		if (!(await ipBucket.check(1))) {
-			return fail(429, { message: 'Rate limit exceeded' });
+			return fail(429, { message: 'Rate limit exceeded', email: '' });
 		}
 
 		const formData = await event.request.formData();
@@ -44,17 +39,14 @@ export const actions: Actions = {
 		const password = formData.get('password') as string | undefined;
 
 		if (!email) {
-			return fail(400, { email, missing: true });
+			return fail(400, { message: 'Email is required', email: '' });
 		}
 		if (!password) {
-			return fail(400, { message: 'Password is required' });
+			return fail(400, { message: 'Password is required', email });
 		}
 
 		if (!verifyEmailInput(email)) {
-			return fail(400, { message: 'Invalid email' });
-		}
-		if (!validatePassword(password)) {
-			return fail(400, { message: 'Invalid password' });
+			return fail(400, { message: 'Invalid email', email });
 		}
 
 		const [existingUser] = await db
@@ -67,7 +59,7 @@ export const actions: Actions = {
 		}
 
 		if (!(await ipBucket.consume(1))) {
-			return fail(429, { message: 'Rate limit exceeded' });
+			return fail(429, { message: 'Too many requests', email: '' });
 		}
 
 		const throttler = await ThrottlerProxy.initialize({
@@ -75,15 +67,12 @@ export const actions: Actions = {
 			timeoutSeconds: TIMEOUT_SECONDS
 		});
 		if (!(await throttler.consume())) {
-			return fail(429, {
-				message: 'Too many requests',
-				email: ''
-			});
+			return fail(429, { message: 'Too many requests', email: '' });
 		}
 
 		const validPassword = await verifyPassword(existingUser.passwordHash!, password);
 		if (!validPassword) {
-			return fail(400, { message: 'Incorrect email or password' });
+			return fail(400, { message: 'Invalid password', email });
 		}
 
 		await throttler.reset();

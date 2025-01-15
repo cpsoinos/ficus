@@ -8,6 +8,6 @@
 
 <div class="flex h-screen w-full items-center justify-center px-4">
 	<form method="post" action="?/login" use:enhance>
-		<AuthForm mode="login" errorMessage={form?.message} />
+		<AuthForm mode="login" email={form?.email} errorMessage={form?.message} />
 	</form>
 </div>
