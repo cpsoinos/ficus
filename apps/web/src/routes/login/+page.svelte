@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { ActionData } from './$types';
 	import AuthForm from '$lib/components/auth-form.svelte';
+	import type { ActionData } from './$types';
 
 	let { form }: { form: ActionData } = $props();
 </script>
