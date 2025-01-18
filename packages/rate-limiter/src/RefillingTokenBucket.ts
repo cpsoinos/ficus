@@ -33,7 +33,7 @@ export class RefillingTokenBucket extends DurableObject {
   }
 
   // Fetch handler since RPC is not yet supported between multiple `wrangler dev` sessions
-  fetch(request: Request) {
+  override fetch(request: Request) {
     return this.app.fetch(request);
   }
 
@@ -136,7 +136,7 @@ export class RefillingTokenBucket extends DurableObject {
   }
 
   // Alarm handler for periodic token refill
-  async alarm(): Promise<void> {
+  override async alarm(): Promise<void> {
     // get params from storage
     await this.getParams();
     await this.refillTokens();

@@ -28,7 +28,7 @@ export class Throttler extends DurableObject {
     });
   }
 
-  fetch(request: Request) {
+  override fetch(request: Request) {
     return this.app.fetch(request);
   }
 
