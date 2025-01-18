@@ -5,6 +5,8 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 
 	export let mode: 'login' | 'register';
+	export let email: string | undefined = undefined;
+	export let errorMessage: string | undefined = undefined;
 
 	const titleMap = {
 		login: 'Login',
@@ -53,7 +55,15 @@
 		<div class="grid gap-4">
 			<div class="grid gap-2">
 				<Label for="email">Email</Label>
-				<Input id="email" type="email" name="email" placeholder="m@example.com" required />
+				<Input
+					id="email"
+					type="email"
+					name="email"
+					placeholder="m@example.com"
+					required
+					autocomplete="username"
+					value={email}
+				/>
 			</div>
 			<div class="grid gap-2">
 				<div class="flex items-center">
@@ -62,8 +72,21 @@
 						<a href="##" class="ml-auto inline-block text-sm underline">Forgot your password?</a>
 					{/if}
 				</div>
-				<Input id="password" type="password" name="password" required />
+				<Input
+					id="password"
+					type="password"
+					name="password"
+					required
+					autocomplete={mode === 'login' ? 'current-password' : 'off'}
+				/>
 			</div>
+
+			<div class="h-4">
+				{#if errorMessage}
+					<p class="text-sm text-red-500">{errorMessage}</p>
+				{/if}
+			</div>
+
 			<Button type="submit" class="w-full">{submitText}</Button>
 			<Button variant="outline" class="w-full" href="/oauth/github">Login with Github</Button>
 		</div>

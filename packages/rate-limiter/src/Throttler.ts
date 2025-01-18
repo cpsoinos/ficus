@@ -21,9 +21,14 @@ export class Throttler extends DurableObject {
       const response = await this.consume();
       return c.json(response);
     });
+
+    this.app.post('/reset', async (c) => {
+      await this.reset();
+      return c.status(200);
+    });
   }
 
-  fetch(request: Request) {
+  override fetch(request: Request) {
     return this.app.fetch(request);
   }
 

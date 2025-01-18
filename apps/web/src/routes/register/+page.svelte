@@ -8,7 +8,6 @@
 
 <div class="flex h-screen w-full items-center justify-center px-4">
 	<form method="post" action="?/register" use:enhance>
-		<AuthForm mode="register" />
+		<AuthForm mode="register" errorMessage={form?.message} />
 	</form>
-	<p style="color: red">{form?.message ?? ''}</p>
 </div>

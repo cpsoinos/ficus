@@ -59,7 +59,7 @@ export class ExpiringTokenBucket extends DurableObject {
   }
 
   // Fetch handler since RPC is not yet supported between multiple `wrangler dev` sessions
-  fetch(request: Request) {
+  override fetch(request: Request) {
     return this.app.fetch(request);
   }
 
