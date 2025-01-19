@@ -23,8 +23,8 @@ jobs:
       GITHUB_CLIENT_SECRET: ${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+        # with:
+        #   fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
 
