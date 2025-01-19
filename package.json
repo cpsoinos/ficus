@@ -3,22 +3,17 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "nx run-many --target=dev"
+    "dev": "pnpm -r --parallel dev",
+    "check": "pnpm -r --parallel check",
+    "format": "pnpm -r --parallel format",
+    "lint": "pnpm -r --parallel lint",
+    "build": "pnpm -r --parallel build",
+    "test": "pnpm -r --parallel test"
   },
   "private": true,
   "devDependencies": {
-    "@nx/eslint": "20.3.2",
-    "@nx/js": "20.3.2",
-    "@nx/playwright": "20.3.2",
-    "@nx/storybook": "20.3.2",
-    "@nx/vite": "20.3.2",
-    "@nx/web": "20.3.2",
     "@playwright/test": "^1.36.0",
-    "@swc-node/register": "~1.9.1",
-    "@swc/core": "~1.5.7",
-    "@swc/helpers": "~0.5.11",
     "eslint": "~8.57.0",
-    "nx": "20.3.2",
     "prettier": "^2.6.2",
     "storybook": "^8.4.6",
     "tslib": "^2.3.0",
