@@ -1,6 +1,5 @@
 import { db } from '$lib/server/db';
-import { user, type User } from '$lib/server/db/schema';
-import * as table from '$lib/server/db/schema';
+import { user, type NewUser, type User } from '$lib/server/db/schema';
 import { and, eq } from 'drizzle-orm';
 import { decryptToString, encrypt, encryptString } from './encryption';
 import { hashPassword } from './password';
@@ -12,23 +11,25 @@ export function verifyUsernameInput(username: string): boolean {
 
 export async function createUser({
 	email,
-	password
+	password,
+	name
 }: {
 	email: string;
-	password: string;
+	password?: string;
+	name?: string | null;
 }): Promise<User> {
 	const recoveryCode = generateRandomRecoveryCode();
 	const encryptedRecoveryCode = await encryptString(recoveryCode);
-	const passwordHash = await hashPassword(password);
+	const passwordHash = password ? await hashPassword(password) : undefined;
 
-	const [createdUser] = await db
-		.insert(table.user)
-		.values({
-			email,
-			passwordHash,
-			recoveryCode: encryptedRecoveryCode
-		})
-		.returning();
+	const newUser: NewUser = {
+		email,
+		name,
+		passwordHash,
+		recoveryCode: encryptedRecoveryCode
+	};
+
+	const [createdUser] = await db.insert(user).values(newUser).returning();
 
 	return createdUser;
 }
