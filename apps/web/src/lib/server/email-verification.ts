@@ -1,11 +1,19 @@
 import { generateRandomOTP } from './utils';
 import { db } from './db';
-// import { ExpiringTokenBucket } from './rate-limit';
 import type { RequestEvent } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
 import { emailVerificationRequest, type EmailVerificationRequest } from './db/schema';
+import { ExpiringTokenBucketProxy } from './rate-limit/ExpiringTokenBucketProxy';
 
 const EMAIL_VERIFICATION_COOKIE_NAME = 'email_verification';
+
+export const getEmailVerificationBucket = async (userId: string) => {
+	return await ExpiringTokenBucketProxy.initialize({
+		name: userId,
+		max: 5,
+		expiresInSeconds: 60 * 30
+	});
+};
 
 export async function getUserEmailVerificationRequest(
 	userId: string,

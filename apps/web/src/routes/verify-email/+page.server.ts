@@ -3,6 +3,7 @@ import {
 	createEmailVerificationRequest,
 	deleteEmailVerificationRequestCookie,
 	deleteUserEmailVerificationRequest,
+	getEmailVerificationBucket,
 	getUserEmailVerificationRequestFromRequest,
 	sendVerificationEmail,
 	setEmailVerificationRequestCookie
@@ -41,34 +42,6 @@ export async function load(event: RequestEvent) {
 	};
 }
 
-// async function getExpiringTokenBucket(userId: string) {
-// 	const id = Bindings.env.EXPIRING_TOKEN_BUCKET.idFromName(userId);
-// 	const stub = Bindings.env.EXPIRING_TOKEN_BUCKET.get(id);
-// 	await stub.fetch('https://ficus-rate-limiter.local/set-params', {
-// 		method: 'POST',
-// 		body: JSON.stringify({ max: 5, expiresInSeconds: 60 * 30 })
-// 	});
-// 	return stub;
-// }
-
-// async function checkRateLimit(userId: string, key: VerifyEmailEndpointKeys) {
-// 	const bucket = await getExpiringTokenBucket(userId);
-// 	const resp = await bucket.fetch('https://ficus-rate-limiter.local/check', {
-// 		method: 'POST',
-// 		body: JSON.stringify({ key, cost: 1 })
-// 	});
-// 	return resp.json();
-// }
-
-// async function consumeExpiringToken(userId: string, key: VerifyEmailEndpointKeys) {
-// 	const bucket = await getExpiringTokenBucket(userId);
-// 	const resp = await bucket.fetch('https://ficus-rate-limiter.local/consume', {
-// 		method: 'POST',
-// 		body: JSON.stringify({ key, cost: 1 })
-// 	});
-// 	return resp.json();
-// }
-
 export const actions: Actions = {
 	verify: verifyCode,
 	resend: resendEmail
@@ -82,19 +55,15 @@ async function verifyCode(event: RequestEvent) {
 			}
 		});
 	}
-	// if (event.locals.user.registered2FA && !event.locals.session.twoFactorVerified) {
-	// 	return fail(403, {
-	// 		verify: {
-	// 			message: 'Forbidden'
-	// 		}
-	// 	});
-	// }
+	if (event.locals.user.registered2FA && !event.locals.session.twoFactorVerified) {
+		return fail(403, {
+			verify: {
+				message: 'Forbidden'
+			}
+		});
+	}
 
-	const bucket = await ExpiringTokenBucketProxy.initialize({
-		name: event.locals.user.id,
-		max: 5,
-		expiresInSeconds: 60 * 30
-	});
+	const bucket = await getEmailVerificationBucket(event.locals.user.id);
 
 	if (!(await bucket.check(VerifyEmailEndpointKeys.VERIFY))) {
 		return fail(429, {
@@ -163,9 +132,9 @@ async function verifyCode(event: RequestEvent) {
 		deleteEmailVerificationRequestCookie(event)
 	]);
 
-	// if (!event.locals.user.registered2FA) {
-	// 	return redirect(302, '/2fa/setup');
-	// }
+	if (!event.locals.user.registered2FA) {
+		return redirect(302, '/2fa/setup');
+	}
 	return redirect(302, '/');
 }
 
@@ -177,13 +146,13 @@ async function resendEmail(event: RequestEvent) {
 			}
 		});
 	}
-	// if (event.locals.user.registered2FA && !event.locals.session.twoFactorVerified) {
-	// 	return fail(403, {
-	// 		resend: {
-	// 			message: 'Forbidden'
-	// 		}
-	// 	});
-	// }
+	if (event.locals.user.registered2FA && !event.locals.session.twoFactorVerified) {
+		return fail(403, {
+			resend: {
+				message: 'Forbidden'
+			}
+		});
+	}
 
 	const bucket = await ExpiringTokenBucketProxy.initialize({
 		name: event.locals.user.id,

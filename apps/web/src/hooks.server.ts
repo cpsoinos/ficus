@@ -8,7 +8,7 @@ import {
 	validateSessionToken,
 	setSessionTokenCookie,
 	deleteSessionTokenCookie
-} from '$lib/server/auth';
+} from '$lib/server/session';
 
 let platform: App.Platform;
 

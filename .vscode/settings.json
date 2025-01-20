@@ -2,5 +2,21 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "[toml]": {
     "editor.defaultFormatter": "bodil.prettier-toml"
-  }
+  },
+  "eslint.useFlatConfig": true,
+  "eslint.probe": [
+    "astro",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "mdx",
+    "vue",
+    "markdown",
+    "json",
+    "jsonc",
+    "svelte"
+  ],
+  "eslint.validate": ["javascript", "javascriptreact", "svelte"]
 }

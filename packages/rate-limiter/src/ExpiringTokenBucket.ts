@@ -29,6 +29,12 @@ export class ExpiringTokenBucket extends DurableObject {
       const response = await this.consume(key, cost);
       return c.json(response);
     });
+
+    this.app.post('/reset', async (c) => {
+      const { key } = await c.req.json();
+      this.reset(key);
+      return c.status(200);
+    });
   }
 
   async setParams({

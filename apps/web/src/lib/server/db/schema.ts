@@ -1,5 +1,6 @@
 import { sqliteTable, text, integer, blob } from 'drizzle-orm/sqlite-core';
 import { timestamps } from './util';
+import { type SQL, sql } from 'drizzle-orm';
 
 export const user = sqliteTable('user', {
 	id: text('id')
@@ -10,6 +11,10 @@ export const user = sqliteTable('user', {
 	passwordHash: text('password_hash'),
 	emailVerified: integer('email_verified', { mode: 'boolean' }).notNull().default(false),
 	totpKey: blob('totp_key', { mode: 'buffer' }).$type<Uint8Array>(),
+	registered2FA: integer('registered_2fa', { mode: 'boolean' }).generatedAlwaysAs(
+		(): SQL => sql`IIF(totp_key IS NOT NULL, 1, 0)`,
+		{ mode: 'virtual' }
+	),
 	recoveryCode: blob('recovery_code', { mode: 'buffer' }).$type<Uint8Array>().notNull(),
 	...timestamps
 });
