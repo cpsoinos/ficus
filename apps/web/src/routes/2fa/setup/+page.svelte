@@ -6,7 +6,7 @@
 </script>
 
 <h1>Set up two-factor authentication</h1>
-<div style="width:200px; height: 200px;">
+<div class="size-52">
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html data.qrcode}
 </div>
