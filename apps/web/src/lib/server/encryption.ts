@@ -1,5 +1,6 @@
 import { ENCRYPTION_KEY } from '$env/static/private';
 import { decodeBase64 } from '@oslojs/encoding';
+import { Buffer } from 'node:buffer';
 
 const key = decodeBase64(ENCRYPTION_KEY);
 
@@ -37,10 +38,10 @@ export async function decrypt(encrypted: Uint8Array): Promise<Uint8Array> {
 	const decrypted = await crypto.subtle.decrypt(
 		{
 			name: 'AES-GCM',
-			iv: iv
+			iv: Buffer.from(iv)
 		},
 		cryptoKey,
-		encrypted.slice(12)
+		Buffer.from(encrypted.slice(12))
 	);
 	return new Uint8Array(decrypted);
 }
