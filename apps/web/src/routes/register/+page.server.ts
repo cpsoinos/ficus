@@ -1,6 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/auth';
+import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/session';
 import { createUser } from '$lib/server/user';
 import { verifyPasswordStrength } from '$lib/server/password';
 import { checkEmailAvailability, verifyEmailInput } from '$lib/server/email';

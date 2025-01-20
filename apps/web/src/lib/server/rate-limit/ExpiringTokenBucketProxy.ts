@@ -41,4 +41,11 @@ export class ExpiringTokenBucketProxy {
 		});
 		return await resp.json();
 	}
+
+	async reset(key: string): Promise<void> {
+		await this.stub.fetch('https://ficus-rate-limiter.local/reset', {
+			method: 'POST',
+			body: JSON.stringify({ key })
+		});
+	}
 }

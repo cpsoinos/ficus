@@ -1,10 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-
 	import type { ActionData, PageData } from './$types';
 
-	export let data: PageData;
-	export let form: ActionData;
+	let { form, data }: { form: ActionData; data: PageData } = $props();
 </script>
 
 <h1>Verify your email address</h1>

@@ -97,3 +97,11 @@ export function deleteSessionTokenCookie(event: RequestEvent) {
 		path: '/'
 	});
 }
+
+export async function setSessionAs2FAVerified(sessionId: string): Promise<boolean> {
+	const result = await db
+		.update(table.session)
+		.set({ twoFactorVerified: true })
+		.where(eq(table.session.id, sessionId));
+	return result.success;
+}
