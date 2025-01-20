@@ -107,5 +107,11 @@ async function login(event: RequestEvent) {
 	const session = await createSession(sessionToken, user.id);
 	setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
-	return redirect(302, '/');
+	if (!user.emailVerified) {
+		return redirect(302, '/verify-email');
+	}
+	if (!user.registered2FA) {
+		return redirect(302, '/2fa/setup');
+	}
+	return redirect(302, '/2fa');
 }

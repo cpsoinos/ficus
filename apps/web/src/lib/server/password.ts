@@ -1,4 +1,6 @@
 import { Bindings } from './bindings';
+import { sha1 } from '@oslojs/crypto/sha1';
+import { encodeHexLowerCase } from '@oslojs/encoding';
 
 export async function hashPassword(password: string): Promise<string> {
 	const hashResp = await Bindings.env.ARGON2.fetch('http://internal/hash', {
@@ -22,11 +24,7 @@ export async function verifyPassword(storedHash: string, password: string): Prom
 export async function verifyPasswordStrength(password: string): Promise<boolean> {
 	if (password.length < 8 || password.length > 255) return false;
 
-	const encoder = new TextEncoder();
-	const data = await crypto.subtle.digest('SHA-1', encoder.encode(password));
-	const hash = Array.from(new Uint8Array(data))
-		.map((b) => b.toString(16).padStart(2, '0'))
-		.join('');
+	const hash = encodeHexLowerCase(sha1(new TextEncoder().encode(password)));
 	const hashPrefix = hash.slice(0, 5);
 	const response = await fetch(`https://api.pwnedpasswords.com/range/${hashPrefix}`);
 	const dataText = await response.text();
