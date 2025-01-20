@@ -4,11 +4,11 @@
   "license": "MIT",
   "scripts": {
     "dev": "pnpm -r --parallel dev",
-    "check": "pnpm -r --parallel check",
-    "format": "pnpm -r --parallel format",
-    "lint": "pnpm -r --parallel lint",
-    "build": "pnpm -r --parallel build",
-    "test": "pnpm -r --parallel test"
+    "check": "pnpm -r --parallel check --aggregate-output --reporter=append-only",
+    "format": "pnpm -r --parallel format --aggregate-output --reporter=append-only",
+    "lint": "pnpm -r --parallel lint --aggregate-output --reporter=append-only",
+    "build": "pnpm -r --parallel build --aggregate-output --reporter=append-only",
+    "test": "pnpm -r --parallel --aggregate-output --reporter=append-only test"
   },
   "private": true,
   "devDependencies": {
