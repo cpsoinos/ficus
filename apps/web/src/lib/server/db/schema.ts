@@ -1,6 +1,7 @@
 import { sqliteTable, text, integer, blob } from 'drizzle-orm/sqlite-core';
 import { timestamps } from './util';
 import { relations, type SQL, sql } from 'drizzle-orm';
+import type { OAuthProvider } from '../oauth';
 
 export const user = sqliteTable('user', {
 	id: text('id')
@@ -92,7 +93,7 @@ export const oAuthAccount = sqliteTable('oauth_account', {
 	userId: text('user_id')
 		.notNull()
 		.references(() => user.id),
-	provider: text('provider').notNull(),
+	provider: text('provider').notNull().$type<OAuthProvider>(),
 	providerUserId: text('provider_user_id').notNull(),
 	...timestamps
 });
