@@ -4,6 +4,7 @@ import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
+import type { NewSession, Session } from '$lib/server/db/schema';
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
@@ -20,12 +21,17 @@ export async function encodeSessionToken(token: string): Promise<string> {
 	return encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 }
 
-export async function createSession(token: string, userId: string) {
+export async function createSession(
+	token: string,
+	userId: string,
+	flags: SessionFlags
+): Promise<Session> {
 	const sessionId = await encodeSessionToken(token);
-	const sessionToInsert: table.NewSession = {
+	const sessionToInsert: NewSession = {
 		id: sessionId,
 		userId,
-		expiresAt: new Date(Date.now() + DAY_IN_MS * 30)
+		expiresAt: new Date(Date.now() + DAY_IN_MS * 30),
+		twoFactorVerified: flags.twoFactorVerified
 	};
 	const [session] = await db.insert(table.session).values(sessionToInsert).returning();
 	return session;
@@ -68,8 +74,12 @@ export async function validateSessionToken(token: string) {
 
 export type SessionValidationResult = Awaited<ReturnType<typeof validateSessionToken>>;
 
-export async function invalidateSession(sessionId: string) {
+export async function invalidateSession(sessionId: string): Promise<void> {
 	await db.delete(table.session).where(eq(table.session.id, sessionId));
+}
+
+export async function invalidateUserSessions(userId: string): Promise<void> {
+	await db.delete(table.session).where(eq(table.session.userId, userId));
 }
 
 export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: Date) {
@@ -91,4 +101,8 @@ export async function setSessionAs2FAVerified(sessionId: string): Promise<boolea
 		.set({ twoFactorVerified: true })
 		.where(eq(table.session.id, sessionId));
 	return result.success;
+}
+
+export interface SessionFlags {
+	twoFactorVerified: boolean;
 }

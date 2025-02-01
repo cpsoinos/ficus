@@ -1,6 +1,15 @@
 import { Bindings } from './bindings';
 import { sha1 } from '@oslojs/crypto/sha1';
 import { encodeHexLowerCase } from '@oslojs/encoding';
+import { ExpiringTokenBucketProxy } from './rate-limit/ExpiringTokenBucketProxy';
+
+export const getPasswordUpdateBucket = async (userId: string) => {
+	return ExpiringTokenBucketProxy.initialize({
+		name: `${userId}:passwordUpdate`,
+		max: 5,
+		expiresInSeconds: 60 * 30
+	});
+};
 
 export async function hashPassword(password: string): Promise<string> {
 	const hashResp = await Bindings.env.ARGON2.fetch('http://internal/hash', {
