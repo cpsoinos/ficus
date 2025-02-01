@@ -76,34 +76,27 @@ async function updatePasswordAction(event: RequestEvent) {
 	const password = formData.get('password');
 	const newPassword = formData.get('new_password');
 
-	// Determine whether the user already has a password. If they do, we're updating it. If they do not, they signed up via oauth, and so we're adding a password.
 	const passwordHash = await getUserPasswordHash(event.locals.user.id);
-	const hasPassword = !!passwordHash;
-
-	if (hasPassword) {
-		if (typeof password !== 'string' || typeof newPassword !== 'string') {
-			return fail(400, {
-				password: {
-					message: 'Invalid or missing fields'
-				}
-			});
-		}
-		const validPassword = await verifyPassword(passwordHash, password);
-		if (!validPassword) {
-			return fail(400, {
-				password: {
-					message: 'Incorrect password'
-				}
-			});
-		}
-	} else {
-		// TODO: password reset flow
+	if (!passwordHash) {
+		return fail(400, {
+			password: {
+				message: 'To add a password, use the forgot password flow'
+			}
+		});
 	}
 
-	if (typeof newPassword !== 'string') {
+	if (typeof password !== 'string' || typeof newPassword !== 'string') {
 		return fail(400, {
 			password: {
 				message: 'Invalid or missing fields'
+			}
+		});
+	}
+	const validPassword = await verifyPassword(passwordHash, password);
+	if (!validPassword) {
+		return fail(400, {
+			password: {
+				message: 'Incorrect password'
 			}
 		});
 	}
