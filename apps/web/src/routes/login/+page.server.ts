@@ -1,11 +1,17 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad, RequestEvent } from './$types';
-import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/session';
+import {
+	createSession,
+	generateSessionToken,
+	setSessionTokenCookie,
+	type SessionFlags
+} from '$lib/server/session';
 import { verifyPassword } from '$lib/server/password';
 import { verifyEmailInput } from '$lib/server/email';
 import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
 import { ThrottlerProxy } from '$lib/server/rate-limit/ThrottlerProxy';
 import { getUserFromEmail, getUserPasswordHash } from '$lib/server/user';
+import { getOAuthAccountsForUser, getOAuthProviderName } from '$lib/server/oauth';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
@@ -93,7 +99,25 @@ async function login(event: RequestEvent) {
 		});
 	}
 
-	const passwordHash = (await getUserPasswordHash(user.id)) ?? '';
+	const passwordHash = await getUserPasswordHash(user.id);
+	if (!passwordHash) {
+		// user signed up with social login. find which provider and say to login using that
+		const oauthAccounts = await getOAuthAccountsForUser(user.id);
+
+		if (oauthAccounts.length === 0) {
+			return fail(400, {
+				message: 'No password set for this account',
+				email
+			});
+		}
+
+		const providerName = getOAuthProviderName(oauthAccounts[0].provider);
+		return fail(400, {
+			message: `Please login using ${providerName}`,
+			email
+		});
+	}
+
 	const validPassword = await verifyPassword(passwordHash, password);
 	if (!validPassword) {
 		return fail(400, {
@@ -103,15 +127,20 @@ async function login(event: RequestEvent) {
 	}
 
 	await throttler.reset();
+	const sessionFlags: SessionFlags = {
+		twoFactorVerified: false
+	};
 	const sessionToken = generateSessionToken();
-	const session = await createSession(sessionToken, user.id);
+	const session = await createSession(sessionToken, user.id, sessionFlags);
 	setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
 	if (!user.emailVerified) {
 		return redirect(302, '/verify-email');
 	}
+
 	if (!user.registered2FA) {
 		return redirect(302, '/2fa/setup');
 	}
+
 	return redirect(302, '/2fa');
 }

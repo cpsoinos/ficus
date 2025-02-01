@@ -1,6 +1,7 @@
 import { sqliteTable, text, integer, blob } from 'drizzle-orm/sqlite-core';
 import { timestamps } from './util';
-import { type SQL, sql } from 'drizzle-orm';
+import { relations, type SQL, sql } from 'drizzle-orm';
+import type { OAuthProvider } from '../oauth';
 
 export const user = sqliteTable('user', {
 	id: text('id')
@@ -19,6 +20,13 @@ export const user = sqliteTable('user', {
 	...timestamps
 });
 
+export const userRelations = relations(user, ({ many }) => ({
+	sessions: many(session),
+	passwordResetSessions: many(passwordResetSession),
+	emailVerificationRequests: many(emailVerificationRequest),
+	oAuthAccounts: many(oAuthAccount)
+}));
+
 export type User = typeof user.$inferSelect;
 export type NewUser = typeof user.$inferInsert;
 
@@ -31,6 +39,10 @@ export const session = sqliteTable('session', {
 	twoFactorVerified: integer('two_factor_verified', { mode: 'boolean' }).notNull().default(false)
 });
 
+export const sessionRelations = relations(session, ({ one }) => ({
+	user: one(user, { fields: [session.userId], references: [user.id] })
+}));
+
 export type Session = typeof session.$inferSelect;
 export type NewSession = typeof session.$inferInsert;
 
@@ -41,9 +53,16 @@ export const passwordResetSession = sqliteTable('password_reset_session', {
 	userId: text('user_id')
 		.notNull()
 		.references(() => user.id),
+	email: text('email').notNull(),
 	code: text('code').notNull(),
-	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
+	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull(),
+	emailVerified: integer('email_verified', { mode: 'boolean' }).notNull().default(false),
+	twoFactorVerified: integer('two_factor_verified', { mode: 'boolean' }).notNull().default(false)
 });
+
+export const passwordResetSessionRelations = relations(passwordResetSession, ({ one }) => ({
+	user: one(user, { fields: [passwordResetSession.userId], references: [user.id] })
+}));
 
 export type PasswordResetSession = typeof passwordResetSession.$inferSelect;
 export type NewPasswordResetSession = typeof passwordResetSession.$inferInsert;
@@ -60,6 +79,10 @@ export const emailVerificationRequest = sqliteTable('email_verification_request'
 	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
 });
 
+export const emailVerificationRequestRelations = relations(emailVerificationRequest, ({ one }) => ({
+	user: one(user, { fields: [emailVerificationRequest.userId], references: [user.id] })
+}));
+
 export type EmailVerificationRequest = typeof emailVerificationRequest.$inferSelect;
 export type NewEmailVerificationRequest = typeof emailVerificationRequest.$inferInsert;
 
@@ -70,10 +93,14 @@ export const oAuthAccount = sqliteTable('oauth_account', {
 	userId: text('user_id')
 		.notNull()
 		.references(() => user.id),
-	provider: text('provider').notNull(),
+	provider: text('provider').notNull().$type<OAuthProvider>(),
 	providerUserId: text('provider_user_id').notNull(),
 	...timestamps
 });
+
+export const oAuthAccountRelations = relations(oAuthAccount, ({ one }) => ({
+	user: one(user, { fields: [oAuthAccount.userId], references: [user.id] })
+}));
 
 export type OAuthAccount = typeof oAuthAccount.$inferSelect;
 export type NewOAuthAccount = typeof oAuthAccount.$inferInsert;

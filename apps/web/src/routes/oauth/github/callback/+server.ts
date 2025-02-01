@@ -6,7 +6,12 @@ import type { GithubUser } from '$lib/server/oauth.types';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 import { and, eq } from 'drizzle-orm';
-import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/session';
+import {
+	createSession,
+	generateSessionToken,
+	setSessionTokenCookie,
+	type SessionFlags
+} from '$lib/server/session';
 import { createUser } from '$lib/server/user';
 
 export async function GET(event: RequestEvent): Promise<Response> {
@@ -64,7 +69,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		.innerJoin(table.user, eq(table.oAuthAccount.userId, table.user.id))
 		.where(
 			and(
-				eq(table.oAuthAccount.provider, 'github'),
+				eq(table.oAuthAccount.provider, OAuthProvider.GITHUB),
 				eq(table.oAuthAccount.providerUserId, githubUserId)
 			)
 		);
@@ -73,7 +78,10 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 	if (existingUser) {
 		const sessionToken = generateSessionToken();
-		const session = await createSession(sessionToken, existingUser.id);
+		const sessionFlags: SessionFlags = {
+			twoFactorVerified: false
+		};
+		const session = await createSession(sessionToken, existingUser.id, sessionFlags);
 		setSessionTokenCookie(event, sessionToken, session.expiresAt);
 		return new Response(null, {
 			status: 302,
@@ -96,7 +104,10 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	});
 
 	const sessionToken = generateSessionToken();
-	const session = await createSession(sessionToken, user.id);
+	const sessionFlags: SessionFlags = {
+		twoFactorVerified: false
+	};
+	const session = await createSession(sessionToken, user.id, sessionFlags);
 	setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
 	return new Response(null, {

@@ -69,7 +69,9 @@
 				<div class="flex items-center">
 					<Label for="password">Password</Label>
 					{#if mode === 'login'}
-						<a href="##" class="ml-auto inline-block text-sm underline">Forgot your password?</a>
+						<a href="/forgot-password" class="ml-auto inline-block text-sm underline">
+							Forgot your password?
+						</a>
 					{/if}
 				</div>
 				<Input

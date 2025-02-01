@@ -1,6 +1,11 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
-import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/session';
+import {
+	createSession,
+	generateSessionToken,
+	setSessionTokenCookie,
+	type SessionFlags
+} from '$lib/server/session';
 import { createUser } from '$lib/server/user';
 import { verifyPasswordStrength } from '$lib/server/password';
 import { checkEmailAvailability, verifyEmailInput } from '$lib/server/email';
@@ -80,7 +85,10 @@ export const actions: Actions = {
 			setEmailVerificationRequestCookie(event, emailVerificationRequest);
 
 			const sessionToken = generateSessionToken();
-			const session = await createSession(sessionToken, userId);
+			const sessionFlags: SessionFlags = {
+				twoFactorVerified: false
+			};
+			const session = await createSession(sessionToken, userId, sessionFlags);
 			setSessionTokenCookie(event, sessionToken, session.expiresAt);
 		} catch (e) {
 			console.error(e);
