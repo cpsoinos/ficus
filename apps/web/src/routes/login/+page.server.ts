@@ -1,6 +1,11 @@
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad, RequestEvent } from './$types';
-import { createSession, generateSessionToken, setSessionTokenCookie } from '$lib/server/session';
+import {
+	createSession,
+	generateSessionToken,
+	setSessionTokenCookie,
+	type SessionFlags
+} from '$lib/server/session';
 import { verifyPassword } from '$lib/server/password';
 import { verifyEmailInput } from '$lib/server/email';
 import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
@@ -103,8 +108,11 @@ async function login(event: RequestEvent) {
 	}
 
 	await throttler.reset();
+	const sessionFlags: SessionFlags = {
+		twoFactorVerified: false
+	};
 	const sessionToken = generateSessionToken();
-	const session = await createSession(sessionToken, user.id);
+	const session = await createSession(sessionToken, user.id, sessionFlags);
 	setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
 	if (!user.emailVerified) {

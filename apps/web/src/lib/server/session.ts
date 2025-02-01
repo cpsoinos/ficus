@@ -17,7 +17,7 @@ export function generateSessionToken(): string {
 	return token;
 }
 
-export async function encodeSessionToken(token: string): Promise<string> {
+export function encodeSessionToken(token: string): string {
 	return encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 }
 
@@ -26,7 +26,7 @@ export async function createSession(
 	userId: string,
 	flags: SessionFlags
 ): Promise<Session> {
-	const sessionId = await encodeSessionToken(token);
+	const sessionId = encodeSessionToken(token);
 	const sessionToInsert: NewSession = {
 		id: sessionId,
 		userId,
@@ -38,7 +38,7 @@ export async function createSession(
 }
 
 export async function validateSessionToken(token: string) {
-	const sessionId = await encodeSessionToken(token);
+	const sessionId = encodeSessionToken(token);
 	const [result] = await db
 		.select({
 			// Adjust user table here to tweak returned data
