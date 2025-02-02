@@ -79,7 +79,7 @@
 		"@oslojs/otp": "^1.1.0",
 		"@tailwindcss/container-queries": "^0.1.1",
 		"@tailwindcss/forms": "^0.5.10",
-		"arctic": "^2.3.3",
+		"arctic": "^3.2.2",
 		"drizzle-orm": "^0.39.1",
 		"ofetch": "^1.4.1",
 		"uqr": "^0.1.2"
