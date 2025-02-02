@@ -114,7 +114,7 @@ async function verifyCode(event: RequestEvent) {
 		await sendVerificationEmail(verificationRequest.email, verificationRequest.code);
 		return {
 			verify: {
-				message: 'The verification code was expired. We sent another code to your inbox.'
+				message: 'Code expired. We sent another to your inbox.'
 			}
 		};
 	}
