@@ -1,19 +1,54 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import AuthForm from '$lib/components/auth-form.svelte';
 	import AuthWrapper from '$lib/components/auth-wrapper.svelte';
+	import { Button } from '$lib/components/ui/button/index.js';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import { Label } from '$lib/components/ui/label/index.js';
 	import type { PageProps } from './$types';
 
 	let { form }: PageProps = $props();
+
+	let errorMessage = $state('');
+
+	$effect(() => {
+		if (form?.message) {
+			errorMessage = form.message;
+		}
+	});
+
+	function clearFormError() {
+		errorMessage = '';
+	}
 </script>
 
 <AuthWrapper>
-	<h1>Forgot your password?</h1>
-	<form method="post" use:enhance>
-		<label for="form-forgot.email">Email</label>
-		<input type="email" id="form-forgot.email" name="email" required value={form?.email ?? ''} /><br
-		/>
-		<button>Send</button>
-		<p>{form?.message ?? ''}</p>
-	</form>
-	<a href="/login">Sign in</a>
+	<AuthForm
+		method="POST"
+		title="Forgot your password?"
+		description="Enter your email below to reset your password"
+		{errorMessage}
+	>
+		{#snippet fields()}
+			<div class="grid gap-2">
+				<Label for="email">Email</Label>
+				<Input
+					id="email"
+					type="email"
+					name="email"
+					placeholder="m@example.com"
+					required
+					autocomplete="username"
+					value={form?.email}
+					oninput={clearFormError}
+				/>
+			</div>
+		{/snippet}
+
+		{#snippet footer()}
+			<div class="grid w-full gap-4">
+				<Button type="submit" class="w-full">Send</Button>
+				<a href="/login" class="text-center text-sm underline">Sign in</a>
+			</div>
+		{/snippet}
+	</AuthForm>
 </AuthWrapper>
