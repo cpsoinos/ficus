@@ -1,7 +1,7 @@
 import { db } from '$lib/server/db';
 import { user, type NewUser, type User } from '$lib/server/db/schema';
 import { and, eq } from 'drizzle-orm';
-import { decryptToString, encrypt, encryptString } from './encryption';
+import { decrypt, decryptToString, encrypt, encryptString } from './encryption';
 import { hashPassword } from './password';
 import { generateRandomRecoveryCode } from './utils';
 
@@ -93,7 +93,11 @@ export async function getUserTOTPKey(userId: string): Promise<Uint8Array | null>
 	if (!row) {
 		throw new Error('Invalid user ID');
 	}
-	return row.totpKey;
+	const encrypted = row.totpKey;
+	if (!encrypted) {
+		return null;
+	}
+	return decrypt(encrypted);
 }
 
 export async function updateUserTOTPKey(userId: string, key: Uint8Array): Promise<void> {
