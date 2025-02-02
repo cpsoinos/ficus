@@ -8,7 +8,7 @@ import {
 	sendVerificationEmail,
 	setEmailVerificationRequestCookie
 } from '$lib/server/email-verification';
-// import { invalidateUserPasswordResetSessions } from '$lib/server/password-reset';
+import { invalidateUserPasswordResetSessions } from '$lib/server/password-reset';
 import { updateUserEmailAndSetEmailAsVerified } from '$lib/server/user';
 import type { Actions, RequestEvent } from './$types';
 import { ExpiringTokenBucketProxy } from '$lib/server/rate-limit/ExpiringTokenBucketProxy';
@@ -98,7 +98,6 @@ async function verifyCode(event: RequestEvent) {
 			}
 		});
 	}
-	// if (!bucket.consume(event.locals.user.id, 1)) {
 	if (!(await bucket.consume(VerifyEmailEndpointKeys.VERIFY))) {
 		return fail(429, {
 			verify: {
@@ -127,10 +126,10 @@ async function verifyCode(event: RequestEvent) {
 	}
 	await Promise.all([
 		deleteUserEmailVerificationRequest(event.locals.user.id),
-		// invalidateUserPasswordResetSessions(event.locals.user.id),
-		updateUserEmailAndSetEmailAsVerified(event.locals.user.id, verificationRequest.email),
-		deleteEmailVerificationRequestCookie(event)
+		invalidateUserPasswordResetSessions(event.locals.user.id),
+		updateUserEmailAndSetEmailAsVerified(event.locals.user.id, verificationRequest.email)
 	]);
+	deleteEmailVerificationRequestCookie(event);
 
 	if (!event.locals.user.registered2FA) {
 		return redirect(302, '/2fa/setup');
@@ -160,7 +159,6 @@ async function resendEmail(event: RequestEvent) {
 		expiresInSeconds: 60 * 30
 	});
 
-	// if (!sendVerificationEmailBucket.check(event.locals.user.id, 1)) {
 	if (!(await bucket.check(VerifyEmailEndpointKeys.RESEND))) {
 		return fail(429, {
 			resend: {
@@ -178,7 +176,6 @@ async function resendEmail(event: RequestEvent) {
 				}
 			});
 		}
-		// if (!sendVerificationEmailBucket.consume(event.locals.user.id, 1)) {
 		if (!(await bucket.consume(VerifyEmailEndpointKeys.RESEND))) {
 			return fail(429, {
 				resend: {
@@ -191,7 +188,6 @@ async function resendEmail(event: RequestEvent) {
 			event.locals.user.email
 		);
 	} else {
-		// if (!sendVerificationEmailBucket.consume(event.locals.user.id, 1)) {
 		if (!(await bucket.consume(VerifyEmailEndpointKeys.RESEND))) {
 			return fail(429, {
 				resend: {
