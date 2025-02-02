@@ -73,6 +73,7 @@ async function action(event: RequestEvent) {
 			message: 'Forbidden'
 		});
 	}
+
 	if (!verifyTOTP(totpKey, 30, 6, code)) {
 		return fail(400, {
 			message: 'Invalid code'

@@ -1,12 +1,23 @@
-import * as auth from '$lib/server/session';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
+import { invalidateSession, deleteSessionTokenCookie } from '$lib/server/session';
 
 export const load: PageServerLoad = async (event) => {
-	if (!event.locals.user) {
+	if (event.locals.session === null || event.locals.user === null) {
 		return redirect(302, '/login');
 	}
-	return { user: event.locals.user };
+	if (!event.locals.user.emailVerified) {
+		return redirect(302, '/verify-email');
+	}
+	if (!event.locals.user.registered2FA) {
+		return redirect(302, '/2fa/setup');
+	}
+	if (!event.locals.session.twoFactorVerified) {
+		return redirect(302, '/2fa');
+	}
+	return {
+		user: event.locals.user
+	};
 };
 
 export const actions: Actions = {
@@ -14,8 +25,8 @@ export const actions: Actions = {
 		if (!event.locals.session) {
 			return fail(401);
 		}
-		await auth.invalidateSession(event.locals.session.id);
-		auth.deleteSessionTokenCookie(event);
+		await invalidateSession(event.locals.session.id);
+		deleteSessionTokenCookie(event);
 
 		return redirect(302, '/login');
 	}

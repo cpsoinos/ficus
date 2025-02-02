@@ -26,7 +26,8 @@
 		"build-storybook": "storybook build",
 		"test:e2e": "playwright test",
 		"deploy": "pnpm run build && wrangler pages deploy",
-		"cf-typegen": "wrangler types && mv worker-configuration.d.ts src/"
+		"cf-typegen": "wrangler types && mv worker-configuration.d.ts src/",
+		"prepare": "svelte-kit sync"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^3.2.3",
@@ -44,7 +45,7 @@
 		"@storybook/test": "^8.4.7",
 		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/adapter-cloudflare": "^5.0.0",
-		"@sveltejs/kit": "^2.15.2",
+		"@sveltejs/kit": "^2.16.1",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"@types/node": "^22.10.2",
 		"autoprefixer": "^10.4.20",
@@ -59,7 +60,7 @@
 		"prettier-plugin-svelte": "^3.2.6",
 		"prettier-plugin-tailwindcss": "^0.6.5",
 		"storybook": "^8.4.7",
-		"svelte": "^5.17.5",
+		"svelte": "^5.19.6",
 		"svelte-check": "^4.1.4",
 		"tailwind-merge": "^2.5.5",
 		"tailwind-variants": "^0.3.0",
