@@ -23,7 +23,7 @@
 <form use:enhance {...rest}>
 	<Card.Root class="mx-auto max-w-sm sm:w-96">
 		<Card.Header>
-			<Card.Title class="text-2xl">{title}</Card.Title>
+			<Card.Title class="text-2xl" level={1}>{title}</Card.Title>
 			<Card.Description>{description}</Card.Description>
 		</Card.Header>
 		<Card.Content>
