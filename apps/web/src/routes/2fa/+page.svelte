@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import AuthWrapper from '$lib/components/auth-wrapper.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label/index.js';
-	import type { ActionData } from './$types';
+	import type { PageProps } from './$types';
 
-	let { form }: { form: ActionData } = $props();
+	let { form }: PageProps = $props();
 </script>
 
-<div class="flex h-screen w-full items-center justify-center px-4">
+<AuthWrapper>
 	<form method="post" use:enhance>
 		<Card.Root class="mx-auto max-w-sm sm:w-96">
 			<Card.Header>
@@ -37,4 +38,4 @@
 			</Card.Content>
 		</Card.Root>
 	</form>
-</div>
+</AuthWrapper>
