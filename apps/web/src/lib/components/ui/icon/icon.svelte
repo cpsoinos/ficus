@@ -10,7 +10,7 @@
 </script>
 
 {#if preloadedIcon}
-	<Icon icon={preloadedIcon} {...rest} />
+	<Icon icon={preloadedIcon} role="presentation" {...rest} />
 {:else}
-	<Icon {icon} {...rest} />
+	<Icon {icon} role="presentation" {...rest} />
 {/if}
