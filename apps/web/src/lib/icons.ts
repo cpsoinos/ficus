@@ -1,6 +1,6 @@
 import { loadIcons } from '@iconify/svelte';
 
-const ICONS = ['mdi:github'];
+const ICONS = ['lucide:copy', 'mdi:github'];
 
 export async function preloadIcons() {
 	try {
