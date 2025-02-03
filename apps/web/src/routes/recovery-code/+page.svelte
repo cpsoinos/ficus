@@ -2,10 +2,12 @@
 	import AuthWrapper from '$lib/components/auth-wrapper.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
+	import Icon from '$lib/components/ui/icon/icon.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import type { PageProps } from './$types';
 	import { fade } from 'svelte/transition';
+	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
 
 	let { data }: PageProps = $props();
 
@@ -44,20 +46,17 @@
 							readonly
 							class="flex-1"
 						/>
-						<Button variant="outline" size="icon" onclick={copyToClipboard}>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								class="h-5 w-5"
-								viewBox="0 0 20 20"
-								fill="currentColor"
-							>
-								<path
-									fill-rule="evenodd"
-									d="M3 5a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm2-2a4 4 0 00-4 4v10a4 4 0 004 4h10a4 4 0 004-4V7a4 4 0 00-4-4H5z"
-									clip-rule="evenodd"
-								/>
-							</svg>
-						</Button>
+
+						<Tooltip.Root>
+							<Tooltip.Trigger>
+								{#snippet child({ props })}
+									<Button {...props} variant="outline" size="icon" onclick={copyToClipboard}>
+										<Icon icon="lucide:copy" />
+									</Button>
+								{/snippet}
+							</Tooltip.Trigger>
+							<Tooltip.Content>Copy to clipboard</Tooltip.Content>
+						</Tooltip.Root>
 					</div>
 				</div>
 
