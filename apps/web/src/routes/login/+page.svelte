@@ -2,6 +2,7 @@
 	import AuthForm from '$lib/components/auth-form.svelte';
 	import AuthWrapper from '$lib/components/auth-wrapper.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
+	import Icon from '$lib/components/ui/icon/icon.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import type { PageProps } from './$types';
@@ -64,7 +65,10 @@
 		{#snippet footer()}
 			<div class="grid w-full gap-4">
 				<Button type="submit" class="w-full">Login</Button>
-				<Button variant="outline" class="w-full" href="/oauth/github">Login with Github</Button>
+				<Button variant="outline" class="w-full" href="/oauth/github">
+					<Icon icon="mdi:github" />
+					Login with Github
+				</Button>
 				<div class="text-center text-sm">
 					Don't have an account?
 					<a href="/register" class="underline">Sign up</a>

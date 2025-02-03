@@ -9,6 +9,7 @@ import {
 	setSessionTokenCookie,
 	deleteSessionTokenCookie
 } from '$lib/server/session';
+import { preloadIcons } from '$lib/icons';
 
 let platform: App.Platform;
 
@@ -34,6 +35,11 @@ const initBindings: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
+const iconsHook: Handle = async ({ event, resolve }) => {
+	await preloadIcons();
+	return resolve(event);
+};
+
 const authHook: Handle = async ({ event, resolve }) => {
 	const sessionToken = event.cookies.get(sessionCookieName);
 	if (!sessionToken) {
@@ -55,4 +61,4 @@ const authHook: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-export const handle: Handle = sequence(devShim, initBindings, initDb, authHook);
+export const handle: Handle = sequence(devShim, initBindings, initDb, iconsHook, authHook);
