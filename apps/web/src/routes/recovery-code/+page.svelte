@@ -47,16 +47,16 @@
 							class="flex-1"
 						/>
 
-						<Tooltip.Provider>
-							<Tooltip.Root>
-								<Tooltip.Trigger>
-									<Button variant="outline" size="icon" onclick={copyToClipboard}>
+						<Tooltip.Root>
+							<Tooltip.Trigger>
+								{#snippet child({ props })}
+									<Button {...props} variant="outline" size="icon" onclick={copyToClipboard}>
 										<Icon icon="lucide:copy" />
 									</Button>
-								</Tooltip.Trigger>
-								<Tooltip.Content>Copy to clipboard</Tooltip.Content>
-							</Tooltip.Root>
-						</Tooltip.Provider>
+								{/snippet}
+							</Tooltip.Trigger>
+							<Tooltip.Content>Copy to clipboard</Tooltip.Content>
+						</Tooltip.Root>
 					</div>
 				</div>
 
