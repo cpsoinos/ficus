@@ -30,19 +30,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "argon2-cloudflare"
-version = "0.1.0"
-dependencies = [
- "argon2",
- "getrandom",
- "rand_core",
- "serde",
- "serde_json",
- "worker",
- "worker-macros",
-]
-
-[[package]]
 name = "async-trait"
 version = "0.1.74"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -164,6 +151,19 @@ dependencies = [
  "block-buffer",
  "crypto-common",
  "subtle",
+]
+
+[[package]]
+name = "ficus-argon2"
+version = "0.1.0"
+dependencies = [
+ "argon2",
+ "getrandom",
+ "rand_core",
+ "serde",
+ "serde_json",
+ "worker",
+ "worker-macros",
 ]
 
 [[package]]

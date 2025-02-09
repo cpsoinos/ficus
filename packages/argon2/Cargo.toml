@@ -1,5 +1,5 @@
 [package]
-name = "argon2-cloudflare"
+name = "ficus-argon2"
 version = "0.1.0"
 edition = "2021"
 description = "Argon2 password hashing for Cloudflare Workers"
