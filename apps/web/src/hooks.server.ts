@@ -1,5 +1,5 @@
 import { dev } from '$app/environment';
-import type { Handle } from '@sveltejs/kit';
+import { redirect, type Handle } from '@sveltejs/kit';
 import { DbSingleton } from '$lib/server/db';
 import { sequence } from '@sveltejs/kit/hooks';
 import { Bindings } from '$lib/server/bindings';
@@ -42,21 +42,33 @@ const iconsHook: Handle = async ({ event, resolve }) => {
 
 const authHook: Handle = async ({ event, resolve }) => {
 	const sessionToken = event.cookies.get(sessionCookieName);
-	if (!sessionToken) {
-		event.locals.user = null;
-		event.locals.session = null;
-		return resolve(event);
-	}
+	const { session, user } = sessionToken
+		? await validateSessionToken(sessionToken)
+		: { session: null, user: null };
 
-	const { session, user } = await validateSessionToken(sessionToken);
 	if (session) {
-		setSessionTokenCookie(event, sessionToken, session.expiresAt);
+		setSessionTokenCookie(event, sessionToken!, session.expiresAt);
 	} else {
 		deleteSessionTokenCookie(event);
 	}
 
 	event.locals.user = user;
 	event.locals.session = session;
+
+	if (event.route.id?.startsWith('/(protected)')) {
+		if (session === null || user === null) {
+			return redirect(302, '/login');
+		}
+		if (!user.emailVerified) {
+			return redirect(302, '/verify-email');
+		}
+		if (!user.registered2FA) {
+			return redirect(302, '/2fa/setup');
+		}
+		if (!session.twoFactorVerified) {
+			return redirect(302, '/2fa');
+		}
+	}
 
 	return resolve(event);
 };
