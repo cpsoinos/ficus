@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
-	// import SidebarPage from '$lib/components/sidebar-page.svelte';
 
 	let { data }: { data: PageServerData } = $props();
 </script>
