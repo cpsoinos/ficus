@@ -121,8 +121,8 @@ importers:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.49)
       bits-ui:
-        specifier: 1.0.0-next.84
-        version: 1.0.0-next.84(svelte@5.19.6)
+        specifier: 1.0.0-next.90
+        version: 1.0.0-next.90(svelte@5.19.6)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -141,6 +141,9 @@ importers:
       globals:
         specifier: ^15.0.0
         version: 15.14.0
+      lucide-svelte:
+        specifier: ^0.475.0
+        version: 0.475.0(svelte@5.19.6)
       prettier:
         specifier: ^3.3.2
         version: 3.4.2
@@ -2225,8 +2228,8 @@ packages:
   birpc@0.2.14:
     resolution: {integrity: sha512-37FHE8rqsYM5JEKCnXFyHpBCzvgHEExwVVTq+nUmloInU7l8ezD1TpOhKpS8oe1DTYFqEK27rFZVKG43oTqXRA==}
 
-  bits-ui@1.0.0-next.84:
-    resolution: {integrity: sha512-ZXsPfh/fOU1E2XvP8gRGk2G6c2vMWylDm3bCP888gwViI2lnwxz7D/fMuzBp3oKzovNxWMr8GR27yJQVOd9/jg==}
+  bits-ui@1.0.0-next.90:
+    resolution: {integrity: sha512-BT+SzWzYuHwL8Q7L7/TsOiZElvsWUq10W3SDQwt3k6ofkaIVsrvaaqn6iKS5uHPZs7ztzJgqp+KdtsG2+xbWJw==}
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
       svelte: ^5.11.0
@@ -3183,7 +3186,6 @@ packages:
 
   libsql@0.4.7:
     resolution: {integrity: sha512-T9eIRCs6b0J1SHKYIvD8+KCJMcWZ900iZyxdnSCdqxN12Z1ijzT+jY5nrk72Jw4B0HGzms2NgpryArlJqvc3Lw==}
-    cpu: [x64, arm64, wasm32]
     os: [darwin, linux, win32]
 
   lilconfig@2.1.0:
@@ -3228,6 +3230,11 @@ packages:
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
+
+  lucide-svelte@0.475.0:
+    resolution: {integrity: sha512-N5+hFTPHaZe9HhqJDxxxODfYuOmI6v+JIowzERcea/uxytN/JZlehVTcINBNp8wMo7l6ov1Jf5srrDbkI/WsJg==}
+    peerDependencies:
+      svelte: ^3 || ^4 || ^5.0.0-next.42
 
   lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
@@ -4021,6 +4028,9 @@ packages:
   sveltedoc-parser@4.2.1:
     resolution: {integrity: sha512-sWJRa4qOfRdSORSVw9GhfDEwsbsYsegnDzBevUCF6k/Eis/QqCu9lJ6I0+d/E2wOWCjOhlcJ3+jl/Iur+5mmCw==}
     engines: {node: '>=10.0.0'}
+
+  tabbable@6.2.0:
+    resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
 
   tailwind-merge@2.5.4:
     resolution: {integrity: sha512-0q8cfZHMu9nuYP/b5Shb7Y7Sh1B7Nnl5GqNr1U+n2p6+mybvRtayrQ+0042Z5byvTA8ihjlP8Odo8/VnHbZu4Q==}
@@ -6281,7 +6291,7 @@ snapshots:
 
   birpc@0.2.14: {}
 
-  bits-ui@1.0.0-next.84(svelte@5.19.6):
+  bits-ui@1.0.0-next.90(svelte@5.19.6):
     dependencies:
       '@floating-ui/core': 1.6.8
       '@floating-ui/dom': 1.6.12
@@ -6290,6 +6300,7 @@ snapshots:
       runed: 0.23.2(svelte@5.19.6)
       svelte: 5.19.6
       svelte-toolbelt: 0.7.1(svelte@5.19.6)
+      tabbable: 6.2.0
 
   blake3-wasm@2.1.5: {}
 
@@ -7362,6 +7373,10 @@ snapshots:
       yallist: 3.1.1
     optional: true
 
+  lucide-svelte@0.475.0(svelte@5.19.6):
+    dependencies:
+      svelte: 5.19.6
+
   lz-string@1.5.0: {}
 
   magic-string@0.25.9:
@@ -8130,6 +8145,8 @@ snapshots:
       htmlparser2-svelte: 4.1.0
     transitivePeerDependencies:
       - supports-color
+
+  tabbable@6.2.0: {}
 
   tailwind-merge@2.5.4: {}
 
