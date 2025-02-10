@@ -1,6 +1,5 @@
 <script lang="ts">
 	import AuthForm from '$lib/components/auth-form.svelte';
-	import AuthWrapper from '$lib/components/auth-wrapper.svelte';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
@@ -47,30 +46,28 @@
 	</div>
 {/snippet}
 
-<AuthWrapper>
-	<AuthForm
-		method="POST"
-		action={isUsingRecoveryCode ? '?/recovery_code' : '?/totp'}
-		title="Two-factor authentication"
-		description={isUsingRecoveryCode
-			? 'Enter your recovery code.'
-			: 'Enter the code from your authenticator app.'}
-		{errorMessage}
-		{fields}
-	>
-		{#snippet footer()}
-			<div class="grid w-full gap-4">
-				<Button type="submit" class="w-full">Verify</Button>
-				{#if isUsingRecoveryCode}
-					<Button variant="outline" class="w-full" onclick={() => (isUsingRecoveryCode = false)}>
-						Use authenticator code instead
-					</Button>
-				{:else}
-					<Button variant="outline" class="w-full" onclick={() => (isUsingRecoveryCode = true)}>
-						Use recovery code instead
-					</Button>
-				{/if}
-			</div>
-		{/snippet}
-	</AuthForm>
-</AuthWrapper>
+<AuthForm
+	method="POST"
+	action={isUsingRecoveryCode ? '?/recovery_code' : '?/totp'}
+	title="Two-factor authentication"
+	description={isUsingRecoveryCode
+		? 'Enter your recovery code.'
+		: 'Enter the code from your authenticator app.'}
+	{errorMessage}
+	{fields}
+>
+	{#snippet footer()}
+		<div class="grid w-full gap-4">
+			<Button type="submit" class="w-full">Verify</Button>
+			{#if isUsingRecoveryCode}
+				<Button variant="outline" class="w-full" onclick={() => (isUsingRecoveryCode = false)}>
+					Use authenticator code instead
+				</Button>
+			{:else}
+				<Button variant="outline" class="w-full" onclick={() => (isUsingRecoveryCode = true)}>
+					Use recovery code instead
+				</Button>
+			{/if}
+		</div>
+	{/snippet}
+</AuthForm>
