@@ -39,14 +39,13 @@
 			{/snippet}
 		</DropdownMenu.Trigger>
 		<DropdownMenu.Content align="end">
-			<DropdownMenu.Label>My Account</DropdownMenu.Label>
+			<DropdownMenu.Label>My account</DropdownMenu.Label>
 			<DropdownMenu.Separator />
 			<DropdownMenu.Item>
 				{#snippet child({ props })}
 					<a href="/settings" {...props}>Settings</a>
 				{/snippet}
 			</DropdownMenu.Item>
-			<DropdownMenu.Item>Support</DropdownMenu.Item>
 			<DropdownMenu.Separator />
 			<DropdownMenu.Item>
 				{#snippet child({ props })}
