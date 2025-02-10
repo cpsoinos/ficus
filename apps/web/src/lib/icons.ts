@@ -3,11 +3,9 @@ import { loadIcons } from '@iconify/svelte';
 const ICONS = [
 	'lucide:check',
 	'lucide:chevron-right',
-	'lucide:chevrons-up-down',
 	'lucide:circle',
 	'lucide:copy',
 	'lucide:ellipsis',
-	'lucide:gallery-vertical-end',
 	'lucide:minus',
 	'lucide:panel-left',
 	'lucide:search',
