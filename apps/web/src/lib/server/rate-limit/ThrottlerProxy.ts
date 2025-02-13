@@ -15,8 +15,8 @@ export class ThrottlerProxy {
 		name: string;
 		timeoutSeconds: number[];
 	}): Promise<ThrottlerProxy> {
-		const id = Bindings.env.THROTTLER.idFromName(name);
-		const stub = Bindings.env.THROTTLER.get(id);
+		const id = Bindings.THROTTLER.idFromName(name);
+		const stub = Bindings.THROTTLER.get(id);
 		await stub.fetch('https://ficus-rate-limiter.local/set-params', {
 			method: 'POST',
 			body: JSON.stringify({ timeoutSeconds })

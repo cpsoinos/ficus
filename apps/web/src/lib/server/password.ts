@@ -12,7 +12,7 @@ export const getPasswordUpdateBucket = async (userId: string) => {
 };
 
 export async function hashPassword(password: string): Promise<string> {
-	const hashResp = await Bindings.env.ARGON2.fetch('http://internal/hash', {
+	const hashResp = await Bindings.ARGON2.fetch('http://internal/hash', {
 		method: 'POST',
 		body: JSON.stringify({ password })
 	});
@@ -22,7 +22,7 @@ export async function hashPassword(password: string): Promise<string> {
 }
 
 export async function verifyPassword(storedHash: string, password: string): Promise<boolean> {
-	const hashResp = await Bindings.env.ARGON2.fetch('http://internal/verify', {
+	const hashResp = await Bindings.ARGON2.fetch('http://internal/verify', {
 		method: 'POST',
 		body: JSON.stringify({ hash: storedHash, password })
 	});

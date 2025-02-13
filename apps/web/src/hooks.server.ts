@@ -2,7 +2,7 @@ import { dev } from '$app/environment';
 import { redirect, type Handle } from '@sveltejs/kit';
 import { DbSingleton } from '$lib/server/db';
 import { sequence } from '@sveltejs/kit/hooks';
-import { Bindings } from '$lib/server/bindings';
+import { BindingsSingleton } from '$lib/server/bindings';
 import {
 	sessionCookieName,
 	validateSessionToken,
@@ -31,7 +31,7 @@ const initDb: Handle = async ({ event, resolve }) => {
 };
 
 const initBindings: Handle = async ({ event, resolve }) => {
-	Bindings.initialize(event.platform!.env);
+	BindingsSingleton.initialize(event.platform!.env);
 	return resolve(event);
 };
 
