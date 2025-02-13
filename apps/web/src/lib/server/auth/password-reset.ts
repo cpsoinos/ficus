@@ -1,4 +1,4 @@
-import { db } from './db';
+import { db } from '$lib/server/db';
 import { generateRandomOTP } from './utils';
 import type { RequestEvent } from '@sveltejs/kit';
 import {
@@ -9,8 +9,8 @@ import {
 } from '$lib/server/db/schema';
 import { encodeSessionToken } from './session';
 import { eq } from 'drizzle-orm';
-import { RefillingTokenBucketProxy } from './rate-limit/RefillingTokenBucketProxy';
-import { ExpiringTokenBucketProxy } from './rate-limit/ExpiringTokenBucketProxy';
+import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
+import { ExpiringTokenBucketProxy } from '$lib/server/rate-limit/ExpiringTokenBucketProxy';
 
 const REFILL_RATE = 3;
 const CAPACITY = 3;

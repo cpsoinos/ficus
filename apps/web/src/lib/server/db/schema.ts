@@ -1,7 +1,7 @@
 import { sqliteTable, text, integer, blob } from 'drizzle-orm/sqlite-core';
 import { timestamps } from './util';
 import { relations, type SQL, sql } from 'drizzle-orm';
-import type { OAuthProvider } from '../oauth';
+import type { OAuthProvider } from '../auth/oauth';
 
 export const user = sqliteTable('user', {
 	id: text('id')

@@ -1,10 +1,10 @@
-import { db } from './db';
+import { db } from '$lib/server/db';
 import { decryptToString, encryptString } from './encryption';
 import { generateRandomRecoveryCode } from './utils';
-import { user, session } from './db/schema';
+import { user, session } from '$lib/server/db/schema';
 import { and, eq } from 'drizzle-orm';
-import { ExpiringTokenBucketProxy } from './rate-limit/ExpiringTokenBucketProxy';
-import { RefillingTokenBucketProxy } from './rate-limit/RefillingTokenBucketProxy';
+import { ExpiringTokenBucketProxy } from '$lib/server/rate-limit/ExpiringTokenBucketProxy';
+import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
 
 export const getTotpBucket = async (userId: string) => {
 	return await ExpiringTokenBucketProxy.initialize({

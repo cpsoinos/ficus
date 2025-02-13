@@ -5,13 +5,13 @@ import {
 	generateSessionToken,
 	setSessionTokenCookie,
 	type SessionFlags
-} from '$lib/server/session';
-import { verifyPassword } from '$lib/server/password';
-import { verifyEmailInput } from '$lib/server/email';
+} from '$lib/server/auth/session';
+import { verifyPassword } from '$lib/server/auth/password';
+import { verifyEmailInput } from '$lib/server/auth/email';
 import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
 import { ThrottlerProxy } from '$lib/server/rate-limit/ThrottlerProxy';
-import { getUserFromEmail, getUserPasswordHash } from '$lib/server/user';
-import { getOAuthAccountsForUser, getOAuthProviderName } from '$lib/server/oauth';
+import { getUserFromEmail, getUserPasswordHash } from '$lib/server/auth/user';
+import { getOAuthAccountsForUser, getOAuthProviderName } from '$lib/server/auth/oauth';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {

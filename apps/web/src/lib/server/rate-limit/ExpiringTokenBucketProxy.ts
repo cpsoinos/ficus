@@ -1,5 +1,5 @@
 import type { ExpiringTokenBucket } from '@ficus/rate-limiter/src';
-import { Bindings } from '../bindings';
+import { Bindings } from '$lib/server/bindings';
 
 export class ExpiringTokenBucketProxy {
 	stub: DurableObjectStub<ExpiringTokenBucket>;

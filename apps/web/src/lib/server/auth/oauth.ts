@@ -1,7 +1,7 @@
 import { GitHub } from 'arctic';
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '$env/static/private';
-import { db } from './db';
-import { oAuthAccount, type OAuthAccount } from './db/schema';
+import { db } from '$lib/server/db';
+import { oAuthAccount, type OAuthAccount } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 
 export enum OAuthProvider {

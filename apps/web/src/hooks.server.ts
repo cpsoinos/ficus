@@ -8,7 +8,7 @@ import {
 	validateSessionToken,
 	setSessionTokenCookie,
 	deleteSessionTokenCookie
-} from '$lib/server/session';
+} from '$lib/server/auth/session';
 import { preloadIcons } from '$lib/icons';
 
 let platform: App.Platform;

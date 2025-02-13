@@ -3,23 +3,23 @@ import {
 	sendVerificationEmail,
 	getEmailVerificationBucket,
 	setEmailVerificationRequestCookie
-} from '$lib/server/email-verification';
+} from '$lib/server/auth/email-verification';
 import { fail, redirect } from '@sveltejs/kit';
-import { checkEmailAvailability, verifyEmailInput } from '$lib/server/email';
+import { checkEmailAvailability, verifyEmailInput } from '$lib/server/auth/email';
 import {
 	getPasswordUpdateBucket,
 	verifyPassword,
 	verifyPasswordStrength
-} from '$lib/server/password';
-import { getUserPasswordHash, getUserRecoverCode, updateUserPassword } from '$lib/server/user';
+} from '$lib/server/auth/password';
+import { getUserPasswordHash, getUserRecoverCode, updateUserPassword } from '$lib/server/auth/user';
 import {
 	createSession,
 	generateSessionToken,
 	invalidateUserSessions,
 	setSessionTokenCookie
-} from '$lib/server/session';
+} from '$lib/server/auth/session';
 import type { Actions, RequestEvent } from './$types';
-import type { SessionFlags } from '$lib/server/session';
+import type { SessionFlags } from '$lib/server/auth/session';
 
 // const passwordUpdateBucket = new ExpiringTokenBucket<string>(5, 60 * 30);
 
