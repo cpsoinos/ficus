@@ -19,8 +19,8 @@ export class RefillingTokenBucketProxy {
 		capacity: number;
 		updateMs: number;
 	}): Promise<RefillingTokenBucketProxy> {
-		const id = Bindings.env.REFILLING_TOKEN_BUCKET.idFromName(name);
-		const stub = Bindings.env.REFILLING_TOKEN_BUCKET.get(id);
+		const id = Bindings.REFILLING_TOKEN_BUCKET.idFromName(name);
+		const stub = Bindings.REFILLING_TOKEN_BUCKET.get(id);
 		await stub.fetch('https://ficus-rate-limiter.local/set-params', {
 			method: 'POST',
 			body: JSON.stringify({ refillRate, capacity, updateMs })

@@ -17,8 +17,8 @@ export class ExpiringTokenBucketProxy {
 		max: number;
 		expiresInSeconds: number;
 	}): Promise<ExpiringTokenBucketProxy> {
-		const id = Bindings.env.EXPIRING_TOKEN_BUCKET.idFromName(name);
-		const stub = Bindings.env.EXPIRING_TOKEN_BUCKET.get(id);
+		const id = Bindings.EXPIRING_TOKEN_BUCKET.idFromName(name);
+		const stub = Bindings.EXPIRING_TOKEN_BUCKET.get(id);
 		await stub.fetch('https://ficus-rate-limiter.local/set-params', {
 			method: 'POST',
 			body: JSON.stringify({ max, expiresInSeconds })
