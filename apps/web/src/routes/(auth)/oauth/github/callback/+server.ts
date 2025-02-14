@@ -40,39 +40,22 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		});
 	}
 
-	const accessToken = tokens.accessToken();
-	const authHeader = `Bearer ${accessToken}`;
+	const githubApiHeaders = {
+		Authorization: `Bearer ${tokens.accessToken()}`,
+		'User-Agent': 'ficus-web'
+	};
 
-	console.log('fetching user from github');
-
-	// await ofetch<GithubUser>('https://api.github.com/user', {
-	// 	async onRequest({ request, options }) {
-	// 		// Log request
-	// 		console.log('[fetch request]', request, options);
-
-	// 		// Add `?t=1640125211170` to query search params
-	// 		options.query = options.query || {};
-	// 		options.query.t = new Date();
-	// 	}
-	// });
-
-	const githubUserResp = await fetch('https://api.github.com/user', {
-		headers: {
-			Authorization: authHeader
-		}
+	const githubUser = await ofetch<GithubUser>('https://api.github.com/user', {
+		headers: githubApiHeaders
 	});
-	const githubUserText = await githubUserResp.text();
-	console.log('🚀 ~ GET ~ githubUserText:', githubUserText);
-	const githubUser = JSON.parse(githubUserText) as GithubUser;
 
 	let email = githubUser.email;
+
 	if (!email) {
 		const emails = await ofetch<
 			{ email: string; primary: boolean; verified: boolean; visibility: 'public' | null }[]
 		>('https://api.github.com/user/emails', {
-			headers: {
-				Authorization: `Bearer ${accessToken}`
-			}
+			headers: githubApiHeaders
 		});
 		email =
 			emails.find((e) => e.primary && e.verified)?.email ||
