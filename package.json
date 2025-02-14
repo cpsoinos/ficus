@@ -1,20 +1,24 @@
 {
   "name": "@ficus/source",
   "version": "0.0.0",
+  "private": true,
   "license": "MIT",
   "scripts": {
-    "dev": "pnpm -r --parallel dev",
+    "build": "pnpm -r --parallel build",
     "check": "pnpm -r --parallel check",
+    "dev": "pnpm -r --parallel dev",
     "format": "pnpm -r --parallel format",
     "lint": "pnpm -r --parallel lint",
-    "build": "pnpm -r --parallel build",
+    "prepare": "husky",
     "test": "pnpm -r --parallel test"
   },
-  "private": true,
   "devDependencies": {
     "@playwright/test": "catalog:",
     "eslint": "~8.57.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
     "prettier": "catalog:",
+    "sort-package-json": "^2.14.0",
     "storybook": "^8.4.6",
     "tslib": "catalog:",
     "typescript": "catalog:"
