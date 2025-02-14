@@ -44,13 +44,26 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	const authHeader = `Bearer ${accessToken}`;
 
 	console.log('fetching user from github');
-	const githubUserResp = await event.fetch('https://api.github.com/user', {
+
+	// await ofetch<GithubUser>('https://api.github.com/user', {
+	// 	async onRequest({ request, options }) {
+	// 		// Log request
+	// 		console.log('[fetch request]', request, options);
+
+	// 		// Add `?t=1640125211170` to query search params
+	// 		options.query = options.query || {};
+	// 		options.query.t = new Date();
+	// 	}
+	// });
+
+	const githubUserResp = await fetch('https://api.github.com/user', {
 		headers: {
 			Authorization: authHeader
 		}
 	});
-	const githubUser = (await githubUserResp.json()) as GithubUser;
-	console.log('🚀 ~ GET ~ githubUser:', githubUser);
+	const githubUserText = await githubUserResp.text();
+	console.log('🚀 ~ GET ~ githubUserText:', githubUserText);
+	const githubUser = JSON.parse(githubUserText) as GithubUser;
 
 	let email = githubUser.email;
 	if (!email) {
