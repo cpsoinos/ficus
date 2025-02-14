@@ -4,14 +4,16 @@
 dist
 tmp
 out-tsc
+storybook-static
 
 # Output
 .output
 .vercel
 .netlify
 .wrangler
-/.svelte-kit
+.svelte-kit
 /build
+packages/argon2/target
 
 # dependencies
 node_modules
@@ -46,4 +48,16 @@ testem.log
 .DS_Store
 Thumbs.db
 
-storybook-static
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+.dev.vars
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# SQLite
+*.db
