@@ -32,6 +32,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	let tokens: OAuth2Tokens;
 	try {
 		tokens = await github.validateAuthorizationCode(code);
+		console.log('🚀 ~ GET ~ tokens:', JSON.stringify(tokens, undefined, 2));
 	} catch (e) {
 		// Invalid code or client credentials
 		console.warn('Invalid code or client credentials', { provider: OAuthProvider.GITHUB }, e);
