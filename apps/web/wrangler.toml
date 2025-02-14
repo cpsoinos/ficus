@@ -67,15 +67,19 @@ script_name = 'ficus-rate-limiter'
 
 # Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#r2-buckets
-[[r2_buckets]]
-binding = "DOCUMENTS"
-bucket_name = "ficus-documents"
+# [[r2_buckets]]
+# binding = "DOCUMENTS"
+# bucket_name = "ficus-documents"
 
 # Bind another Worker service. Use this binding to call another Worker without network overhead.
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#service-bindings
 [[services]]
 binding = "ARGON2"
 service = "ficus-argon2"
+
+[[services]]
+binding = "SERVICE_DOCUMENTS"
+service = "ficus-service-documents"
 
 # To use different bindings for preview and production environments, follow the examples below.
 # When using environment-specific overrides for bindings, ALL bindings must be specified on a per-environment basis.

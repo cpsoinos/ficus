@@ -6,6 +6,10 @@ compatibility_flags = [
   "nodejs_compat",
 ]
 
+[dev]
+port = 8788
+inspector_port = 9223
+
 # Workers Logs
 # Docs: https://developers.cloudflare.com/workers/observability/logs/workers-logs/
 # Configuration: https://developers.cloudflare.com/workers/observability/logs/workers-logs/#enable-workers-logs
