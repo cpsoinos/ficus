@@ -11,13 +11,13 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@cloudflare/vitest-pool-workers": "^0.5.40",
-    "@cloudflare/workers-types": "^4.20250129.0",
-    "typescript": "^5.5.2",
-    "vitest": "^2.1.5",
+    "@cloudflare/vitest-pool-workers": "^0.5.41",
+    "@cloudflare/workers-types": "^4.20250204.0",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.9",
     "wrangler": "^3.107.2"
   },
   "dependencies": {
-    "hono": "^4.6.15"
+    "hono": "^4.7.1"
   }
 }
