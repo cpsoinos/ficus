@@ -3,11 +3,24 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
 
+	async function handleSubmit(event: SubmitEvent) {
+		event.preventDefault();
+		const formData = new FormData(event.currentTarget as HTMLFormElement);
+		const file = formData.get('file') as File;
+		if (!file) return;
+
+		uploadFile(file, (progress) => {
+			console.log(`Upload Progress: ${progress}%`);
+		})
+			.then((res) => console.log('Upload Success:', res))
+			.catch((err) => console.error('Upload Failed:', err));
+	}
+
 	function uploadFile(file: File, onProgress: (progress: number) => void) {
 		return new Promise((resolve, reject) => {
 			const xhr = new XMLHttpRequest();
 
-			xhr.open('POST', '/new-note', true);
+			xhr.open('POST', '/notes', true);
 			xhr.setRequestHeader('X-File-Name', file.name);
 			xhr.setRequestHeader('Content-Type', file.type);
 
@@ -31,19 +44,6 @@
 
 			xhr.send(file);
 		});
-	}
-
-	async function handleSubmit(event: SubmitEvent) {
-		event.preventDefault();
-		const formData = new FormData(event.currentTarget as HTMLFormElement);
-		const file = formData.get('file') as File;
-		if (!file) return;
-
-		uploadFile(file, (progress) => {
-			console.log(`Upload Progress: ${progress}%`);
-		})
-			.then((res) => console.log('Upload Success:', res))
-			.catch((err) => console.error('Upload Failed:', err));
 	}
 </script>
 
