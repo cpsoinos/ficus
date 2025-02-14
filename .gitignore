@@ -12,7 +12,7 @@ storybook-static
 .netlify
 .wrangler
 .svelte-kit
-/build
+build
 packages/argon2/target
 
 # dependencies
