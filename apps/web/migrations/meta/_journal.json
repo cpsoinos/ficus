@@ -15,6 +15,13 @@
 			"when": 1734896138357,
 			"tag": "0001_kind_true_believers",
 			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "6",
+			"when": 1739569902601,
+			"tag": "0002_flowery_meteorite",
+			"breakpoints": true
 		}
 	]
 }

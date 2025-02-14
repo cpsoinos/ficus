@@ -1,7 +1,7 @@
 import { db } from './db';
 import { decryptToString, encryptString } from './encryption';
 import { generateRandomRecoveryCode } from './utils';
-import { user, session } from './db/schema';
+import { usersTable, sessionsTable } from './db/schema';
 import { and, eq } from 'drizzle-orm';
 import { ExpiringTokenBucketProxy } from './rate-limit/ExpiringTokenBucketProxy';
 import { RefillingTokenBucketProxy } from './rate-limit/RefillingTokenBucketProxy';
@@ -35,11 +35,11 @@ export async function resetUser2FAWithRecoveryCode(
 	userId: string,
 	recoveryCode: string
 ): Promise<boolean> {
-	const row = await db.query.user.findFirst({
+	const row = await db.query.usersTable.findFirst({
 		columns: {
 			recoveryCode: true
 		},
-		where: eq(user.id, userId)
+		where: eq(usersTable.id, userId)
 	});
 	if (!row) {
 		return false;
@@ -53,11 +53,14 @@ export async function resetUser2FAWithRecoveryCode(
 	const newRecoveryCode = generateRandomRecoveryCode();
 	const encryptedNewRecoveryCode = await encryptString(newRecoveryCode);
 
-	await db.update(session).set({ twoFactorVerified: false }).where(eq(session.userId, userId));
+	await db
+		.update(sessionsTable)
+		.set({ twoFactorVerified: false })
+		.where(eq(sessionsTable.userId, userId));
 	const result = await db
-		.update(user)
+		.update(usersTable)
 		.set({ recoveryCode: encryptedNewRecoveryCode, totpKey: null })
-		.where(and(eq(user.id, userId), eq(user.recoveryCode, encryptedRecoveryCode)))
+		.where(and(eq(usersTable.id, userId), eq(usersTable.recoveryCode, encryptedRecoveryCode)))
 		.returning();
 
 	return result.length > 0;

@@ -12,7 +12,7 @@
 		"db:generate": "drizzle-kit generate",
 		"db:generate:local": "DATABASE_URL=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) drizzle-kit generate",
 		"db:migrate": "wrangler d1 migrations apply ficus-web --remote",
-		"db:migrate:local": "DATABASE_URL=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) drizzle-kit migrate",
+		"db:migrate:local": "wrangler d1 migrations apply ficus-web --local",
 		"db:push": "drizzle-kit push",
 		"db:push:local": "DATABASE_URL=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) drizzle-kit push",
 		"db:studio": "drizzle-kit studio",
