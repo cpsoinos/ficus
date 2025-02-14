@@ -32,7 +32,6 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	let tokens: OAuth2Tokens;
 	try {
 		tokens = await github.validateAuthorizationCode(code);
-		console.log('🚀 ~ GET ~ tokens:', JSON.stringify(tokens, undefined, 2));
 	} catch (e) {
 		// Invalid code or client credentials
 		console.warn('Invalid code or client credentials', { provider: OAuthProvider.GITHUB }, e);
@@ -40,18 +39,21 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			status: 400
 		});
 	}
+
+	const accessToken = tokens.accessToken();
 	const githubUser = await ofetch<GithubUser>('https://api.github.com/user', {
 		headers: {
-			Authorization: `Bearer ${tokens.accessToken()}`
+			Authorization: `Bearer ${accessToken}`
 		}
 	});
+
 	let email = githubUser.email;
 	if (!email) {
 		const emails = await ofetch<
 			{ email: string; primary: boolean; verified: boolean; visibility: 'public' | null }[]
 		>('https://api.github.com/user/emails', {
 			headers: {
-				Authorization: `Bearer ${tokens.accessToken()}`
+				Authorization: `Bearer ${accessToken}`
 			}
 		});
 		email =
@@ -59,6 +61,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			emails.find((e) => e.verified)?.email ||
 			emails[0].email;
 	}
+
 	const githubUserId = githubUser.id.toString();
 
 	const [result] = await db
