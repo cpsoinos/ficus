@@ -67,15 +67,15 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 	const [result] = await db
 		.select({
-			user: { id: table.user.id, email: table.user.email },
-			oauthAccount: table.oAuthAccount
+			user: { id: table.usersTable.id, email: table.usersTable.email },
+			oauthAccount: table.oAuthAccountsTable
 		})
-		.from(table.oAuthAccount)
-		.innerJoin(table.user, eq(table.oAuthAccount.userId, table.user.id))
+		.from(table.oAuthAccountsTable)
+		.innerJoin(table.usersTable, eq(table.oAuthAccountsTable.userId, table.usersTable.id))
 		.where(
 			and(
-				eq(table.oAuthAccount.provider, OAuthProvider.GITHUB),
-				eq(table.oAuthAccount.providerUserId, githubUserId)
+				eq(table.oAuthAccountsTable.provider, OAuthProvider.GITHUB),
+				eq(table.oAuthAccountsTable.providerUserId, githubUserId)
 			)
 		);
 
@@ -102,7 +102,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	});
 
 	// create a new OAuth account record
-	await db.insert(table.oAuthAccount).values({
+	await db.insert(table.oAuthAccountsTable).values({
 		userId: user.id,
 		provider: OAuthProvider.GITHUB,
 		providerUserId: githubUserId

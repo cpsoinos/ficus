@@ -2,7 +2,7 @@ import { generateRandomOTP } from './utils';
 import { db } from './db';
 import type { RequestEvent } from '@sveltejs/kit';
 import { and, eq } from 'drizzle-orm';
-import { emailVerificationRequest, type EmailVerificationRequest } from './db/schema';
+import { emailVerificationRequestsTable, type EmailVerificationRequest } from './db/schema';
 import { ExpiringTokenBucketProxy } from './rate-limit/ExpiringTokenBucketProxy';
 
 const EMAIL_VERIFICATION_COOKIE_NAME = 'email_verification';
@@ -19,7 +19,7 @@ export async function getUserEmailVerificationRequest(
 	userId: string,
 	id: string
 ): Promise<EmailVerificationRequest | null> {
-	const existingEmailVerificationRequest = await db.query.emailVerificationRequest.findFirst({
+	const existingEmailVerificationRequest = await db.query.emailVerificationRequestsTable.findFirst({
 		where: (table) => and(eq(table.id, id), eq(table.userId, userId))
 	});
 	return existingEmailVerificationRequest || null;
@@ -35,7 +35,7 @@ export async function createEmailVerificationRequest(
 	const expiresAt = new Date(Date.now() + 1000 * 60 * 10);
 
 	const [request] = await db
-		.insert(emailVerificationRequest)
+		.insert(emailVerificationRequestsTable)
 		.values({
 			userId,
 			email,
@@ -48,7 +48,9 @@ export async function createEmailVerificationRequest(
 }
 
 export async function deleteUserEmailVerificationRequest(userId: string): Promise<void> {
-	await db.delete(emailVerificationRequest).where(eq(emailVerificationRequest.userId, userId));
+	await db
+		.delete(emailVerificationRequestsTable)
+		.where(eq(emailVerificationRequestsTable.userId, userId));
 }
 
 export async function sendVerificationEmail(email: string, code: string): Promise<void> {
