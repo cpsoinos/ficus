@@ -50,7 +50,6 @@
 		"@types/node": "catalog:",
 		"autoprefixer": "catalog:",
 		"bits-ui": "catalog:",
-		"clsx": "catalog:",
 		"drizzle-kit": "catalog:",
 		"eslint": "^9.20.1",
 		"eslint-config-prettier": "catalog:",
@@ -75,6 +74,7 @@
 	"dependencies": {
 		"@iconify/svelte": "catalog:",
 		"@libsql/client": "catalog:",
+		"@nick/clsx": "catalog:",
 		"@oslojs/crypto": "catalog:",
 		"@oslojs/encoding": "catalog:",
 		"@oslojs/otp": "catalog:",

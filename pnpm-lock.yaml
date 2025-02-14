@@ -21,12 +21,18 @@ catalogs:
     '@eslint/js':
       specifier: ^9.20.0
       version: 9.20.0
+    '@hono/hono':
+      specifier: npm:@jsr/hono__hono@^4.7.1
+      version: 4.7.1
     '@iconify/svelte':
       specifier: ^4.2.0
       version: 4.2.0
     '@libsql/client':
       specifier: ^0.14.0
       version: 0.14.0
+    '@nick/clsx':
+      specifier: npm:@jsr/nick__clsx@^0.3.1
+      version: 0.3.1
     '@oslojs/crypto':
       specifier: ^1.0.1
       version: 1.0.1
@@ -90,9 +96,6 @@ catalogs:
     bits-ui:
       specifier: 1.0.0-next.90
       version: 1.0.0-next.90
-    clsx:
-      specifier: ^2.1.1
-      version: 2.1.1
     drizzle-kit:
       specifier: ^0.30.4
       version: 0.30.4
@@ -108,9 +111,6 @@ catalogs:
     globals:
       specifier: ^15.15.0
       version: 15.15.0
-    hono:
-      specifier: ^4.7.1
-      version: 4.7.1
     ofetch:
       specifier: ^1.4.1
       version: 1.4.1
@@ -191,6 +191,9 @@ importers:
       '@libsql/client':
         specifier: 'catalog:'
         version: 0.14.0
+      '@nick/clsx':
+        specifier: 'catalog:'
+        version: '@jsr/nick__clsx@0.3.1'
       '@oslojs/crypto':
         specifier: 'catalog:'
         version: 1.0.1
@@ -279,9 +282,6 @@ importers:
       bits-ui:
         specifier: 'catalog:'
         version: 1.0.0-next.90(svelte@5.20.0)
-      clsx:
-        specifier: 'catalog:'
-        version: 2.1.1
       drizzle-kit:
         specifier: 'catalog:'
         version: 0.30.4
@@ -353,9 +353,9 @@ importers:
 
   packages/rate-limiter:
     dependencies:
-      hono:
+      '@hono/hono':
         specifier: 'catalog:'
-        version: 4.7.1
+        version: '@jsr/hono__hono@4.7.1'
     devDependencies:
       '@cloudflare/vitest-pool-workers':
         specifier: 'catalog:'
@@ -1399,6 +1399,12 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
+
+  '@jsr/hono__hono@4.7.1':
+    resolution: {integrity: sha512-A5zoY9s1QLMwjSjC4GZVh/RVWn+oYuH2EVsGPsG2d/AtauVbOEOY417e/wtMl3RIDSdaojT3uw3NeY2o3EyVcQ==, tarball: https://npm.jsr.io/~/11/@jsr/hono__hono/4.7.1.tgz}
+
+  '@jsr/nick__clsx@0.3.1':
+    resolution: {integrity: sha512-74Wg5ed6OdEzKAoVv1FcVBwaiKIK0LmLPHXUWH58bxf+/6EPGhUi2HtMho77972n4XagAUzFVf/aUKcVzU6UIg==, tarball: https://npm.jsr.io/~/11/@jsr/nick__clsx/0.3.1.tgz}
 
   '@libsql/client@0.14.0':
     resolution: {integrity: sha512-/9HEKfn6fwXB5aTEEoMeFh4CtG0ZzbncBb1e++OCdVpgKZ/xyMsIVYXm0w7Pv4RUel803vE6LwniB3PqD72R0Q==}
@@ -3125,10 +3131,6 @@ packages:
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
-
-  hono@4.7.1:
-    resolution: {integrity: sha512-V3eWoPkBxoNgFCkSc5Y5rpLF6YoQQx1pkYO4qrF6YfOw8RZbujUNlJLZCxh0z9gZct70+je2Ih7Zrdpv21hP9w==}
-    engines: {node: '>=16.9.0'}
 
   htmlparser2-svelte@4.1.0:
     resolution: {integrity: sha512-+4f4RBFz7Rj2Hp0ZbFbXC+Kzbd6S9PgjiuFtdT76VMNgKogrEZy0pG2UrPycPbrZzVEIM5lAT3lAdkSTCHLPjg==}
@@ -5320,6 +5322,10 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
+  '@jsr/hono__hono@4.7.1': {}
+
+  '@jsr/nick__clsx@0.3.1': {}
+
   '@libsql/client@0.14.0':
     dependencies:
       '@libsql/core': 0.14.0
@@ -7192,8 +7198,6 @@ snapshots:
   hasown@2.0.2:
     dependencies:
       function-bind: 1.1.2
-
-  hono@4.7.1: {}
 
   htmlparser2-svelte@4.1.0:
     dependencies:
