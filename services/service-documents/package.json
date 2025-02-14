@@ -1,15 +1,22 @@
 {
-  "name": "@ficus/service-documents",
-  "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy --minify",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
-  },
-  "dependencies": {
-    "@hono/hono": "catalog:"
-  },
-  "devDependencies": {
-    "@cloudflare/workers-types": "catalog:",
-    "wrangler": "catalog:"
-  }
+	"name": "@ficus/service-documents",
+	"scripts": {
+		"cf-typegen": "wrangler types --env-interface CloudflareBindings",
+		"check": "tsc --noEmit",
+		"deploy": "wrangler deploy --minify",
+		"dev": "wrangler dev",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix"
+	},
+	"dependencies": {
+		"@hono/hono": "catalog:"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "catalog:",
+		"@eslint/js": "catalog:",
+		"eslint": "catalog:",
+		"globals": "catalog:",
+		"typescript-eslint": "catalog:",
+		"wrangler": "catalog:"
+	}
 }
