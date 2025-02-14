@@ -1,5 +1,8 @@
 {
-  "*.{js,mjs,cjs,ts,mts,cts,svelte}": ["eslint --fix", "prettier --write -u"],
-  "!(*.{js,mjs,cjs,ts,mts,cts,svelte},package.json)": "prettier --write -u",
-  "package.json": ["sort-package-json", "prettier --write"]
+	"*.{js,mjs,cjs,ts,mts,cts,svelte}": [
+		"eslint --flag unstable_config_lookup_from_file --fix",
+		"prettier --write -u"
+	],
+	"!(*.{js,mjs,cjs,ts,mts,cts,svelte}|package.json)": "prettier --write -u",
+	"package.json": ["sort-package-json", "prettier --write"]
 }

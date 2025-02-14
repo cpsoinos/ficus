@@ -1,8 +1,8 @@
 {
-  "recommendations": [
-    "nrwl.angular-console",
-    "esbenp.prettier-vscode",
-    "bodil.prettier-toml",
-    "dbaeumer.vscode-eslint"
-  ]
+	"recommendations": [
+		"nrwl.angular-console",
+		"esbenp.prettier-vscode",
+		"bodil.prettier-toml",
+		"dbaeumer.vscode-eslint"
+	]
 }
