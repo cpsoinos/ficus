@@ -2,6 +2,7 @@ packages:
   - libs/**
   - packages/**
   - apps/**
+  - services/**
 
 catalog:
   '@chromatic-com/storybook': ^3.2.3
