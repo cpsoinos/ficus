@@ -1,23 +1,29 @@
 {
-  "name": "@ficus/source",
-  "version": "0.0.0",
-  "license": "MIT",
-  "scripts": {
-    "dev": "pnpm -r --parallel dev",
-    "check": "pnpm -r --parallel check",
-    "format": "pnpm -r --parallel format",
-    "lint": "pnpm -r --parallel lint",
-    "build": "pnpm -r --parallel build",
-    "test": "pnpm -r --parallel test"
-  },
-  "private": true,
-  "devDependencies": {
-    "@playwright/test": "catalog:",
-    "eslint": "~8.57.1",
-    "prettier": "catalog:",
-    "storybook": "^8.4.6",
-    "tslib": "catalog:",
-    "typescript": "catalog:"
-  },
-  "packageManager": "pnpm@10.4.0+sha512.6b849d0787d97f8f4e1f03a9b8ff8f038e79e153d6f11ae539ae7c435ff9e796df6a862c991502695c7f9e8fac8aeafc1ac5a8dab47e36148d183832d886dd52"
+	"name": "@ficus/source",
+	"version": "0.0.0",
+	"private": true,
+	"license": "MIT",
+	"scripts": {
+		"build": "pnpm -r --parallel build",
+		"check": "pnpm -r --parallel check",
+		"dev": "pnpm -r --parallel dev",
+		"format": "prettier --write .",
+		"lint": "pnpm -r --parallel lint",
+		"prepare": "husky",
+		"test": "pnpm -r --parallel test"
+	},
+	"devDependencies": {
+		"@playwright/test": "catalog:",
+		"eslint": "^9.20.1",
+		"husky": "^9.1.7",
+		"lint-staged": "^15.4.3",
+		"prettier": "catalog:",
+		"prettier-plugin-svelte": "catalog:",
+		"prettier-plugin-tailwindcss": "catalog:",
+		"sort-package-json": "^2.14.0",
+		"storybook": "^8.4.6",
+		"tslib": "catalog:",
+		"typescript": "catalog:"
+	},
+	"packageManager": "pnpm@10.4.0+sha512.6b849d0787d97f8f4e1f03a9b8ff8f038e79e153d6f11ae539ae7c435ff9e796df6a862c991502695c7f9e8fac8aeafc1ac5a8dab47e36148d183832d886dd52"
 }
