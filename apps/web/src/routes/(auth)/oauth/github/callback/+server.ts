@@ -42,13 +42,15 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 	const accessToken = tokens.accessToken();
 	const authHeader = `Bearer ${accessToken}`;
-	console.log('🚀 ~ GET ~ authHeader:', authHeader);
+
+	console.log('fetching user from github');
 	const githubUserResp = await fetch('https://api.github.com/user', {
 		headers: {
 			Authorization: authHeader
 		}
 	});
 	const githubUser = (await githubUserResp.json()) as GithubUser;
+	console.log('🚀 ~ GET ~ githubUser:', githubUser);
 
 	let email = githubUser.email;
 	if (!email) {
