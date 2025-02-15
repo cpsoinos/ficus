@@ -18,11 +18,5 @@
 		"jsonc",
 		"svelte"
 	],
-	"eslint.validate": ["javascript", "javascriptreact", "svelte"],
-	"eslint.workingDirectories": [
-		".", // This is the default
-		"./apps/*",
-		"./packages/*",
-		"./services/*"
-	]
+	"eslint.validate": ["javascript", "javascriptreact", "svelte"]
 }
