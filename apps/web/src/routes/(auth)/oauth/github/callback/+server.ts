@@ -9,6 +9,7 @@ import {
 } from '$lib/server/auth/session';
 import { createUser } from '$lib/server/auth/user';
 import { ofetch } from 'ofetch';
+import { and, eq } from 'drizzle-orm';
 import type { GithubUser } from '$lib/server/auth/oauth.types';
 import type { OAuth2Tokens } from 'arctic';
 import type { RequestEvent } from '@sveltejs/kit';
