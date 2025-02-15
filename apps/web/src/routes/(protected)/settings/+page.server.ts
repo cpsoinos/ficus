@@ -4,7 +4,6 @@ import {
 	getEmailVerificationBucket,
 	setEmailVerificationRequestCookie
 } from '$lib/server/auth/email-verification';
-import { fail, redirect } from '@sveltejs/kit';
 import { checkEmailAvailability, verifyEmailInput } from '$lib/server/auth/email';
 import {
 	getPasswordUpdateBucket,
@@ -18,6 +17,7 @@ import {
 	invalidateUserSessions,
 	setSessionTokenCookie
 } from '$lib/server/auth/session';
+import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, RequestEvent } from './$types';
 import type { SessionFlags } from '$lib/server/auth/session';
 

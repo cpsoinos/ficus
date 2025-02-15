@@ -4,9 +4,9 @@
 	import Icon from '$lib/components/ui/icon/icon.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
-	import type { PageProps } from './$types';
-	import { fade } from 'svelte/transition';
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
+	import { fade } from 'svelte/transition';
+	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();
 

@@ -1,5 +1,5 @@
-import { drizzle, type DrizzleD1Database } from 'drizzle-orm/d1';
 import * as schema from './schema';
+import { drizzle, type DrizzleD1Database } from 'drizzle-orm/d1';
 
 type SchematizedDatabase = DrizzleD1Database<typeof schema>;
 

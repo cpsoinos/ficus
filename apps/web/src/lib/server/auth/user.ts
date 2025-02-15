@@ -1,9 +1,9 @@
-import { db } from '$lib/server/db';
-import { user, type NewUser, type User } from '$lib/server/db/schema';
-import { and, eq } from 'drizzle-orm';
 import { decrypt, decryptToString, encrypt, encryptString } from './encryption';
 import { hashPassword } from './password';
 import { generateRandomRecoveryCode } from './utils';
+import { db } from '$lib/server/db';
+import { usersTable, type NewUser, type User } from '$lib/server/db/schema';
+import { and, eq } from 'drizzle-orm';
 
 export function verifyUsernameInput(username: string): boolean {
 	return username.length > 3 && username.length < 32 && username.trim() === username;
@@ -29,21 +29,21 @@ export async function createUser({
 		recoveryCode: encryptedRecoveryCode
 	};
 
-	const [createdUser] = await db.insert(user).values(newUser).returning();
+	const [createdUser] = await db.insert(usersTable).values(newUser).returning();
 
 	return createdUser;
 }
 
 export async function updateUserPassword(userId: string, password: string): Promise<void> {
 	const passwordHash = await hashPassword(password);
-	await db.update(user).set({ passwordHash }).where(eq(user.id, userId));
+	await db.update(usersTable).set({ passwordHash }).where(eq(usersTable.id, userId));
 }
 
 export async function updateUserEmailAndSetEmailAsVerified(
 	userId: string,
 	email: string
 ): Promise<void> {
-	await db.update(user).set({ email, emailVerified: true }).where(eq(user.id, userId));
+	await db.update(usersTable).set({ email, emailVerified: true }).where(eq(usersTable.id, userId));
 }
 
 export async function setUserAsEmailVerifiedIfEmailMatches(
@@ -51,18 +51,18 @@ export async function setUserAsEmailVerifiedIfEmailMatches(
 	email: string
 ): Promise<boolean> {
 	const result = await db
-		.update(user)
+		.update(usersTable)
 		.set({ emailVerified: true })
-		.where(and(eq(user.id, userId), eq(user.email, email)));
+		.where(and(eq(usersTable.id, userId), eq(usersTable.email, email)));
 	return result.success;
 }
 
 export async function getUserPasswordHash(userId: string): Promise<string | null> {
-	const row = await db.query.user.findFirst({
+	const row = await db.query.usersTable.findFirst({
 		columns: {
 			passwordHash: true
 		},
-		where: eq(user.id, userId)
+		where: eq(usersTable.id, userId)
 	});
 	if (!row) {
 		throw new Error('Invalid user ID');
@@ -71,11 +71,11 @@ export async function getUserPasswordHash(userId: string): Promise<string | null
 }
 
 export async function getUserRecoverCode(userId: string): Promise<string> {
-	const row = await db.query.user.findFirst({
+	const row = await db.query.usersTable.findFirst({
 		columns: {
 			recoveryCode: true
 		},
-		where: eq(user.id, userId)
+		where: eq(usersTable.id, userId)
 	});
 	if (!row) {
 		throw new Error('Invalid user ID');
@@ -84,11 +84,11 @@ export async function getUserRecoverCode(userId: string): Promise<string> {
 }
 
 export async function getUserTOTPKey(userId: string): Promise<Uint8Array | null> {
-	const row = await db.query.user.findFirst({
+	const row = await db.query.usersTable.findFirst({
 		columns: {
 			totpKey: true
 		},
-		where: eq(user.id, userId)
+		where: eq(usersTable.id, userId)
 	});
 	if (!row) {
 		throw new Error('Invalid user ID');
@@ -102,19 +102,19 @@ export async function getUserTOTPKey(userId: string): Promise<Uint8Array | null>
 
 export async function updateUserTOTPKey(userId: string, key: Uint8Array): Promise<void> {
 	const encrypted = await encrypt(key);
-	await db.update(user).set({ totpKey: encrypted }).where(eq(user.id, userId));
+	await db.update(usersTable).set({ totpKey: encrypted }).where(eq(usersTable.id, userId));
 }
 
 export async function resetUserRecoveryCode(userId: string): Promise<string> {
 	const recoveryCode = generateRandomRecoveryCode();
 	const encrypted = await encryptString(recoveryCode);
-	await db.update(user).set({ recoveryCode: encrypted }).where(eq(user.id, userId));
+	await db.update(usersTable).set({ recoveryCode: encrypted }).where(eq(usersTable.id, userId));
 	return recoveryCode;
 }
 
 export async function getUserFromEmail(email: string): Promise<User | null> {
-	const row = await db.query.user.findFirst({
-		where: eq(user.email, email)
+	const row = await db.query.usersTable.findFirst({
+		where: eq(usersTable.email, email)
 	});
 	return row || null;
 }

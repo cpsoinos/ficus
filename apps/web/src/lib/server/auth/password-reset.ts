@@ -1,16 +1,15 @@
-import { db } from '$lib/server/db';
 import { generateRandomOTP } from './utils';
-import type { RequestEvent } from '@sveltejs/kit';
+import { encodeSessionToken } from './session';
+import { db } from '$lib/server/db';
 import {
-	passwordResetSession,
+	passwordResetSessionsTable,
 	type NewPasswordResetSession,
 	type PasswordResetSession,
 	type User
 } from '$lib/server/db/schema';
-import { encodeSessionToken } from './session';
-import { eq } from 'drizzle-orm';
 import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
 import { ExpiringTokenBucketProxy } from '$lib/server/rate-limit/ExpiringTokenBucketProxy';
+import { eq } from 'drizzle-orm';
 
 const REFILL_RATE = 3;
 const CAPACITY = 3;
@@ -61,7 +60,7 @@ export async function createPasswordResetSession(
 		twoFactorVerified: false
 	};
 
-	const [session] = await db.insert(passwordResetSession).values(sessionToInsert).returning();
+	const [session] = await db.insert(passwordResetSessionsTable).values(sessionToInsert).returning();
 
 	return session;
 }
@@ -70,7 +69,7 @@ export async function validatePasswordResetSessionToken(
 	token: string
 ): Promise<PasswordResetSessionValidationResult> {
 	const sessionId = encodeSessionToken(token);
-	const result = await db.query.passwordResetSession.findFirst({
+	const result = await db.query.passwordResetSessionsTable.findFirst({
 		with: {
 			user: {
 				// exclude these columns due to drizzle orm bug related to blobs and json
@@ -84,7 +83,7 @@ export async function validatePasswordResetSessionToken(
 				}
 			}
 		},
-		where: eq(passwordResetSession.id, sessionId)
+		where: eq(passwordResetSessionsTable.id, sessionId)
 	});
 	if (!result?.user) {
 		return { session: null, user: null };
@@ -92,7 +91,9 @@ export async function validatePasswordResetSessionToken(
 	const { user, ...session } = result;
 
 	if (Date.now() >= session.expiresAt.getTime()) {
-		await db.delete(passwordResetSession).where(eq(passwordResetSession.id, session.id));
+		await db
+			.delete(passwordResetSessionsTable)
+			.where(eq(passwordResetSessionsTable.id, session.id));
 		return { session: null, user: null };
 	}
 	return { session, user };
@@ -100,20 +101,20 @@ export async function validatePasswordResetSessionToken(
 
 export async function setPasswordResetSessionAsEmailVerified(sessionId: string): Promise<void> {
 	await db
-		.update(passwordResetSession)
+		.update(passwordResetSessionsTable)
 		.set({ emailVerified: true })
-		.where(eq(passwordResetSession.id, sessionId));
+		.where(eq(passwordResetSessionsTable.id, sessionId));
 }
 
 export async function setPasswordResetSessionAs2FAVerified(sessionId: string): Promise<void> {
 	await db
-		.update(passwordResetSession)
+		.update(passwordResetSessionsTable)
 		.set({ twoFactorVerified: true })
-		.where(eq(passwordResetSession.id, sessionId));
+		.where(eq(passwordResetSessionsTable.id, sessionId));
 }
 
 export async function invalidateUserPasswordResetSessions(userId: string): Promise<void> {
-	await db.delete(passwordResetSession).where(eq(passwordResetSession.userId, userId));
+	await db.delete(passwordResetSessionsTable).where(eq(passwordResetSessionsTable.userId, userId));
 }
 
 export async function validatePasswordResetSessionRequest(

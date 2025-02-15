@@ -17,6 +17,7 @@ export default defineConfig({
 					databaseId: CF_D1_DB_ID!,
 					token: CF_D1_TOKEN!,
 					accountId: CF_ACCOUNT_ID!
-				}
+				},
+				tablesFilter: ['!_cf_KV']
 			})
 });

@@ -1,5 +1,5 @@
-import type { Throttler } from '@ficus/rate-limiter/src';
 import { Bindings } from '$lib/server/bindings';
+import type { Throttler } from '@ficus/rate-limiter/src';
 
 export class ThrottlerProxy {
 	stub: DurableObjectStub<Throttler>;

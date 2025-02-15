@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import * as Card from '$lib/components/ui/card/index.js';
+	import * as Card from './ui/card/index.js';
 	import type { Snippet } from 'svelte';
 	import type { SvelteHTMLElements } from 'svelte/elements';
+	import { enhance } from '$app/forms';
 
 	let {
 		title,

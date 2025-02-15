@@ -1,11 +1,6 @@
 import { github, OAuthProvider } from '$lib/server/auth/oauth';
-import type { RequestEvent } from '@sveltejs/kit';
-import type { OAuth2Tokens } from 'arctic';
-import { ofetch } from 'ofetch';
-import type { GithubUser } from '$lib/server/auth/oauth.types';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
-import { and, eq } from 'drizzle-orm';
 import {
 	createSession,
 	generateSessionToken,
@@ -13,6 +8,10 @@ import {
 	type SessionFlags
 } from '$lib/server/auth/session';
 import { createUser } from '$lib/server/auth/user';
+import { ofetch } from 'ofetch';
+import type { GithubUser } from '$lib/server/auth/oauth.types';
+import type { OAuth2Tokens } from 'arctic';
+import type { RequestEvent } from '@sveltejs/kit';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');
@@ -39,38 +38,43 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			status: 400
 		});
 	}
+
+	const githubApiHeaders = {
+		Authorization: `Bearer ${tokens.accessToken()}`,
+		'User-Agent': 'ficus-web'
+	};
+
 	const githubUser = await ofetch<GithubUser>('https://api.github.com/user', {
-		headers: {
-			Authorization: `Bearer ${tokens.accessToken()}`
-		}
+		headers: githubApiHeaders
 	});
+
 	let email = githubUser.email;
+
 	if (!email) {
 		const emails = await ofetch<
 			{ email: string; primary: boolean; verified: boolean; visibility: 'public' | null }[]
 		>('https://api.github.com/user/emails', {
-			headers: {
-				Authorization: `Bearer ${tokens.accessToken()}`
-			}
+			headers: githubApiHeaders
 		});
 		email =
 			emails.find((e) => e.primary && e.verified)?.email ||
 			emails.find((e) => e.verified)?.email ||
 			emails[0].email;
 	}
+
 	const githubUserId = githubUser.id.toString();
 
 	const [result] = await db
 		.select({
-			user: { id: table.user.id, email: table.user.email },
-			oauthAccount: table.oAuthAccount
+			user: { id: table.usersTable.id, email: table.usersTable.email },
+			oauthAccount: table.oAuthAccountsTable
 		})
-		.from(table.oAuthAccount)
-		.innerJoin(table.user, eq(table.oAuthAccount.userId, table.user.id))
+		.from(table.oAuthAccountsTable)
+		.innerJoin(table.usersTable, eq(table.oAuthAccountsTable.userId, table.usersTable.id))
 		.where(
 			and(
-				eq(table.oAuthAccount.provider, OAuthProvider.GITHUB),
-				eq(table.oAuthAccount.providerUserId, githubUserId)
+				eq(table.oAuthAccountsTable.provider, OAuthProvider.GITHUB),
+				eq(table.oAuthAccountsTable.providerUserId, githubUserId)
 			)
 		);
 
@@ -97,7 +101,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	});
 
 	// create a new OAuth account record
-	await db.insert(table.oAuthAccount).values({
+	await db.insert(table.oAuthAccountsTable).values({
 		userId: user.id,
 		provider: OAuthProvider.GITHUB,
 		providerUserId: githubUserId

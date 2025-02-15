@@ -1,9 +1,9 @@
-import type { RequestEvent } from '@sveltejs/kit';
-import { eq } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
+import { eq } from 'drizzle-orm';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
+import type { RequestEvent } from '@sveltejs/kit';
 import type { NewSession, Session } from '$lib/server/db/schema';
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
@@ -33,7 +33,7 @@ export async function createSession(
 		expiresAt: new Date(Date.now() + DAY_IN_MS * 30),
 		twoFactorVerified: flags.twoFactorVerified
 	};
-	const [session] = await db.insert(table.session).values(sessionToInsert).returning();
+	const [session] = await db.insert(table.sessionsTable).values(sessionToInsert).returning();
 	return session;
 }
 
@@ -42,12 +42,12 @@ export async function validateSessionToken(token: string) {
 	const [result] = await db
 		.select({
 			// Adjust user table here to tweak returned data
-			user: table.user,
-			session: table.session
+			user: table.usersTable,
+			session: table.sessionsTable
 		})
-		.from(table.session)
-		.innerJoin(table.user, eq(table.session.userId, table.user.id))
-		.where(eq(table.session.id, sessionId));
+		.from(table.sessionsTable)
+		.innerJoin(table.usersTable, eq(table.sessionsTable.userId, table.usersTable.id))
+		.where(eq(table.sessionsTable.id, sessionId));
 
 	if (!result) {
 		return { session: null, user: null };
@@ -56,7 +56,7 @@ export async function validateSessionToken(token: string) {
 
 	const sessionExpired = Date.now() >= session.expiresAt.getTime();
 	if (sessionExpired) {
-		await db.delete(table.session).where(eq(table.session.id, session.id));
+		await db.delete(table.sessionsTable).where(eq(table.sessionsTable.id, session.id));
 		return { session: null, user: null };
 	}
 
@@ -64,9 +64,9 @@ export async function validateSessionToken(token: string) {
 	if (renewSession) {
 		session.expiresAt = new Date(Date.now() + DAY_IN_MS * 30);
 		await db
-			.update(table.session)
+			.update(table.sessionsTable)
 			.set({ expiresAt: session.expiresAt })
-			.where(eq(table.session.id, session.id));
+			.where(eq(table.sessionsTable.id, session.id));
 	}
 
 	return { session, user };
@@ -75,11 +75,11 @@ export async function validateSessionToken(token: string) {
 export type SessionValidationResult = Awaited<ReturnType<typeof validateSessionToken>>;
 
 export async function invalidateSession(sessionId: string): Promise<void> {
-	await db.delete(table.session).where(eq(table.session.id, sessionId));
+	await db.delete(table.sessionsTable).where(eq(table.sessionsTable.id, sessionId));
 }
 
 export async function invalidateUserSessions(userId: string): Promise<void> {
-	await db.delete(table.session).where(eq(table.session.userId, userId));
+	await db.delete(table.sessionsTable).where(eq(table.sessionsTable.userId, userId));
 }
 
 export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: Date) {
@@ -90,6 +90,8 @@ export function setSessionTokenCookie(event: RequestEvent, token: string, expire
 }
 
 export function deleteSessionTokenCookie(event: RequestEvent) {
+	// this isn't an an ORM operation, so eslint is falsely flagging this
+	// eslint-disable-next-line drizzle/enforce-delete-with-where
 	event.cookies.delete(sessionCookieName, {
 		path: '/'
 	});
@@ -97,9 +99,9 @@ export function deleteSessionTokenCookie(event: RequestEvent) {
 
 export async function setSessionAs2FAVerified(sessionId: string): Promise<boolean> {
 	const result = await db
-		.update(table.session)
+		.update(table.sessionsTable)
 		.set({ twoFactorVerified: true })
-		.where(eq(table.session.id, sessionId));
+		.where(eq(table.sessionsTable.id, sessionId));
 	return result.success;
 }
 
