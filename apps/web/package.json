@@ -67,7 +67,6 @@
 		"drizzle-kit": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config-prettier": "catalog:",
-		"eslint-import-resolver-custom-alias": "^1.3.2",
 		"eslint-import-resolver-typescript": "^3.8.0",
 		"eslint-plugin-drizzle": "catalog:",
 		"eslint-plugin-import-x": "^4.6.1",
