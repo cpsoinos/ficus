@@ -1,5 +1,5 @@
 {
-	"name": "@ficus/service-documents",
+	"name": "@ficus/service-attachments",
 	"scripts": {
 		"cf-typegen": "wrangler types --env-interface CloudflareBindings",
 		"check": "tsc --noEmit",
