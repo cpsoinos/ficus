@@ -1,6 +1,6 @@
+import { usersTable } from './users';
 import { relations } from 'drizzle-orm';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
-import { usersTable } from './users';
 
 export const passwordResetSessionsTable = sqliteTable('password_reset_sessions', {
 	id: text('id')

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { Button } from '$lib/components/ui/button';
-	import * as Breadcrumb from '$lib/components/ui/breadcrumb/index.js';
-	import { Separator } from '$lib/components/ui/separator/index.js';
+	import * as DropdownMenu from './ui/dropdown-menu';
+	import { Button } from './ui/button';
+	import * as Breadcrumb from './ui/breadcrumb/index.js';
+	import { Separator } from './ui/separator/index.js';
 	import SidebarTrigger from './ui/sidebar/sidebar-trigger.svelte';
+	import { enhance } from '$app/forms';
 </script>
 
 <header class="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">

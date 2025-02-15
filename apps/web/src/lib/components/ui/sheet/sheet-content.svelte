@@ -21,11 +21,11 @@
 </script>
 
 <script lang="ts">
-	import { Dialog as SheetPrimitive, type WithoutChildrenOrChild } from 'bits-ui';
-	import Icon from '$lib/components/ui/icon/icon.svelte';
-	import type { Snippet } from 'svelte';
 	import SheetOverlay from './sheet-overlay.svelte';
+	import Icon from '$lib/components/ui/icon/icon.svelte';
 	import { cn } from '$lib/utils.js';
+	import { Dialog as SheetPrimitive, type WithoutChildrenOrChild } from 'bits-ui';
+	import type { Snippet } from 'svelte';
 
 	let {
 		ref = $bindable(null),

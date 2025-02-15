@@ -8,8 +8,8 @@
 </script>
 
 <script lang="ts">
-	import SearchForm from '$lib/components/search-form.svelte';
-	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import SearchForm from './search-form.svelte';
+	import * as Sidebar from './ui/sidebar/index.js';
 	import type { ComponentProps } from 'svelte';
 
 	let {

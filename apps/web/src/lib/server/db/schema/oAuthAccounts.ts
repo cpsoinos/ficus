@@ -1,8 +1,8 @@
-import type { OAuthProvider } from '$lib/server/oauth';
-import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { usersTable } from './users';
+import { timestamps } from '$lib/server/db/util';
+import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { relations } from 'drizzle-orm/relations';
-import { timestamps } from '../util';
+import type { OAuthProvider } from '$lib/server/oauth';
 
 export const oAuthAccountsTable = sqliteTable('oauth_accounts', {
 	id: text('id')

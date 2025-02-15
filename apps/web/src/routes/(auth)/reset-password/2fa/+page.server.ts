@@ -1,12 +1,15 @@
-import { verifyTOTP } from '@oslojs/otp';
 import { getUserTOTPKey } from '$lib/server/user';
 import {
 	validatePasswordResetSessionRequest,
 	setPasswordResetSessionAs2FAVerified
 } from '$lib/server/password-reset';
-import { getTotpBucket, getRecoveryCodeBucket } from '$lib/server/2fa';
+import {
+	getTotpBucket,
+	getRecoveryCodeBucket,
+	resetUser2FAWithRecoveryCode
+} from '$lib/server/2fa';
 import { fail, redirect } from '@sveltejs/kit';
-import { resetUser2FAWithRecoveryCode } from '$lib/server/2fa';
+import { verifyTOTP } from '@oslojs/otp';
 
 import type { Actions, RequestEvent } from './$types';
 

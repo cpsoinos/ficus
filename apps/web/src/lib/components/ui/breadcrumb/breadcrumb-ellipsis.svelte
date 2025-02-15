@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { WithElementRef, WithoutChildren } from 'bits-ui';
-	import type { HTMLAttributes } from 'svelte/elements';
 	import { cn } from '$lib/utils.js';
 	import Icon from '$lib/components/ui/icon/icon.svelte';
+	import type { WithElementRef, WithoutChildren } from 'bits-ui';
+	import type { HTMLAttributes } from 'svelte/elements';
 
 	let {
 		ref = $bindable(null),

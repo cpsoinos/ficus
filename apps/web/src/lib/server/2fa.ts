@@ -2,9 +2,9 @@ import { db } from './db';
 import { decryptToString, encryptString } from './encryption';
 import { generateRandomRecoveryCode } from './utils';
 import { usersTable, sessionsTable } from './db/schema';
-import { and, eq } from 'drizzle-orm';
 import { ExpiringTokenBucketProxy } from './rate-limit/ExpiringTokenBucketProxy';
 import { RefillingTokenBucketProxy } from './rate-limit/RefillingTokenBucketProxy';
+import { and, eq } from 'drizzle-orm';
 
 export const getTotpBucket = async (userId: string) => {
 	return await ExpiringTokenBucketProxy.initialize({
