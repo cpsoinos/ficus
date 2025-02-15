@@ -1,15 +1,15 @@
-import { dev } from '$app/environment';
-import { redirect, type Handle } from '@sveltejs/kit';
-import { DbSingleton } from '$lib/server/db';
-import { sequence } from '@sveltejs/kit/hooks';
-import { BindingsSingleton } from '$lib/server/bindings';
+import { DbSingleton } from './lib/server/db';
+import { BindingsSingleton } from './lib/server/bindings';
 import {
 	sessionCookieName,
 	validateSessionToken,
 	setSessionTokenCookie,
 	deleteSessionTokenCookie
-} from '$lib/server/session';
-import { preloadIcons } from '$lib/icons';
+} from './lib/server/session';
+import { preloadIcons } from './lib/icons';
+import { sequence } from '@sveltejs/kit/hooks';
+import { redirect, type Handle } from '@sveltejs/kit';
+import { dev } from '$app/environment';
 
 let platform: App.Platform;
 

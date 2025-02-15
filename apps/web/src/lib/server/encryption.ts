@@ -1,6 +1,6 @@
-import { ENCRYPTION_KEY } from '$env/static/private';
 import { decodeBase64 } from '@oslojs/encoding';
 import { Buffer } from 'node:buffer';
+import { ENCRYPTION_KEY } from '$env/static/private';
 
 const key = decodeBase64(ENCRYPTION_KEY);
 

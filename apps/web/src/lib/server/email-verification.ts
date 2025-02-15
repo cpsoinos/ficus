@@ -1,9 +1,9 @@
 import { generateRandomOTP } from './utils';
 import { db } from './db';
-import type { RequestEvent } from '@sveltejs/kit';
-import { and, eq } from 'drizzle-orm';
 import { emailVerificationRequestsTable, type EmailVerificationRequest } from './db/schema';
 import { ExpiringTokenBucketProxy } from './rate-limit/ExpiringTokenBucketProxy';
+import { and, eq } from 'drizzle-orm';
+import type { RequestEvent } from '@sveltejs/kit';
 
 const EMAIL_VERIFICATION_COOKIE_NAME = 'email_verification';
 

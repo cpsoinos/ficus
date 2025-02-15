@@ -3,7 +3,6 @@ import {
 	invalidateUserPasswordResetSessions,
 	validatePasswordResetSessionRequest
 } from '$lib/server/password-reset';
-import { fail, redirect } from '@sveltejs/kit';
 import { verifyPasswordStrength } from '$lib/server/password';
 import {
 	createSession,
@@ -12,6 +11,7 @@ import {
 	setSessionTokenCookie
 } from '$lib/server/session';
 import { updateUserPassword } from '$lib/server/user';
+import { fail, redirect } from '@sveltejs/kit';
 
 import type { Actions, RequestEvent } from './$types';
 import type { SessionFlags } from '$lib/server/session';

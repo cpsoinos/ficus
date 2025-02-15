@@ -1,10 +1,10 @@
-import { type SQL, sql, relations } from 'drizzle-orm';
-import { sqliteTable, text, integer, blob } from 'drizzle-orm/sqlite-core';
 import { sessionsTable } from './sessions';
-import { timestamps } from '../util';
 import { passwordResetSessionsTable } from './passwordResetSessions';
 import { emailVerificationRequestsTable } from './emailVerificationRequests';
 import { oAuthAccountsTable } from './oAuthAccounts';
+import { timestamps } from '$lib/server/db/util';
+import { sqliteTable, text, integer, blob } from 'drizzle-orm/sqlite-core';
+import { type SQL, sql, relations } from 'drizzle-orm';
 
 export const usersTable = sqliteTable('users', {
 	id: text('id')

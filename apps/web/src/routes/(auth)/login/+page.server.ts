@@ -1,5 +1,3 @@
-import { fail, redirect } from '@sveltejs/kit';
-import type { Actions, PageServerLoad, RequestEvent } from './$types';
 import {
 	createSession,
 	generateSessionToken,
@@ -12,6 +10,8 @@ import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingToken
 import { ThrottlerProxy } from '$lib/server/rate-limit/ThrottlerProxy';
 import { getUserFromEmail, getUserPasswordHash } from '$lib/server/user';
 import { getOAuthAccountsForUser, getOAuthProviderName } from '$lib/server/oauth';
+import { fail, redirect } from '@sveltejs/kit';
+import type { Actions, PageServerLoad, RequestEvent } from './$types';
 
 export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {

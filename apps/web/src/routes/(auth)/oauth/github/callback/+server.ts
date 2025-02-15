@@ -1,11 +1,6 @@
 import { github, OAuthProvider } from '$lib/server/oauth';
-import type { RequestEvent } from '@sveltejs/kit';
-import type { OAuth2Tokens } from 'arctic';
-import { ofetch } from 'ofetch';
-import type { GithubUser } from '$lib/server/oauth.types';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
-import { and, eq } from 'drizzle-orm';
 import {
 	createSession,
 	generateSessionToken,
@@ -13,6 +8,11 @@ import {
 	type SessionFlags
 } from '$lib/server/session';
 import { createUser } from '$lib/server/user';
+import { and, eq } from 'drizzle-orm';
+import { ofetch } from 'ofetch';
+import type { GithubUser } from '$lib/server/oauth.types';
+import type { OAuth2Tokens } from 'arctic';
+import type { RequestEvent } from '@sveltejs/kit';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');

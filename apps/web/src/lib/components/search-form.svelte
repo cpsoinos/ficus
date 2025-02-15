@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { Label } from '$lib/components/ui/label/index.js';
-	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import { Label } from './ui/label/index.js';
+	import * as Sidebar from './ui/sidebar/index.js';
+	import Icon from './ui/icon/icon.svelte';
 	import type { WithElementRef } from 'bits-ui';
 	import type { HTMLFormAttributes } from 'svelte/elements';
-	import Icon from '$lib/components/ui/icon/icon.svelte';
 
 	let { ref = $bindable(null), ...restProps }: WithElementRef<HTMLFormAttributes> = $props();
 </script>

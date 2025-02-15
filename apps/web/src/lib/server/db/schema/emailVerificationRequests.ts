@@ -1,5 +1,5 @@
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { usersTable } from './users';
+import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { relations } from 'drizzle-orm/relations';
 
 export const emailVerificationRequestsTable = sqliteTable('email_verification_requests', {

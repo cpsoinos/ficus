@@ -1,7 +1,7 @@
 import { Bindings } from './bindings';
+import { ExpiringTokenBucketProxy } from './rate-limit/ExpiringTokenBucketProxy';
 import { sha1 } from '@oslojs/crypto/sha1';
 import { encodeHexLowerCase } from '@oslojs/encoding';
-import { ExpiringTokenBucketProxy } from './rate-limit/ExpiringTokenBucketProxy';
 
 export const getPasswordUpdateBucket = async (userId: string) => {
 	return ExpiringTokenBucketProxy.initialize({
