@@ -10,4 +10,5 @@ interface Env {
 	THROTTLER: DurableObjectNamespace<import('@ficus/rate-limiter/src/index').Throttler>;
 	DB: D1Database;
 	ARGON2: Fetcher;
+	SERVICE_ATTACHMENTS: Fetcher;
 }

@@ -1,5 +1,5 @@
-import { Bindings } from './bindings';
-import { ExpiringTokenBucketProxy } from './rate-limit/ExpiringTokenBucketProxy';
+import { Bindings } from '$lib/server/bindings';
+import { ExpiringTokenBucketProxy } from '$lib/server/rate-limit/ExpiringTokenBucketProxy';
 import { sha1 } from '@oslojs/crypto/sha1';
 import { encodeHexLowerCase } from '@oslojs/encoding';
 

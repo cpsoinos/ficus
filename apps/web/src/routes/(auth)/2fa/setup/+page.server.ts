@@ -1,6 +1,6 @@
-import { updateUserTOTPKey } from '$lib/server/user';
-import { setSessionAs2FAVerified } from '$lib/server/session';
-import { getTotpUpdateBucket } from '$lib/server/2fa';
+import { updateUserTOTPKey } from '$lib/server/auth/user';
+import { setSessionAs2FAVerified } from '$lib/server/auth/session';
+import { getTotpUpdateBucket } from '$lib/server/auth/2fa';
 import { createTOTPKeyURI, verifyTOTP } from '@oslojs/otp';
 import { fail, redirect } from '@sveltejs/kit';
 import { decodeBase64, encodeBase64 } from '@oslojs/encoding';

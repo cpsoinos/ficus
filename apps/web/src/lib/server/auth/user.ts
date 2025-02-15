@@ -1,8 +1,8 @@
 import { decrypt, decryptToString, encrypt, encryptString } from './encryption';
 import { hashPassword } from './password';
 import { generateRandomRecoveryCode } from './utils';
-import { db } from './db';
-import { usersTable, type NewUser, type User } from './db/schema';
+import { db } from '$lib/server/db';
+import { usersTable, type NewUser, type User } from '$lib/server/db/schema';
 import { and, eq } from 'drizzle-orm';
 
 export function verifyUsernameInput(username: string): boolean {
