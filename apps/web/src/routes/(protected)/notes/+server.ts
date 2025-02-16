@@ -17,8 +17,6 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		return new Response('Unauthorized', { status: 401 });
 	}
 
-	// const clonedRequest = request.clone();
-	// clonedRequest.headers.set('x-user-id', userId);
 	const headers = new Headers(request.headers);
 	headers.set('x-user-id', userId);
 
@@ -31,7 +29,6 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	const result = await Bindings.SERVICE_ATTACHMENTS.fetch(
 		'http://internal/upload',
 		forwardedRequest
-		// clonedRequest as Request
 	);
 
 	return new Response(await result.text());
