@@ -8,11 +8,20 @@ import type { RequestHandler } from './$types';
  * Expects the following headers:
  *   - content-type: The content type of the file
  *   - x-file-name: The name of the file
+ *
+ * Sets the x-user-id header to the current user's ID.
  */
-export const POST: RequestHandler = async (request) => {
+export const POST: RequestHandler = async ({ locals, request }) => {
+	const userId = locals.user?.id;
+	if (!userId) {
+		return new Response('Unauthorized', { status: 401 });
+	}
+
+	const clonedRequest = request.clone();
+	clonedRequest.headers.set('x-user-id', userId);
 	const result = await Bindings.SERVICE_ATTACHMENTS.fetch(
 		'http://internal/upload',
-		request.request
+		clonedRequest as Request
 	);
 
 	return new Response(await result.text());

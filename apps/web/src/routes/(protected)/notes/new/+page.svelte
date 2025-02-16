@@ -9,11 +9,14 @@
 		const file = formData.get('file') as File;
 		if (!file) return;
 
-		uploadFile(file, (progress) => {
-			console.log(`Upload Progress: ${progress}%`);
-		})
-			.then((res) => console.log('Upload Success:', res))
-			.catch((err) => console.error('Upload Failed:', err));
+		try {
+			const res = await uploadFile(file, (progress) => {
+				console.log(`Upload Progress: ${progress}%`);
+			});
+			console.log('Upload Success:', res);
+		} catch (err) {
+			console.error('Upload Failed:', err);
+		}
 	}
 
 	function uploadFile(file: File, onProgress: (progress: number) => void) {
