@@ -2,13 +2,20 @@
 	"name": "@ficus/eslint-config",
 	"version": "1.0.0",
 	"description": "",
-	"main": "src/index.ts",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
 	"keywords": [],
-	"author": "",
 	"license": "ISC",
+	"author": "Corey Psoinos <corey@anderapps.com>",
+	"type": "module",
+	"exports": {
+		"./plugins": "./src/plugins.mjs",
+		"./configs/base": "./src/configs/base.mjs",
+		"./configs/import": "./src/configs/import.mjs",
+		"./configs/svelte": "./src/configs/svelte.mjs",
+		"./configs/drizzle": "./src/configs/drizzle.mjs"
+	},
+	"scripts": {
+		"lint": "eslint ."
+	},
 	"dependencies": {
 		"@dword-design/eslint-plugin-import-alias": "catalog:",
 		"@eslint/compat": "catalog:",
@@ -16,14 +23,15 @@
 		"@typescript-eslint/utils": "^8.24.0",
 		"eslint": "catalog:",
 		"eslint-config-prettier": "catalog:",
+		"eslint-import-resolver-typescript": "catalog:",
 		"eslint-plugin-drizzle": "catalog:",
+		"eslint-plugin-import-x": "catalog:",
 		"eslint-plugin-perfectionist": "catalog:",
 		"eslint-plugin-svelte": "catalog:",
 		"globals": "catalog:",
 		"typescript-eslint": "catalog:"
 	},
 	"devDependencies": {
-		"@types/eslint-config-prettier": "^6.11.3",
 		"@types/node": "catalog:"
 	}
 }
