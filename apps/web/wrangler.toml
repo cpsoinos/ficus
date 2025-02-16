@@ -70,8 +70,8 @@ binding = "ARGON2"
 service = "ficus-argon2"
 
 [[services]]
-binding = "SERVICE_ATTACHMENTS"
-service = "ficus-service-attachments"
+binding = "SERVICE_NOTES"
+service = "ficus-service-notes"
 # To use different bindings for preview and production environments, follow the examples below.
 # When using environment-specific overrides for bindings, ALL bindings must be specified on a per-environment basis.
 # Docs: https://developers.cloudflare.com/pages/functions/wrangler-configuration#environment-specific-overrides
