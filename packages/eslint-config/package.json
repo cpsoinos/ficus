@@ -18,7 +18,7 @@
 		"@dword-design/eslint-plugin-import-alias": "catalog:",
 		"@eslint/compat": "catalog:",
 		"@eslint/js": "catalog:",
-		"@typescript-eslint/utils": "^8.24.0",
+		"@typescript-eslint/utils": "catalog:",
 		"eslint": "catalog:",
 		"eslint-config-prettier": "catalog:",
 		"eslint-import-resolver-typescript": "catalog:",
