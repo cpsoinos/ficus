@@ -11,7 +11,8 @@
 		"./configs/*": "./src/configs/*.mjs"
 	},
 	"scripts": {
-		"lint": "eslint ."
+		"lint": "eslint .",
+		"lint:fix": "eslint --fix ."
 	},
 	"dependencies": {
 		"@dword-design/eslint-plugin-import-alias": "catalog:",

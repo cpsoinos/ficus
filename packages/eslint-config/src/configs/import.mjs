@@ -1,6 +1,6 @@
-import { parser as tsParser } from 'typescript-eslint';
 import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
 import pluginImportX from 'eslint-plugin-import-x';
+import { parser as tsParser } from 'typescript-eslint';
 
 /** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigArray} */
 export const config = [
