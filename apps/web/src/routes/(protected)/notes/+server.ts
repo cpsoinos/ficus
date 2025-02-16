@@ -17,11 +17,24 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		return new Response('Unauthorized', { status: 401 });
 	}
 
-	const clonedRequest = request.clone();
-	clonedRequest.headers.set('x-user-id', userId);
+	// const clonedRequest = request.clone();
+	// clonedRequest.headers.set('x-user-id', userId);
+
+	const forwardedRequest = new Request('http://internal/upload', {
+		method: 'POST',
+		headers: {
+			// 'content-type': request.headers.get('content-type') ?? '',
+			// 'x-file-name': request.headers.get('x-file-name') ?? '',
+			...request.headers,
+			'x-user-id': userId
+		},
+		body: request.body
+	});
+
 	const result = await Bindings.SERVICE_ATTACHMENTS.fetch(
 		'http://internal/upload',
-		clonedRequest as Request
+		forwardedRequest
+		// clonedRequest as Request
 	);
 
 	return new Response(await result.text());
