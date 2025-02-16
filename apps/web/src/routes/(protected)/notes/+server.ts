@@ -19,14 +19,12 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 
 	// const clonedRequest = request.clone();
 	// clonedRequest.headers.set('x-user-id', userId);
+	const headers = new Headers(request.headers);
+	headers.set('x-user-id', userId);
 
 	const forwardedRequest = new Request('http://internal/upload', {
 		method: 'POST',
-		headers: {
-			'content-type': request.headers.get('content-type') ?? '',
-			'x-file-name': request.headers.get('x-file-name') ?? '',
-			'x-user-id': userId
-		},
+		headers,
 		body: request.body
 	});
 
