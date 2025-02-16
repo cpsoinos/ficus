@@ -23,9 +23,8 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	const forwardedRequest = new Request('http://internal/upload', {
 		method: 'POST',
 		headers: {
-			// 'content-type': request.headers.get('content-type') ?? '',
-			// 'x-file-name': request.headers.get('x-file-name') ?? '',
-			...request.headers,
+			'content-type': request.headers.get('content-type') ?? '',
+			'x-file-name': request.headers.get('x-file-name') ?? '',
 			'x-user-id': userId
 		},
 		body: request.body
