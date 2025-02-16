@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 const gitignorePath = fileURLToPath(new URL('../../../../.gitignore', import.meta.url));
 
+/** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigArray} */
 export const config = tsConfig(
 	includeIgnoreFile(gitignorePath),
 	js.configs.recommended,
