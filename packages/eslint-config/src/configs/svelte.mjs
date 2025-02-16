@@ -26,5 +26,19 @@ export const config = [
 				}
 			]
 		}
+	},
+	{
+		rules: {
+			'import-x/no-unresolved': [
+				'error',
+				{
+					ignore: [
+						// SvelteKit aliases
+						'\\$app\\/(forms|environment|navigation|paths|server|state|stores)',
+						'\\$env\\/(dynamic|static)\\/(private|public)'
+					]
+				}
+			]
+		}
 	}
 ];

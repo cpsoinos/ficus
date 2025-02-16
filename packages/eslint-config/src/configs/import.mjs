@@ -31,15 +31,6 @@ export const config = [
 						'type'
 					]
 				}
-			],
-			'import-x/no-unresolved': [
-				'error',
-				{
-					ignore: [
-						'\\$app\\/(forms|environment|navigation|paths|server|state|stores)',
-						'\\$env\\/(dynamic|static)\\/(private|public)'
-					]
-				}
 			]
 		},
 		settings: {

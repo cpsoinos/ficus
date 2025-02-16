@@ -8,10 +8,7 @@
 	"type": "module",
 	"exports": {
 		"./plugins": "./src/plugins.mjs",
-		"./configs/base": "./src/configs/base.mjs",
-		"./configs/import": "./src/configs/import.mjs",
-		"./configs/svelte": "./src/configs/svelte.mjs",
-		"./configs/drizzle": "./src/configs/drizzle.mjs"
+		"./configs/*": "./src/configs/*.mjs"
 	},
 	"scripts": {
 		"lint": "eslint ."
