@@ -5,9 +5,23 @@
 	"keywords": [],
 	"license": "ISC",
 	"author": "",
-	"main": "index.js",
-	"scripts": {},
+	"type": "module",
+	"exports": {
+		"./db/*": {
+			"import": "./src/db/*.ts"
+		}
+	},
+	"main": "src/index.ts",
+	"scripts": {
+		"check": "tsc --noEmit",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix"
+	},
+	"dependencies": {
+		"drizzle-orm": "catalog:"
+	},
 	"devDependencies": {
+		"@ficus/eslint-config": "workspace:*",
 		"typescript": "catalog:"
 	}
 }

@@ -1,7 +1,7 @@
 import { usersTable } from './users';
-import { timestamps } from '$lib/server/db/util';
-import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { timestamps } from '@ficus/common/db/timestamp-columns';
 import { relations } from 'drizzle-orm/relations';
+import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import type { OAuthProvider } from '$lib/server/auth/oauth';
 
 export const oAuthAccountsTable = sqliteTable('oauth_accounts', {

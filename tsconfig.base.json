@@ -30,5 +30,6 @@
 		"strict": true,
 		"target": "es2022",
 		"verbatimModuleSyntax": false
-	}
+	},
+	"references": [{ "path": "./packages/common" }]
 }
