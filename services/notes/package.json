@@ -3,12 +3,22 @@
 	"scripts": {
 		"cf-typegen": "wrangler types --env-interface CloudflareBindings",
 		"check": "tsc --noEmit",
+		"db:generate": "drizzle-kit generate",
+		"db:generate:local": "pnpm drizzle-kit:local generate",
+		"db:migrate": "wrangler d1 migrations apply ficus-web --remote",
+		"db:migrate:local": "wrangler d1 migrations apply ficus-web --local",
+		"db:push": "drizzle-kit push",
+		"db:push:local": "pnpm drizzle-kit:local push",
+		"db:studio": "drizzle-kit studio",
+		"db:studio:local": "pnpm drizzle-kit:local studio",
 		"deploy": "wrangler deploy --minify",
 		"dev": "wrangler dev",
+		"drizzle-kit:local": "DATABASE_URL=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) drizzle-kit",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix"
 	},
 	"dependencies": {
+		"@ficus/common": "workspace:",
 		"@hono/hono": "catalog:",
 		"drizzle-orm": "catalog:"
 	},

@@ -7,11 +7,8 @@
 	"author": "",
 	"type": "module",
 	"exports": {
-		"./db/*": {
-			"import": "./src/db/*.ts"
-		}
+		"./db/*": "./src/db/*.ts"
 	},
-	"main": "src/index.ts",
 	"scripts": {
 		"check": "tsc --noEmit",
 		"lint": "eslint .",
@@ -21,6 +18,7 @@
 		"drizzle-orm": "catalog:"
 	},
 	"devDependencies": {
+		"@cloudflare/workers-types": "catalog:",
 		"@ficus/eslint-config": "workspace:*",
 		"typescript": "catalog:"
 	}

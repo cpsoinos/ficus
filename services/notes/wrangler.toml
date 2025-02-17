@@ -15,6 +15,8 @@ inspector_port = 9225
 binding = "DB"
 database_name = "ficus-notes"
 database_id = "327c99ea-90e4-4db8-b665-25b93f81acb0"
+migrations_dir = "migrations"
+migrations_table = "__drizzle_migrations"
 
 [[r2_buckets]]
 binding = "R2"

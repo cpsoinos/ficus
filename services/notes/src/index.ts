@@ -1,3 +1,7 @@
+import { BindingsSingleton } from './bindings';
+import { notesTable, type NewNote } from './db/schema';
+import { db } from './db';
+import { WorkerEntrypoint } from 'cloudflare:workers';
 import { Hono } from '@hono/hono';
 
 const app = new Hono<{ Bindings: CloudflareBindings }>();
@@ -11,6 +15,10 @@ app.post('/upload', async (c) => {
 	try {
 		const body = c.req.raw.body;
 		if (!body) return c.text('No file uploaded', 400);
+
+		// const attachment: NewAttachment = {
+		// 	userId
+		// };
 
 		const object = await c.env.R2.put(path, body, {
 			httpMetadata: { contentType }
@@ -36,4 +44,18 @@ app.get('/download/:key', async (c) => {
 	}
 });
 
-export default app;
+// export default app;
+
+export default class extends WorkerEntrypoint<CloudflareBindings> {
+	constructor(ctx: ExecutionContext, env: CloudflareBindings) {
+		super(ctx, env);
+		BindingsSingleton.initialize(env);
+	}
+
+	override fetch = app.fetch.bind(app);
+
+	createNote = async (note: NewNote) => {
+		// return db.notesTable.insert(note);
+		return db.insert(notesTable).values(note).returning();
+	};
+}
