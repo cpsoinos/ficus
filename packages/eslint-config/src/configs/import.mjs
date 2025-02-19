@@ -17,6 +17,7 @@ export const config = [
 			'no-unused-vars': 'off',
 			'import-x/no-dynamic-require': 'warn',
 			'import-x/no-nodejs-modules': 'off',
+			'import-x/namespace': ['error', { allowComputed: true }],
 			'import-x/order': [
 				'error',
 				{

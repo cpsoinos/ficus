@@ -1,7 +1,3 @@
-import { BindingsSingleton } from './bindings';
-import { notesTable, type NewNote } from './db/schema';
-import { db } from './db';
-import { WorkerEntrypoint } from 'cloudflare:workers';
 import { Hono } from '@hono/hono';
 
 const app = new Hono<{ Bindings: CloudflareBindings }>();
@@ -44,18 +40,23 @@ app.get('/download/:key', async (c) => {
 	}
 });
 
-// export default app;
+export default app;
 
-export default class extends WorkerEntrypoint<CloudflareBindings> {
-	constructor(ctx: ExecutionContext, env: CloudflareBindings) {
-		super(ctx, env);
-		BindingsSingleton.initialize(env);
-	}
+export { AttachmentsEntrypoint } from './lib/attachments-entrypoint';
+export { NotesEntrypoint } from './lib/notes-entrypoint';
+export { FoldersEntrypoint } from './lib/folders-entrypoint';
+export { TagsEntrypoint } from './lib/tags-entrypoint';
 
-	override fetch = app.fetch.bind(app);
+// export default class extends WorkerEntrypoint<CloudflareBindings> {
+// 	constructor(ctx: ExecutionContext, env: CloudflareBindings) {
+// 		super(ctx, env);
+// 		BindingsSingleton.initialize(env);
+// 	}
 
-	createNote = async (note: NewNote) => {
-		// return db.notesTable.insert(note);
-		return db.insert(notesTable).values(note).returning();
-	};
-}
+// 	override fetch = app.fetch.bind(app);
+
+// 	createNote = async (note: NewNote) => {
+// 		const [result] = await db.insert(notesTable).values(note).returning();
+// 		return result;
+// 	};
+// }

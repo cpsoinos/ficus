@@ -3,7 +3,7 @@ import { tagsTable } from './tags';
 import { relations } from 'drizzle-orm';
 import { primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-export const notesTagsTable = sqliteTable(
+export const notesTagsTableJoin = sqliteTable(
 	'notes_tags',
 	{
 		noteId: text('note_id')
@@ -16,13 +16,13 @@ export const notesTagsTable = sqliteTable(
 	(table) => [primaryKey({ columns: [table.noteId, table.tagId] })]
 );
 
-export const notesTagsRelations = relations(notesTagsTable, ({ one }) => ({
+export const notesTagsRelations = relations(notesTagsTableJoin, ({ one }) => ({
 	tag: one(tagsTable, {
-		fields: [notesTagsTable.tagId],
+		fields: [notesTagsTableJoin.tagId],
 		references: [tagsTable.id]
 	}),
 	note: one(notesTable, {
-		fields: [notesTagsTable.noteId],
+		fields: [notesTagsTableJoin.noteId],
 		references: [notesTable.id]
 	})
 }));
