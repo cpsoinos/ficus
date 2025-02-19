@@ -285,6 +285,9 @@ importers:
       '@ficus/rate-limiter':
         specifier: workspace:*
         version: link:../../packages/rate-limiter
+      '@ficus/service-notes':
+        specifier: workspace:*
+        version: link:../../services/notes
       '@playwright/test':
         specifier: 'catalog:'
         version: 1.50.1

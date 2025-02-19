@@ -50,6 +50,7 @@
 		"@cloudflare/workers-types": "catalog:",
 		"@ficus/eslint-config": "workspace:*",
 		"@ficus/rate-limiter": "workspace:*",
+		"@ficus/service-notes": "workspace:*",
 		"@playwright/test": "catalog:",
 		"@storybook/addon-essentials": "catalog:",
 		"@storybook/addon-interactions": "catalog:",
