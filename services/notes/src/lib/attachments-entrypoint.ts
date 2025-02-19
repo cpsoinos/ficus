@@ -1,18 +1,21 @@
-import { BaseModel } from './base-model';
+import { WorkerEntrypointWithBindings } from './worker-entrypoint-with-bindings';
+import { attachmentsTable, type NewAttachment } from '../db/schema/attachments';
+import { db } from '../db';
+import { notesTable } from '../db/schema/notes';
 import { Hono } from '@hono/hono';
-import type { NewAttachment } from '../db/schema/attachments';
+import { eq } from 'drizzle-orm';
 
-export class AttachmentsEntrypoint extends BaseModel {
+export class AttachmentsEntrypoint extends WorkerEntrypointWithBindings {
 	app = new Hono<{ Bindings: CloudflareBindings }>();
 
 	constructor(ctx: ExecutionContext, env: CloudflareBindings) {
-		super(ctx, env, 'attachments');
+		super(ctx, env);
 
 		this.app.post('/upload', async (c) => {
 			const contentType = c.req.header('content-type') || 'application/octet-stream';
 			const fileName = c.req.header('x-file-name') || `upload-${Date.now()}`;
 			const userId = c.req.header('x-user-id');
-			const noteId = c.req.header('x-note-id');
+			let noteId = c.req.header('x-note-id');
 			const path = `users/${userId}/${fileName}`;
 
 			if (!userId) return c.text('No user id provided', 400);
@@ -21,14 +24,11 @@ export class AttachmentsEntrypoint extends BaseModel {
 				const body = c.req.raw.body;
 				if (!body) return c.text('No file uploaded', 400);
 
-				// if note id, save the attachment to the note
-				if (noteId) {
-					// const attachment = await c.env.Attachments.createAttachment({ noteId, userId });
-				}
+				const note = noteId
+					? await db.query.notesTable.findFirst({ where: eq(notesTable.id, noteId) })
+					: (await db.insert(notesTable).values({ userId, title: fileName }).returning())[0];
 
-				// const attachment: NewAttachment = {
-				// 	userId
-				// };
+				noteId ||= note!.id;
 
 				const object = await c.env.R2.put(path, body, {
 					httpMetadata: { contentType }
@@ -42,7 +42,7 @@ export class AttachmentsEntrypoint extends BaseModel {
 					fileUrl: object.key
 				};
 
-				const attachment = await this.create(attachmentRecord);
+				const [attachment] = await db.insert(attachmentsTable).values(attachmentRecord).returning();
 
 				return c.json(attachment);
 			} catch (error) {
@@ -65,5 +65,7 @@ export class AttachmentsEntrypoint extends BaseModel {
 		});
 	}
 
-	override fetch = this.app.fetch.bind(this.app);
+	override fetch(req: Request) {
+		return this.app.fetch(req);
+	}
 }

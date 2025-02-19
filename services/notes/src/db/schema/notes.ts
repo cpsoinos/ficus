@@ -9,6 +9,8 @@ export const notesTable = sqliteTable('notes', {
 		.$defaultFn(() => crypto.randomUUID()),
 	userId: text('user_id').notNull(),
 	folderId: text('folder_id').references(() => foldersTable.id, { onDelete: 'cascade' }),
+	title: text('title').notNull(),
+	content: text('content'),
 	...timestamps
 });
 
