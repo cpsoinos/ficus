@@ -30,7 +30,7 @@ export const folderRelations = relations(foldersTable, ({ one, many }) => ({
 		relationName: 'parentFolder'
 	}),
 	subFolders: many(foldersTable, {
-		relationName: 'subFolders'
+		relationName: 'parentFolder'
 	}),
 	notes: many(notesTable)
 }));
