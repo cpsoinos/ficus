@@ -1,0 +1,24 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "ficus-service-notes"
+main = "src/index.ts"
+compatibility_date = "2025-02-14"
+workers_dev = false
+
+[observability]
+enabled = true
+
+[dev]
+port = 8765
+inspector_port = 9225
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ficus-notes"
+database_id = "327c99ea-90e4-4db8-b665-25b93f81acb0"
+migrations_dir = "migrations"
+migrations_table = "__drizzle_migrations"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "ficus-attachments"
+preview_bucket_name = "ficus-attachments-dev"

@@ -2,7 +2,7 @@ import { sessionsTable } from './sessions';
 import { passwordResetSessionsTable } from './passwordResetSessions';
 import { emailVerificationRequestsTable } from './emailVerificationRequests';
 import { oAuthAccountsTable } from './oAuthAccounts';
-import { timestamps } from '$lib/server/db/util';
+import { timestamps } from '@ficus/common/db/timestamp-columns';
 import { sqliteTable, text, integer, blob } from 'drizzle-orm/sqlite-core';
 import { type SQL, sql, relations } from 'drizzle-orm';
 

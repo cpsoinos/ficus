@@ -1,4 +1,4 @@
-import { getUserRecoverCode } from '$lib/server/user';
+import { getUserRecoverCode } from '$lib/server/auth/user';
 import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
