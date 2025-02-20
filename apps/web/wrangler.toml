@@ -75,6 +75,10 @@ service = "ficus-service-notes"
 entrypoint = "NotesEntrypoint"
 
 [[services]]
+binding = "UPLOADS"
+service = "ficus-service-notes"
+
+[[services]]
 binding = "ATTACHMENTS"
 service = "ficus-service-notes"
 entrypoint = "AttachmentsEntrypoint"

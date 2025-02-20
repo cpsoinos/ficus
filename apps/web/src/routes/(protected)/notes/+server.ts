@@ -26,10 +26,15 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		body: request.body
 	});
 
-	const result = await Bindings.SERVICE_ATTACHMENTS.fetch(
-		'http://internal/upload',
-		forwardedRequest
-	);
+	const result = await Bindings.UPLOADS.fetch('http://internal/upload', forwardedRequest);
+	// const result = await Bindings.ATTACHMENTS.upload({
+	// 	contentType: request.headers.get('content-type') || 'application/octet-stream',
+	// 	fileName: request.headers.get('x-file-name') || `upload-${Date.now()}`,
+	// 	userId,
+	// 	body: request.body!
+	// });
+	// const result = await Bindings.ATTACHMENTS.upload(forwardedRequest);
 
 	return new Response(await result.text());
+	// return new Response(JSON.stringify(result));
 };
