@@ -385,6 +385,8 @@ importers:
         specifier: 'catalog:'
         version: 3.107.2(@cloudflare/workers-types@4.20250204.0)
 
+  packages/argon2/build: {}
+
   packages/common:
     dependencies:
       drizzle-orm:
