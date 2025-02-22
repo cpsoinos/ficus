@@ -24,7 +24,9 @@
 			const xhr = new XMLHttpRequest();
 
 			xhr.open('POST', '/notes', true);
+			// xhr.open('POST', 'http://localhost:8765/upload', true);
 			xhr.setRequestHeader('X-File-Name', file.name);
+			// xhr.setRequestHeader('X-user-id', '1');
 			xhr.setRequestHeader('Content-Type', file.type);
 
 			// Track progress

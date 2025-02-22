@@ -1,10 +1,8 @@
-import { WorkerEntrypoint } from 'cloudflare:workers';
-export default class extends WorkerEntrypoint<CloudflareBindings> {
-	// constructor(ctx: ExecutionContext, env: CloudflareBindings) {
-	// 	super(ctx, env);
-	// 	BindingsSingleton.initialize(env);
-	// }
-}
+export default {
+	async fetch() {
+		return new Response('Use named entrypoints', { status: 404 });
+	}
+} satisfies ExportedHandler<CloudflareBindings>;
 
 export { NotesEntrypoint } from './lib/notes-entrypoint';
 export { FoldersEntrypoint } from './lib/folders-entrypoint';

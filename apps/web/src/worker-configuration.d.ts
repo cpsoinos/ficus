@@ -14,4 +14,5 @@ interface Env {
 	ATTACHMENTS: Fetcher<import('@ficus/service-notes/src/index').AttachmentsEntrypoint>;
 	FOLDERS: Fetcher<import('@ficus/service-notes/src/index').FoldersEntrypoint>;
 	TAGS: Fetcher<import('@ficus/service-notes/src/index').TagsEntrypoint>;
+	R2: R2Bucket;
 }
