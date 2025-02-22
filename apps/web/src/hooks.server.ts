@@ -5,7 +5,7 @@ import {
 	validateSessionToken,
 	setSessionTokenCookie,
 	deleteSessionTokenCookie
-} from './lib/server/session';
+} from './lib/server/auth/session';
 import { preloadIcons } from './lib/icons';
 import { sequence } from '@sveltejs/kit/hooks';
 import { redirect, type Handle } from '@sveltejs/kit';

@@ -1,4 +1,4 @@
-import { github, OAuthProvider } from '$lib/server/oauth';
+import { github, OAuthProvider } from '$lib/server/auth/oauth';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 import {
@@ -6,11 +6,11 @@ import {
 	generateSessionToken,
 	setSessionTokenCookie,
 	type SessionFlags
-} from '$lib/server/session';
-import { createUser } from '$lib/server/user';
-import { and, eq } from 'drizzle-orm';
+} from '$lib/server/auth/session';
+import { createUser } from '$lib/server/auth/user';
 import { ofetch } from 'ofetch';
-import type { GithubUser } from '$lib/server/oauth.types';
+import { and, eq } from 'drizzle-orm';
+import type { GithubUser } from '$lib/server/auth/oauth.types';
 import type { OAuth2Tokens } from 'arctic';
 import type { RequestEvent } from '@sveltejs/kit';
 

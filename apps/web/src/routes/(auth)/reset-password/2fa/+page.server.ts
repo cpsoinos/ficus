@@ -1,13 +1,13 @@
-import { getUserTOTPKey } from '$lib/server/user';
+import { getUserTOTPKey } from '$lib/server/auth/user';
 import {
 	validatePasswordResetSessionRequest,
 	setPasswordResetSessionAs2FAVerified
-} from '$lib/server/password-reset';
+} from '$lib/server/auth/password-reset';
 import {
 	getTotpBucket,
 	getRecoveryCodeBucket,
 	resetUser2FAWithRecoveryCode
-} from '$lib/server/2fa';
+} from '$lib/server/auth/2fa';
 import { fail, redirect } from '@sveltejs/kit';
 import { verifyTOTP } from '@oslojs/otp';
 

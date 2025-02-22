@@ -1,7 +1,10 @@
 import { generateRandomOTP } from './utils';
-import { db } from './db';
-import { emailVerificationRequestsTable, type EmailVerificationRequest } from './db/schema';
-import { ExpiringTokenBucketProxy } from './rate-limit/ExpiringTokenBucketProxy';
+import { db } from '$lib/server/db';
+import {
+	emailVerificationRequestsTable,
+	type EmailVerificationRequest
+} from '$lib/server/db/schema';
+import { ExpiringTokenBucketProxy } from '$lib/server/rate-limit/ExpiringTokenBucketProxy';
 import { and, eq } from 'drizzle-orm';
 import type { RequestEvent } from '@sveltejs/kit';
 

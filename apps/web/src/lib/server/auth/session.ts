@@ -1,10 +1,10 @@
-import { db } from './db';
-import * as table from './db/schema';
+import { db } from '$lib/server/db';
+import * as table from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { encodeBase32LowerCaseNoPadding, encodeHexLowerCase } from '@oslojs/encoding';
 import { sha256 } from '@oslojs/crypto/sha2';
 import type { RequestEvent } from '@sveltejs/kit';
-import type { NewSession, Session } from './db/schema';
+import type { NewSession, Session } from '$lib/server/db/schema';
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 

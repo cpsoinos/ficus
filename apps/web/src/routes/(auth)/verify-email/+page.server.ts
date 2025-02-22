@@ -6,9 +6,9 @@ import {
 	getUserEmailVerificationRequestFromRequest,
 	sendVerificationEmail,
 	setEmailVerificationRequestCookie
-} from '$lib/server/email-verification';
-import { invalidateUserPasswordResetSessions } from '$lib/server/password-reset';
-import { updateUserEmailAndSetEmailAsVerified } from '$lib/server/user';
+} from '$lib/server/auth/email-verification';
+import { invalidateUserPasswordResetSessions } from '$lib/server/auth/password-reset';
+import { updateUserEmailAndSetEmailAsVerified } from '$lib/server/auth/user';
 import { ExpiringTokenBucketProxy } from '$lib/server/rate-limit/ExpiringTokenBucketProxy';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, RequestEvent } from './$types';

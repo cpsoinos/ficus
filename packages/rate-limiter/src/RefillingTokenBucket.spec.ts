@@ -1,6 +1,6 @@
+import { RefillingTokenBucket } from './RefillingTokenBucket';
 import { env, runDurableObjectAlarm, runInDurableObject } from 'cloudflare:test';
 import { describe, it, expect } from 'vitest';
-import { RefillingTokenBucket } from './RefillingTokenBucket';
 
 describe('RefillingTokenBucket', () => {
 	it('should throw an error if params are not set', async () => {
@@ -65,7 +65,7 @@ describe('RefillingTokenBucket', () => {
 			});
 
 			// Immediately execute the alarm to reset the counter
-			let ran = await runDurableObjectAlarm(stub);
+			const ran = await runDurableObjectAlarm(stub);
 			expect(ran).toBe(true); // ...as there was an alarm scheduled
 
 			const remainingTokens = await runInDurableObject(stub, async (instance) => {
@@ -90,7 +90,7 @@ describe('RefillingTokenBucket', () => {
 				await instance.storage.setAlarm(Date.now() + 1000);
 			});
 
-			let ran = await runDurableObjectAlarm(stub);
+			const ran = await runDurableObjectAlarm(stub);
 			expect(ran).toBe(true);
 
 			const remainingTokens = await runInDurableObject(stub, async (instance) => {

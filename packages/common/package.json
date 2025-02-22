@@ -1,0 +1,25 @@
+{
+	"name": "@ficus/common",
+	"version": "1.0.0",
+	"description": "",
+	"keywords": [],
+	"license": "ISC",
+	"author": "",
+	"type": "module",
+	"exports": {
+		"./db/*": "./src/db/*.ts"
+	},
+	"scripts": {
+		"check": "tsc --noEmit",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix"
+	},
+	"dependencies": {
+		"drizzle-orm": "catalog:"
+	},
+	"devDependencies": {
+		"@cloudflare/workers-types": "catalog:",
+		"@ficus/eslint-config": "workspace:*",
+		"typescript": "catalog:"
+	}
+}

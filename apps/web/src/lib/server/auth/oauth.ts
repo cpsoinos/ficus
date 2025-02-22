@@ -1,5 +1,5 @@
-import { db } from './db';
-import { oAuthAccountsTable, type OAuthAccount } from './db/schema';
+import { db } from '$lib/server/db';
+import { oAuthAccountsTable, type OAuthAccount } from '$lib/server/db/schema';
 import { GitHub } from 'arctic';
 import { eq } from 'drizzle-orm';
 import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from '$env/static/private';

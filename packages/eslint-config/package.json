@@ -1,0 +1,35 @@
+{
+	"name": "@ficus/eslint-config",
+	"version": "1.0.0",
+	"description": "",
+	"keywords": [],
+	"license": "ISC",
+	"author": "Corey Psoinos <corey@anderapps.com>",
+	"type": "module",
+	"exports": {
+		"./plugins": "./src/plugins.mjs",
+		"./configs/*": "./src/configs/*.mjs"
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"lint:fix": "eslint --fix ."
+	},
+	"dependencies": {
+		"@dword-design/eslint-plugin-import-alias": "catalog:",
+		"@eslint/compat": "catalog:",
+		"@eslint/js": "catalog:",
+		"@typescript-eslint/utils": "catalog:",
+		"eslint": "catalog:",
+		"eslint-config-prettier": "catalog:",
+		"eslint-import-resolver-typescript": "catalog:",
+		"eslint-plugin-drizzle": "catalog:",
+		"eslint-plugin-import-x": "catalog:",
+		"eslint-plugin-perfectionist": "catalog:",
+		"eslint-plugin-svelte": "catalog:",
+		"globals": "catalog:",
+		"typescript-eslint": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:"
+	}
+}

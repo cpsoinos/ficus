@@ -1,5 +1,5 @@
-import { db } from './db';
-import { usersTable } from './db/schema';
+import { db } from '$lib/server/db';
+import { usersTable } from '$lib/server/db/schema';
 import { eq, sql } from 'drizzle-orm/sql';
 
 export function verifyEmailInput(email: string): boolean {
