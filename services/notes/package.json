@@ -1,7 +1,7 @@
 {
 	"name": "@ficus/service-notes",
 	"scripts": {
-		"cf-typegen": "wrangler types --env-interface CloudflareBindings",
+		"cf-typegen": "wrangler types",
 		"check": "tsc --noEmit",
 		"db:generate": "drizzle-kit generate",
 		"db:generate:local": "pnpm drizzle-kit:local generate",
@@ -25,6 +25,7 @@
 	"devDependencies": {
 		"@cloudflare/workers-types": "catalog:",
 		"@ficus/eslint-config": "workspace:",
+		"@types/node": "catalog:",
 		"drizzle-kit": "catalog:",
 		"eslint": "catalog:",
 		"wrangler": "catalog:"

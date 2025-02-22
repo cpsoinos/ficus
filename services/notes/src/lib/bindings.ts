@@ -1,12 +1,12 @@
 export class BindingsSingleton {
-	static env: CloudflareBindings;
+	static env: Env;
 
-	static initialize(env: CloudflareBindings) {
+	static initialize(env: Env) {
 		Bindings.env = env;
 	}
 }
 
-export type BindingsType = typeof BindingsSingleton & CloudflareBindings;
+export type BindingsType = typeof BindingsSingleton & Env;
 
 export const Bindings = new Proxy(BindingsSingleton, {
 	get(target, prop, receiver) {
@@ -14,7 +14,7 @@ export const Bindings = new Proxy(BindingsSingleton, {
 			return Reflect.get(target, prop, receiver);
 		}
 		if (BindingsSingleton.env && prop in BindingsSingleton.env) {
-			return BindingsSingleton.env[prop as keyof CloudflareBindings];
+			return BindingsSingleton.env[prop as keyof Env];
 		}
 		return undefined;
 	}

@@ -8,7 +8,7 @@ export abstract class BaseModel extends WorkerEntrypointWithBindings {
 	private tableName: `${ModelNames}Table`;
 	private table: ModelTable;
 
-	constructor(ctx: ExecutionContext, env: CloudflareBindings, modelName: ModelNames) {
+	constructor(ctx: ExecutionContext, env: Env, modelName: ModelNames) {
 		super(ctx, env);
 		this.tableName = `${modelName}Table`;
 		this.table = schema[this.tableName];

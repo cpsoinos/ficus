@@ -37,7 +37,7 @@ export class AttachmentsEntrypoint extends WorkerEntrypointWithBindings {
 	}
 }
 
-const app = new Hono<{ Bindings: CloudflareBindings }>();
+const app = new Hono<{ Bindings: Env }>();
 
 app.post('/upload', async (c) => {
 	const contentType = c.req.header('content-type') || 'application/octet-stream';

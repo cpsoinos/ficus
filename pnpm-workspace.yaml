@@ -31,7 +31,7 @@ catalog:
   '@sveltejs/vite-plugin-svelte': ^5.0.0
   '@tailwindcss/container-queries': ^0.1.1
   '@tailwindcss/forms': ^0.5.10
-  '@types/node': ^22.10.2
+  '@types/node': ^22.13.5
   '@typescript-eslint/utils': ^8.24.0
   arctic: ^3.3.0
   autoprefixer: ^10.4.20
