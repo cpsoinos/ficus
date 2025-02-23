@@ -1,4 +1,3 @@
-// Use generics to bind the model name and its types.
 import { WorkerEntrypointWithBindings } from './worker-entrypoint-with-bindings';
 import * as schema from '../db/schema';
 import { db } from '../db';

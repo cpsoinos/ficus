@@ -4,10 +4,7 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async (event) => {
 	const { noteId } = event.params;
 
-	const note = await Bindings.NOTES.findById(noteId);
-	if (!note) {
-		return { status: 404 };
-	}
+	const note = await Bindings.NOTES.findByIdWithAttachments(noteId);
 
 	return { note };
 };
