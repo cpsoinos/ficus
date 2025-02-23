@@ -5,9 +5,3 @@ type ExtractPrefixes<T> = {
 }[keyof T];
 
 export type ModelNames = ExtractPrefixes<typeof schema>;
-
-export type ModelTable = (typeof schema)[`${ModelNames}Table`];
-
-export type ModelType = (typeof schema)[`${ModelNames}Table`]['$inferSelect'];
-
-export type ModelInsertType = (typeof schema)[`${ModelNames}Table`]['$inferInsert'];

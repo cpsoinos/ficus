@@ -1,12 +1,12 @@
-import { WorkerEntrypointWithBindings } from './worker-entrypoint-with-bindings';
 import { Bindings } from './bindings';
+import { BaseModel } from './base-model';
 import { attachmentsTable, type NewAttachment } from '../db/schema/attachments';
 import { db } from '../db';
 import { notesTable } from '../db/schema/notes';
 import { Hono } from '@hono/hono';
 import { eq } from 'drizzle-orm';
 
-export class AttachmentsEntrypoint extends WorkerEntrypointWithBindings {
+export class AttachmentsEntrypoint extends BaseModel<'attachments'> {
 	// Need to use fetch handler for streaming file uploads at this time
 	override fetch(req: Request) {
 		return app.fetch(req);

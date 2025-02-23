@@ -1,40 +1,50 @@
+// Use generics to bind the model name and its types.
 import { WorkerEntrypointWithBindings } from './worker-entrypoint-with-bindings';
 import * as schema from '../db/schema';
 import { db } from '../db';
 import { eq, getTableColumns } from 'drizzle-orm';
-import type { ModelInsertType, ModelNames, ModelTable, ModelType } from '../db/type-utils';
+import type { ModelNames } from '../db/type-utils';
+import type { SQLiteUpdateSetSource } from 'drizzle-orm/sqlite-core';
 
-export abstract class BaseModel extends WorkerEntrypointWithBindings {
-	private tableName: `${ModelNames}Table`;
-	private table: ModelTable;
+export abstract class BaseModel<T extends ModelNames> extends WorkerEntrypointWithBindings {
+	private tableName: `${T}Table`;
+	private table: (typeof schema)[`${T}Table`];
 
-	constructor(ctx: ExecutionContext, env: Env, modelName: ModelNames) {
+	constructor(ctx: ExecutionContext, env: Env, modelName: T) {
 		super(ctx, env);
 		this.tableName = `${modelName}Table`;
 		this.table = schema[this.tableName];
 	}
 
-	async findById(id: string): Promise<ModelType | undefined> {
+	async findById(id: string): Promise<(typeof schema)[`${T}Table`]['$inferSelect'] | undefined> {
 		if (!this.tableHasIdColumn) {
 			throw new Error(`Table ${this.tableName} does not have an 'id' column`);
 		}
 		const [result] = await db.select().from(this.table).where(eq(this.table.id, id));
-		return result;
+		return result as (typeof schema)[`${T}Table`]['$inferSelect'] | undefined;
 	}
 
-	async findMany(userId: string): Promise<ModelType[]> {
+	async findMany(userId: string): Promise<(typeof schema)[`${T}Table`]['$inferSelect'][]> {
 		const results = await db.select().from(this.table).where(eq(this.table.userId, userId));
-		return results;
+		return results as (typeof schema)[`${T}Table`]['$inferSelect'][];
 	}
 
-	async create(attrs: ModelInsertType): Promise<ModelType> {
+	async create(
+		attrs: (typeof schema)[`${T}Table`]['$inferInsert']
+	): Promise<(typeof schema)[`${T}Table`]['$inferSelect']> {
 		const [result] = await db.insert(this.table).values(attrs).returning();
-		return result;
+		return result as (typeof schema)[`${T}Table`]['$inferSelect'];
 	}
 
-	async update(id: string, attrs: Partial<ModelInsertType>): Promise<ModelType> {
+	async update(
+		id: string,
+		attrs: SQLiteUpdateSetSource<(typeof schema)[`${T}Table`]>
+	): Promise<(typeof schema)[`${T}Table`]['$inferSelect']> {
 		if (!this.tableHasIdColumn) {
 			throw new Error(`Table ${this.tableName} does not have an 'id' column`);
+		}
+		if (!attrs) {
+			throw new Error('No attributes provided to update');
 		}
 		const [result] = await db
 			.update(this.table)
