@@ -14,5 +14,4 @@ interface Env {
 	ATTACHMENTS: Service<import('@ficus/service-notes/src/index').AttachmentsEntrypoint>;
 	FOLDERS: Service<import('@ficus/service-notes/src/index').FoldersEntrypoint>;
 	TAGS: Service<import('@ficus/service-notes/src/index').TagsEntrypoint>;
-	R2: R2Bucket;
 }
