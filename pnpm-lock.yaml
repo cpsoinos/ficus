@@ -504,6 +504,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.20.1(jiti@1.21.7)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.7.3
       wrangler:
         specifier: 'catalog:'
         version: 3.109.2(@cloudflare/workers-types@4.20250214.0)
