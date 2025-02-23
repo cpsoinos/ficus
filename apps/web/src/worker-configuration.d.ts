@@ -10,9 +10,9 @@ interface Env {
 	THROTTLER: DurableObjectNamespace<import('@ficus/rate-limiter/src/index').Throttler>;
 	DB: D1Database;
 	ARGON2: Fetcher;
-	NOTES: Fetcher<import('@ficus/service-notes/src/index').NotesEntrypoint>;
-	ATTACHMENTS: Fetcher<import('@ficus/service-notes/src/index').AttachmentsEntrypoint>;
-	FOLDERS: Fetcher<import('@ficus/service-notes/src/index').FoldersEntrypoint>;
-	TAGS: Fetcher<import('@ficus/service-notes/src/index').TagsEntrypoint>;
+	NOTES: Service<import('@ficus/service-notes/src/index').NotesEntrypoint>;
+	ATTACHMENTS: Service<import('@ficus/service-notes/src/index').AttachmentsEntrypoint>;
+	FOLDERS: Service<import('@ficus/service-notes/src/index').FoldersEntrypoint>;
+	TAGS: Service<import('@ficus/service-notes/src/index').TagsEntrypoint>;
 	R2: R2Bucket;
 }
