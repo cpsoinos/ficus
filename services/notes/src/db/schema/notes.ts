@@ -1,4 +1,5 @@
 import { foldersTable } from './folders';
+import { attachmentsTable } from './attachments';
 import { timestamps } from '@ficus/common/db/timestamp-columns';
 import { relations } from 'drizzle-orm';
 import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
@@ -14,8 +15,9 @@ export const notesTable = sqliteTable('notes', {
 	...timestamps
 });
 
-export const noteRelations = relations(notesTable, ({ one }) => ({
-	folder: one(foldersTable, { fields: [notesTable.folderId], references: [foldersTable.id] })
+export const noteRelations = relations(notesTable, ({ one, many }) => ({
+	folder: one(foldersTable, { fields: [notesTable.folderId], references: [foldersTable.id] }),
+	attachments: many(attachmentsTable)
 }));
 
 export type Note = typeof notesTable.$inferSelect;

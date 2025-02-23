@@ -1,11 +1,10 @@
 <script lang="ts">
-	// import { Button } from '$lib/components/ui/button';
+	import { Button } from '$lib/components/ui/button';
 	import type { PageProps } from './$types';
 	// import { page } from '$app/state';
 
-	const { data }: PageProps = $props();
+	let { data }: PageProps = $props();
 	const { note } = data;
-	console.log(note);
 
 	// const { noteId } = page.params;
 
@@ -28,6 +27,22 @@
 	//
 </script>
 
-<h1>Attachment</h1>
+{#if !note}
+	<h1>Not found</h1>
+{:else}
+	<h1>{note.title}</h1>
+	<p>{note.content}</p>
+	{#if note.attachments.length}
+		{#each note.attachments as attachment}
+			<div class="flex justify-between">
+				<p>Attachment: {attachment.fileName}</p>
+				<Button
+					href={`/notes/${note.id}/attachments/${attachment.id}`}
+					download={attachment.fileName}>Download</Button
+				>
+			</div>
+		{/each}
+	{/if}
+{/if}
 <!-- <Button onclick={download}>Download attachment</Button> -->
 <!-- <Button href={`/notes/${id}/attachment`} download={attachment.filename}>Fetch attachment</Button> -->

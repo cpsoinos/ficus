@@ -8,7 +8,9 @@ export const attachmentsTable = sqliteTable('attachments', {
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
 	userId: text('user_id').notNull(),
-	noteId: text('note_id').references(() => notesTable.id, { onDelete: 'cascade' }),
+	noteId: text('note_id')
+		.notNull()
+		.references(() => notesTable.id, { onDelete: 'cascade' }),
 	fileName: text('file_name').notNull(),
 	mimeType: text('mime_type').notNull(),
 	fileUrl: text('file_url').notNull(),

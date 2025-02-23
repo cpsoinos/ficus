@@ -12,20 +12,23 @@ export class AttachmentsEntrypoint extends BaseModel<'attachments'> {
 		return app.fetch(req);
 	}
 
-	async download(key: string): Promise<{
-		filename: string | undefined;
+	async download(id: string): Promise<{
+		fileName: string | undefined;
 		body: ReadableStream;
 		size: number;
 		contentType: string | undefined;
 	} | null> {
 		try {
-			const object = await Bindings.R2.get(key);
+			const attachment = await db.query.attachmentsTable.findFirst({
+				where: eq(attachmentsTable.id, id)
+			});
+			if (!attachment) return null;
+
+			const object = await Bindings.R2.get(attachment.fileUrl);
 			if (!object) return null;
 
-			const filename = object.key.split('/').pop();
-
 			return {
-				filename,
+				fileName: object.customMetadata?.filename,
 				body: object.body,
 				size: object.size,
 				contentType: object.httpMetadata?.contentType
