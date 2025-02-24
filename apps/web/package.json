@@ -43,6 +43,7 @@
 		"arctic": "catalog:",
 		"drizzle-orm": "catalog:",
 		"easymde": "^2.19.0",
+		"github-markdown-css": "^5.8.1",
 		"marked": "^15.0.7",
 		"ofetch": "catalog:",
 		"uqr": "catalog:"
