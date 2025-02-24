@@ -42,6 +42,8 @@
 		"@tailwindcss/forms": "catalog:",
 		"arctic": "catalog:",
 		"drizzle-orm": "catalog:",
+		"easymde": "^2.19.0",
+		"marked": "^15.0.7",
 		"ofetch": "catalog:",
 		"uqr": "catalog:"
 	},
