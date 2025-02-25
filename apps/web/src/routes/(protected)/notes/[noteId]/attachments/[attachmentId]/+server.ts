@@ -7,7 +7,7 @@ export const GET = async (event) => {
 		return new Response('Unauthorized', { status: 401 });
 	}
 
-	const downloadedAttachment = await Bindings.ATTACHMENTS.download(attachmentId);
+	using downloadedAttachment = await Bindings.ATTACHMENTS.download(attachmentId);
 
 	if (!downloadedAttachment) {
 		return new Response('Object not found', { status: 404 });
