@@ -31,6 +31,9 @@
 		"test:unit": "vitest run"
 	},
 	"dependencies": {
+		"@cartamd/plugin-attachment": "^4.1.1",
+		"@cartamd/plugin-code": "^4.0.6",
+		"@cartamd/plugin-slash": "^4.1.2",
 		"@ficus/common": "workspace:*",
 		"@iconify/svelte": "catalog:",
 		"@libsql/client": "catalog:",
@@ -41,10 +44,9 @@
 		"@tailwindcss/container-queries": "catalog:",
 		"@tailwindcss/forms": "catalog:",
 		"arctic": "catalog:",
+		"carta-md": "^4.7.0",
 		"drizzle-orm": "catalog:",
-		"easymde": "^2.19.0",
-		"github-markdown-css": "^5.8.1",
-		"marked": "^15.0.7",
+		"isomorphic-dompurify": "^2.22.0",
 		"ofetch": "catalog:",
 		"uqr": "catalog:"
 	},
