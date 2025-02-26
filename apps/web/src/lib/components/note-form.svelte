@@ -64,6 +64,6 @@
 	</Tabs.Content>
 	<Tabs.Content value="preview">
 		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-		<div class="markdown-body">{@html marked(markdown)}</div>
+		<div class="markdown-body p-4">{@html marked(markdown)}</div>
 	</Tabs.Content>
 </Tabs.Root>
