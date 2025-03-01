@@ -3,7 +3,6 @@ import { listNotes } from './listNotes';
 import { findByIdWithAttachments } from './findByIdWithAttachments';
 import { BaseModel } from '../base-model';
 import { type Note } from '../../db/schema';
-import { RpcTarget } from 'cloudflare:workers';
 
 export class NotesEntrypoint extends BaseModel<'notes'> {
 	constructor(ctx: ExecutionContext, env: Env) {
@@ -12,10 +11,6 @@ export class NotesEntrypoint extends BaseModel<'notes'> {
 
 	override fetch(req: Request) {
 		return app.fetch(req);
-	}
-
-	getCounter() {
-		return new Counter();
 	}
 
 	/**
@@ -27,18 +22,5 @@ export class NotesEntrypoint extends BaseModel<'notes'> {
 
 	async findByIdWithAttachments(noteId: string) {
 		return findByIdWithAttachments(noteId);
-	}
-}
-
-class Counter extends RpcTarget {
-	#value = 0;
-
-	increment(amount: number) {
-		this.#value += amount;
-		return this.#value;
-	}
-
-	get value() {
-		return this.#value;
 	}
 }
