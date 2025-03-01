@@ -6,8 +6,10 @@ export const load: LayoutServerLoad = async (event) => {
 	const { user } = event.locals;
 	const userId = user!.id;
 
-	const notesList = await Bindings.NOTES.listNotes(userId);
-	const foldersList = await Bindings.FOLDERS.listFolders(userId);
+	const [notesList, foldersList] = await Promise.all([
+		Bindings.NOTES.listNotes(userId),
+		Bindings.FOLDERS.listFolders(userId)
+	]);
 
 	const sidebarItems: SidebarItem[] = [
 		{
