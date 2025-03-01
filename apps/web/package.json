@@ -84,7 +84,6 @@
 		"tsx": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",
-		"vite-plugin-using": "^0.0.4",
 		"vitest": "^3.0.5",
 		"wrangler": "catalog:"
 	}

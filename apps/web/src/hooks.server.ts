@@ -11,11 +11,6 @@ import { sequence } from '@sveltejs/kit/hooks';
 import { redirect, type Handle } from '@sveltejs/kit';
 import { dev } from '$app/environment';
 
-// @ts-expect-error - shim for tc39 https://github.com/tc39/proposal-explicit-resource-management?tab=readme-ov-file#additions-to-symbol
-Symbol.dispose ??= Symbol('@@dispose');
-// @ts-expect-error - shim for tc39 https://github.com/tc39/proposal-explicit-resource-management?tab=readme-ov-file#additions-to-symbol
-Symbol.asyncDispose ??= Symbol('@@asyncDispose');
-
 let platform: App.Platform;
 
 const devShim: Handle = async ({ event, resolve }) => {
