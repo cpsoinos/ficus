@@ -3,6 +3,7 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import NoteForm from '$lib/components/note-form.svelte';
+	import { uploadFile } from '$lib/file-upload';
 
 	async function handleSubmit(event: SubmitEvent) {
 		event.preventDefault();
@@ -11,37 +12,13 @@
 		if (!file) return;
 
 		try {
-			const res = await uploadAttachment(file, (progress) => {
+			const res = await uploadFile(file, '/notes', (progress) => {
 				console.log(`Upload Progress: ${progress}%`);
 			});
 			console.log('Upload Success:', res);
 		} catch (err) {
 			console.error('Upload Failed:', err);
 		}
-	}
-
-	function uploadAttachment(file: File, onProgress: (progress: number) => void) {
-		return new Promise((resolve, reject) => {
-			const xhr = new XMLHttpRequest();
-			xhr.open('POST', '/notes', true);
-			xhr.setRequestHeader('X-File-Name', file.name);
-			xhr.setRequestHeader('Content-Type', file.type);
-			xhr.upload.onprogress = (event) => {
-				if (event.lengthComputable) {
-					const percent = Math.round((event.loaded / event.total) * 100);
-					onProgress(percent);
-				}
-			};
-			xhr.onload = () => {
-				if (xhr.status >= 200 && xhr.status < 300) {
-					resolve(JSON.parse(xhr.responseText));
-				} else {
-					reject(new Error(`Upload failed with status ${xhr.status}`));
-				}
-			};
-			xhr.onerror = () => reject(new Error('Upload error'));
-			xhr.send(file);
-		});
 	}
 </script>
 

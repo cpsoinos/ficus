@@ -26,6 +26,15 @@
 			slash()
 		]
 	});
+
+	// let timer: ReturnType<typeof setTimeout>;
+
+	// const debounce = (value: string) => {
+	// 	clearTimeout(timer);
+	// 	timer = setTimeout(() => {
+	// 		val = value;
+	// 	}, 750);
+	// }
 </script>
 
 <MarkdownEditor {carta} bind:value={markdown} />
