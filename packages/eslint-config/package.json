@@ -30,6 +30,7 @@
 		"typescript-eslint": "catalog:"
 	},
 	"devDependencies": {
+		"@types/eslint-config-prettier": "^6.11.3",
 		"@types/node": "catalog:"
 	}
 }
