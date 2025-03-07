@@ -9,21 +9,6 @@ import {
 import { preloadIcons } from './lib/icons';
 import { sequence } from '@sveltejs/kit/hooks';
 import { redirect, type Handle } from '@sveltejs/kit';
-import { dev } from '$app/environment';
-
-let platform: App.Platform;
-
-const devShim: Handle = async ({ event, resolve }) => {
-	if (dev) {
-		const { getPlatformProxy } = await import('wrangler');
-		platform = (await getPlatformProxy<Env>()) as unknown as App.Platform;
-		event.platform = {
-			...event.platform,
-			...platform
-		};
-	}
-	return resolve(event);
-};
 
 const initDb: Handle = async ({ event, resolve }) => {
 	DbSingleton.initialize(event.platform!.env.DB);
@@ -73,4 +58,4 @@ const authHook: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-export const handle: Handle = sequence(devShim, initBindings, initDb, iconsHook, authHook);
+export const handle: Handle = sequence(initBindings, initDb, iconsHook, authHook);

@@ -64,7 +64,6 @@
 		"@storybook/svelte": "catalog:",
 		"@storybook/sveltekit": "catalog:",
 		"@storybook/test": "catalog:",
-		"@sveltejs/adapter-auto": "catalog:",
 		"@sveltejs/adapter-cloudflare": "catalog:",
 		"@sveltejs/kit": "catalog:",
 		"@sveltejs/vite-plugin-svelte": "catalog:",
