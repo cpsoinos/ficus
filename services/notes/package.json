@@ -21,6 +21,7 @@
 		"@ficus/common": "workspace:",
 		"@hono/zod-validator": "catalog:",
 		"drizzle-orm": "catalog:",
+		"drizzle-zod": "^0.7.0",
 		"hono": "catalog:",
 		"zod": "catalog:"
 	},

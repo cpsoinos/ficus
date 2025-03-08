@@ -10,13 +10,13 @@ import { preloadIcons } from './lib/icons';
 import { sequence } from '@sveltejs/kit/hooks';
 import { redirect, type Handle } from '@sveltejs/kit';
 
-const initDb: Handle = async ({ event, resolve }) => {
-	DbSingleton.initialize(event.platform!.env.DB);
+const initBindings: Handle = async ({ event, resolve }) => {
+	BindingsSingleton.initialize(event.platform!.env);
 	return resolve(event);
 };
 
-const initBindings: Handle = async ({ event, resolve }) => {
-	BindingsSingleton.initialize(event.platform!.env);
+const initDb: Handle = async ({ event, resolve }) => {
+	DbSingleton.initialize(event.platform!.env.DB);
 	return resolve(event);
 };
 

@@ -3,32 +3,21 @@ import { listNotes } from './listNotes';
 import { createNote } from './createNote';
 import { updateNote } from './updateNote';
 import { deleteNote } from './deleteNote';
+// import { noteInsertSchema } from '../../db/schema';
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 
 const router = new Hono<{ Bindings: Env }>();
 
-router.get('/', async ({ req, json }) => {
-	const userId = req.param('userId');
-	if (!userId) {
-		return json({ error: 'userId is required' }, 400);
-	}
-	const notes = await listNotes(userId);
-	return json(notes);
-});
-
-router.get('/:noteId', async ({ req, json }) => {
-	const userId = req.param('userId');
-	const noteId = req.param('noteId');
-	if (!userId) {
-		return json({ error: 'userId is required' }, 400);
-	}
-	// const withQuery = req.query('with');
-	// const withRelations = withQuery ? JSON.parse(withQuery) : {};
-	const note = await findByIdWithAttachments(noteId);
-	return json(note);
-});
+// router.get('/', async ({ req, json }) => {
+// 	const userId = req.param('userId');
+// 	if (!userId) {
+// 		return json({ error: 'userId is required' }, 400);
+// 	}
+// 	const notes = await listNotes(userId);
+// 	return json(notes);
+// });
 
 router.post('/', async ({ req, json }) => {
 	try {
@@ -90,19 +79,35 @@ export const app = new Hono<{ Bindings: Env }>();
 
 app.route('/:userId/notes', router);
 
-const schema = z.object({
-	noteId: z.string()
-});
+const _route = app
+	.get(
+		'/findByIdWithAttachments',
+		zValidator(
+			'query',
+			z.object({
+				noteId: z.string()
+			})
+		),
+		async (c) => {
+			const { noteId } = c.req.valid('query');
+			const note = await findByIdWithAttachments(noteId);
 
-const _route = app.get('/findByIdWithAttachments', zValidator('query', schema), async (c) => {
-	const { noteId } = c.req.valid('query');
-	const note = await findByIdWithAttachments(noteId);
+			if (note === undefined) {
+				return c.json({ error: 'Note not found' }, 404);
+			}
 
-	if (note === undefined) {
-		return c.json({ error: 'Note not found' }, 404);
-	}
+			return c.json(note, 200);
+		}
+	)
+	.get('/list', zValidator('query', z.object({ userId: z.string() })), async (c) => {
+		const { userId } = c.req.valid('query');
+		const notes = await listNotes(userId);
+		return c.json(notes, 200);
+	});
+// .post('/create', zValidator('json', noteInsertSchema), async (c) => {
+// 	const { userId, title, content, folderId } = c.req.valid('json');
+// 	const note = await createNote({ userId, title, content, folderId });
+// 	return c.json(note, 201);
+// });
 
-	return c.json(note, 200);
-});
-
-export type AppType = typeof _route;
+export type NotesAppType = typeof _route;

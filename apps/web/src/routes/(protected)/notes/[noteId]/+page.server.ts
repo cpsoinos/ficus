@@ -1,8 +1,9 @@
-import { notesClient } from '$lib/server/notes/client';
+import { getNotesClient } from '$lib/server/notes/client';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
 	const { noteId } = event.params;
+	const notesClient = getNotesClient();
 
 	const noteResp = await notesClient.findByIdWithAttachments.$get({ query: { noteId } });
 

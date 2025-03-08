@@ -1,3 +1,4 @@
+import { getAttachmentsClient } from '$lib/server/attachments/client';
 import { Bindings } from '$lib/server/bindings';
 import type { RequestHandler } from './$types';
 
@@ -5,6 +6,8 @@ import type { RequestHandler } from './$types';
  * Attach a file to a note
  *
  * Forwards the upload request to the SERVICE_ATTACHMENTS binding.
+ * @note file uploads are not supported by the Hono RPC client at this time
+ *
  * Expects the following headers:
  *   - content-type: The content type of the file
  *   - x-file-name: The name of the file
@@ -34,17 +37,13 @@ export const GET: RequestHandler = async (event) => {
 		return new Response('Unauthorized', { status: 401 });
 	}
 
-	using downloadedAttachment = await Bindings.ATTACHMENTS.download(attachmentId);
+	const attachmentsClient = getAttachmentsClient();
+	const resp = await attachmentsClient[':attachmentId'].download.$get({
+		param: { attachmentId },
+		query: { userId: user.id }
+	});
 
-	if (!downloadedAttachment) {
-		return new Response('Object not found', { status: 404 });
-	}
-
-	return new Response(downloadedAttachment.body as unknown as ReadableStream, {
-		headers: {
-			'Content-Type': downloadedAttachment.contentType!,
-			'Content-Length': String(downloadedAttachment.size),
-			'Content-Disposition': `attachment; filename="${downloadedAttachment.fileName}"`
-		}
+	return new Response(resp.body, {
+		headers: resp.headers
 	});
 };
