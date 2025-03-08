@@ -38,6 +38,7 @@
 </script>
 
 <MarkdownEditor {carta} bind:value={markdown} />
+<input type="hidden" name="content" value={markdown} />
 
 <style lang="postcss">
 	:global(.carta-toolbar) {

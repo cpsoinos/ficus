@@ -1,4 +1,3 @@
-// import { Bindings } from '$lib/server/bindings';
 import { getNotesClient } from '$lib/server/notes/client';
 import { fail, type Actions } from '@sveltejs/kit';
 import type { NewNote } from '@ficus/service-notes/src/db/schema';
@@ -22,16 +21,19 @@ export const actions = {
 			content
 		};
 
-		// using note = await Bindings.NOTES.create(newNote);
+		console.log(newNote);
+
 		const notesClient = getNotesClient();
 		const noteResp = await notesClient.create.$post({ json: newNote });
-		if (noteResp.ok) {
-			const note = await noteResp.json();
-			return { note };
+
+		if (!noteResp.ok) {
+			const result = await noteResp.json();
+			console.log('🚀 ~ actions ~ default ~ result:', JSON.stringify(result, undefined, 2));
+			// @ts-expect-error hono zod validator doesn't work with middleware
+			return fail(500, result.error?.issues);
 		}
 
-		return fail(500, {
-			message: 'Failed to create note'
-		});
+		const note = await noteResp.json();
+		return { note };
 	}
 } satisfies Actions;

@@ -10,15 +10,6 @@ import { zValidator } from '@hono/zod-validator';
 
 const router = new Hono<{ Bindings: Env }>();
 
-// router.get('/', async ({ req, json }) => {
-// 	const userId = req.param('userId');
-// 	if (!userId) {
-// 		return json({ error: 'userId is required' }, 400);
-// 	}
-// 	const notes = await listNotes(userId);
-// 	return json(notes);
-// });
-
 router.post('/', async ({ req, json }) => {
 	try {
 		const body = await req.json();
@@ -104,28 +95,11 @@ const _route = app
 		const notes = await listNotes(userId);
 		return c.json(notes, 200);
 	})
-	// .post('/create', zValidator('json', noteInsertSchema), async (c) => {
-	.post(
-		'/create',
-		// validator('json', async (value, c) => {
-		// 	const parsed = noteInsertSchema.safeParse(value);
-		// 	if (parsed.success) {
-		// 		return parsed.data;
-		// 	}
-		// 	return c.json({ error: 'Invalid input' }, 400);
-		// }),
-		//  zValidator('json', z.object(noteInsertSchema.shape)),
-		zValidator('json', noteInsertSchema),
-		async (c) => {
-			const { userId, title, content, folderId } = c.req.valid('json');
-			// console.log('ohai');
-			// const parsed = await noteInsertSchema.safeParseAsync(await c.req.json());
-			// console.log(parsed);
-
-			const note = await createNote({ userId, title, content, folderId });
-			return c.json(note, 201);
-			// return c.json({ success: false });
-		}
-	);
+	.post('/create', zValidator('json', noteInsertSchema), async (c) => {
+		const { userId, title, content, folderId } = c.req.valid('json');
+		console.log({ userId, title, content, folderId });
+		const note = await createNote({ userId, title, content, folderId });
+		return c.json(note, 201);
+	});
 
 export type NotesAppType = typeof _route;

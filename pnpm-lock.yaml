@@ -121,7 +121,7 @@ catalogs:
       specifier: ^0.39.3
       version: 0.39.3
     drizzle-zod:
-      specifier: ^0.7.0
+      specifier: 0.7.0
       version: 0.7.0
     eslint:
       specifier: ^9.20.1
@@ -216,6 +216,11 @@ catalogs:
     zod:
       specifier: ^3.24.2
       version: 3.24.2
+
+patchedDependencies:
+  drizzle-zod:
+    hash: f1c9f0550731b47bcf95c1dc916e95ca124f7e29e8bc65a988865e330d7ceaab
+    path: patches/drizzle-zod.patch
 
 importers:
 
@@ -532,7 +537,7 @@ importers:
         version: 0.39.3(@cloudflare/workers-types@4.20250214.0)(@libsql/client@0.14.0)
       drizzle-zod:
         specifier: 'catalog:'
-        version: 0.7.0(drizzle-orm@0.39.3(@cloudflare/workers-types@4.20250214.0)(@libsql/client@0.14.0))(zod@3.24.2)
+        version: 0.7.0(patch_hash=f1c9f0550731b47bcf95c1dc916e95ca124f7e29e8bc65a988865e330d7ceaab)(drizzle-orm@0.39.3(@cloudflare/workers-types@4.20250214.0)(@libsql/client@0.14.0))(zod@3.24.2)
       hono:
         specifier: 'catalog:'
         version: 4.7.4
@@ -8724,7 +8729,7 @@ snapshots:
       '@cloudflare/workers-types': 4.20250214.0
       '@libsql/client': 0.14.0
 
-  drizzle-zod@0.7.0(drizzle-orm@0.39.3(@cloudflare/workers-types@4.20250214.0)(@libsql/client@0.14.0))(zod@3.24.2):
+  drizzle-zod@0.7.0(patch_hash=f1c9f0550731b47bcf95c1dc916e95ca124f7e29e8bc65a988865e330d7ceaab)(drizzle-orm@0.39.3(@cloudflare/workers-types@4.20250214.0)(@libsql/client@0.14.0))(zod@3.24.2):
     dependencies:
       drizzle-orm: 0.39.3(@cloudflare/workers-types@4.20250214.0)(@libsql/client@0.14.0)
       zod: 3.24.2
