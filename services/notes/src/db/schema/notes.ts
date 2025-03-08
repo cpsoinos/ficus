@@ -9,7 +9,7 @@ export const notesTable = sqliteTable('notes', {
 	id: text('id')
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
-	userId: text('user_id').notNull(),
+	userId: text('user_id', { mode: 'text' }).notNull(),
 	folderId: text('folder_id').references(() => foldersTable.id, { onDelete: 'cascade' }),
 	title: text('title').notNull(),
 	content: text('content'),

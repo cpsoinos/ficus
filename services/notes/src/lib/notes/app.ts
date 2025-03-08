@@ -3,7 +3,7 @@ import { listNotes } from './listNotes';
 import { createNote } from './createNote';
 import { updateNote } from './updateNote';
 import { deleteNote } from './deleteNote';
-// import { noteInsertSchema } from '../../db/schema';
+import { noteInsertSchema } from '../../db/schema';
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
@@ -103,11 +103,29 @@ const _route = app
 		const { userId } = c.req.valid('query');
 		const notes = await listNotes(userId);
 		return c.json(notes, 200);
-	});
-// .post('/create', zValidator('json', noteInsertSchema), async (c) => {
-// 	const { userId, title, content, folderId } = c.req.valid('json');
-// 	const note = await createNote({ userId, title, content, folderId });
-// 	return c.json(note, 201);
-// });
+	})
+	// .post('/create', zValidator('json', noteInsertSchema), async (c) => {
+	.post(
+		'/create',
+		// validator('json', async (value, c) => {
+		// 	const parsed = noteInsertSchema.safeParse(value);
+		// 	if (parsed.success) {
+		// 		return parsed.data;
+		// 	}
+		// 	return c.json({ error: 'Invalid input' }, 400);
+		// }),
+		//  zValidator('json', z.object(noteInsertSchema.shape)),
+		zValidator('json', noteInsertSchema),
+		async (c) => {
+			const { userId, title, content, folderId } = c.req.valid('json');
+			// console.log('ohai');
+			// const parsed = await noteInsertSchema.safeParseAsync(await c.req.json());
+			// console.log(parsed);
+
+			const note = await createNote({ userId, title, content, folderId });
+			return c.json(note, 201);
+			// return c.json({ success: false });
+		}
+	);
 
 export type NotesAppType = typeof _route;

@@ -1,4 +1,5 @@
-import { Bindings } from '$lib/server/bindings';
+// import { Bindings } from '$lib/server/bindings';
+import { getNotesClient } from '$lib/server/notes/client';
 import { fail, type Actions } from '@sveltejs/kit';
 import type { NewNote } from '@ficus/service-notes/src/db/schema';
 
@@ -21,8 +22,16 @@ export const actions = {
 			content
 		};
 
-		using note = await Bindings.NOTES.create(newNote);
+		// using note = await Bindings.NOTES.create(newNote);
+		const notesClient = getNotesClient();
+		const noteResp = await notesClient.create.$post({ json: newNote });
+		if (noteResp.ok) {
+			const note = await noteResp.json();
+			return { note };
+		}
 
-		return { note };
+		return fail(500, {
+			message: 'Failed to create note'
+		});
 	}
 } satisfies Actions;

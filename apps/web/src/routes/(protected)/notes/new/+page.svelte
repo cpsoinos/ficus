@@ -4,6 +4,7 @@
 	import { Label } from '$lib/components/ui/label/index.js';
 	import NoteForm from '$lib/components/note-form.svelte';
 	import { uploadFile } from '$lib/file-upload';
+	import { enhance } from '$app/forms';
 
 	async function handleSubmit(event: SubmitEvent) {
 		event.preventDefault();
@@ -23,7 +24,10 @@
 </script>
 
 <h1>New note</h1>
-<NoteForm />
+<form use:enhance method="post">
+	<NoteForm />
+	<Button type="submit">Save</Button>
+</form>
 
 <form class="flex flex-col gap-4" onsubmit={handleSubmit}>
 	<Label for="file">File</Label>
