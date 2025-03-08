@@ -1,5 +1,5 @@
 import { DurableObject } from 'cloudflare:workers';
-import { Hono } from '@hono/hono';
+import { Hono } from 'hono';
 
 export class RefillingTokenBucket extends DurableObject {
 	storage: DurableObjectStorage;

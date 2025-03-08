@@ -3,7 +3,7 @@ import { BaseModel } from './base-model';
 import { attachmentsTable, type NewAttachment } from '../db/schema/attachments';
 import { db } from '../db';
 import { notesTable } from '../db/schema/notes';
-import { Hono } from '@hono/hono';
+import { Hono } from 'hono';
 import { eq } from 'drizzle-orm';
 
 export class AttachmentsEntrypoint extends BaseModel<'attachments'> {

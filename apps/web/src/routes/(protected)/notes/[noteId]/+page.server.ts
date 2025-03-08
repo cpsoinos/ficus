@@ -1,22 +1,19 @@
-import { Bindings } from '$lib/server/bindings';
-import type { Note, Attachment } from '@ficus/service-notes/src/db/schema';
+import { notesClient } from '$lib/server/notes/client';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
 	const { noteId } = event.params;
 
-	// const note = await Bindings.NOTES.findByIdWithAttachments(noteId);
-	// const noteResp = await Bindings.NOTES.fetch('https://ficus-notes.local/findByIdWithAttachments', {
-	// 	method: 'POST',
-	// 	// body: JSON.stringify({ noteId })
-	// 	body: noteId
-	// });
-	// const note = await noteResp.json();
+	const noteResp = await notesClient.findByIdWithAttachments.$get({ query: { noteId } });
 
-	const noteResp = await Bindings.NOTES.fetch(
-		`https://ficus-notes.local/${event.locals.user!.id}/notes/${noteId}`
-	);
-	const note = await noteResp.json<Note & { attachments: Attachment[] }>();
+	if (noteResp.status === 404) {
+		return { status: 404, error: 'Note not found' };
+	}
 
-	return { note };
+	if (noteResp.ok) {
+		const note = await noteResp.json();
+		return { note };
+	}
+
+	return { status: 500, error: 'Failed to load note' };
 };
