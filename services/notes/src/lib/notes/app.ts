@@ -8,67 +8,7 @@ import { Hono } from 'hono';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
 
-const router = new Hono<{ Bindings: Env }>();
-
-router.post('/', async ({ req, json }) => {
-	try {
-		const body = await req.json();
-		const { userId, title, content, folderId } = body;
-
-		if (!userId) {
-			return json({ error: 'userId is required' }, 400);
-		}
-
-		if (!title) {
-			return json({ error: 'title is required' }, 400);
-		}
-
-		const note = await createNote({ userId, title, content, folderId });
-		return json(note, 201);
-	} catch (error) {
-		console.error(error);
-		return json({ error: 'Failed to create note' }, 500);
-	}
-});
-
-router.put('/:noteId', async ({ req, json }) => {
-	try {
-		const noteId = req.param('noteId');
-		const body = await req.json();
-		const { title, content, folderId } = body;
-
-		if (!noteId) {
-			return json({ error: 'noteId is required' }, 400);
-		}
-
-		const note = await updateNote(noteId, { title, content, folderId });
-		return json(note);
-	} catch (error) {
-		console.error(error);
-		return json({ error: 'Failed to update note' }, 500);
-	}
-});
-
-// eslint-disable-next-line drizzle/enforce-delete-with-where
-router.delete('/:noteId', async ({ req, json }) => {
-	try {
-		const noteId = req.param('noteId');
-
-		if (!noteId) {
-			return json({ error: 'noteId is required' }, 400);
-		}
-
-		await deleteNote(noteId);
-		return json({ success: true });
-	} catch (error) {
-		console.error(error);
-		return json({ error: 'Failed to delete note' }, 500);
-	}
-});
-
 export const app = new Hono<{ Bindings: Env }>();
-
-app.route('/:userId/notes', router);
 
 // eslint-disable-next-line drizzle/enforce-delete-with-where
 const _route = app
