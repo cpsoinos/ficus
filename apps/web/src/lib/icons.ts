@@ -8,6 +8,7 @@ const ICONS = [
 	'lucide:ellipsis',
 	'lucide:minus',
 	'lucide:panel-left',
+	'lucide:plus',
 	'lucide:search',
 	'lucide:x',
 	'mdi:github'
