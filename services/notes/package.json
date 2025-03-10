@@ -19,8 +19,11 @@
 	},
 	"dependencies": {
 		"@ficus/common": "workspace:",
-		"@hono/hono": "catalog:",
-		"drizzle-orm": "catalog:"
+		"@hono/zod-validator": "catalog:",
+		"drizzle-orm": "catalog:",
+		"drizzle-zod": "catalog:",
+		"hono": "catalog:",
+		"zod": "catalog:"
 	},
 	"devDependencies": {
 		"@cloudflare/workers-types": "catalog:",

@@ -1,23 +1,23 @@
-import { Bindings } from '$lib/server/bindings';
+import { getAttachmentsClient } from '$lib/server/attachments/client';
+import type { RequestHandler } from './$types';
 
-export const GET = async (event) => {
+/**
+ * Stream an attachment to the client. Use for downloading files.
+ */
+export const GET: RequestHandler = async (event) => {
 	const { user } = event.locals;
 	const { attachmentId } = event.params;
 	if (!user) {
 		return new Response('Unauthorized', { status: 401 });
 	}
 
-	const downloadedAttachment = await Bindings.ATTACHMENTS.download(attachmentId);
+	const attachmentsClient = getAttachmentsClient();
+	const resp = await attachmentsClient[':attachmentId'].download.$get({
+		param: { attachmentId },
+		query: { userId: user.id }
+	});
 
-	if (!downloadedAttachment) {
-		return new Response('Object not found', { status: 404 });
-	}
-
-	return new Response(downloadedAttachment.body as unknown as ReadableStream, {
-		headers: {
-			'Content-Type': downloadedAttachment.contentType!,
-			'Content-Length': String(downloadedAttachment.size),
-			'Content-Disposition': `attachment; filename="${downloadedAttachment.fileName}"`
-		}
+	return new Response(resp.body, {
+		headers: resp.headers
 	});
 };

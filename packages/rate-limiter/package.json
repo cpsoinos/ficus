@@ -15,7 +15,7 @@
 		"test:watch": "vitest"
 	},
 	"dependencies": {
-		"@hono/hono": "catalog:"
+		"hono": "catalog:"
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "catalog:",

@@ -9,7 +9,9 @@
 
 <script lang="ts">
 	import SearchForm from './search-form.svelte';
+	import { Button } from './ui/button/index.js';
 	import * as Sidebar from './ui/sidebar/index.js';
+	import Icon from './ui/icon/icon.svelte';
 	import type { ComponentProps } from 'svelte';
 
 	let {
@@ -23,6 +25,14 @@
 	<Sidebar.Header>
 		<img src="/logo-light.svg" alt="Logo" class="h-12 w-12" />
 		<SearchForm />
+		<Sidebar.Group class="pb-0 pt-4">
+			<Sidebar.GroupContent class="relative">
+				<Button href="/notes/new" size="sm" class="w-full">
+					<Icon icon="lucide:plus" />
+					New note
+				</Button>
+			</Sidebar.GroupContent>
+		</Sidebar.Group>
 	</Sidebar.Header>
 	<Sidebar.Content>
 		<!-- We create a Sidebar.Group for each parent. -->

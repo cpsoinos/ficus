@@ -4,13 +4,16 @@ packages:
   - apps/**
   - services/**
 catalog:
+  '@cartamd/plugin-attachment': ^4.1.1
+  '@cartamd/plugin-code': ^4.0.6
+  '@cartamd/plugin-slash': ^4.1.2
   '@chromatic-com/storybook': ^3.2.3
   '@cloudflare/vitest-pool-workers': ^0.5.41
   '@cloudflare/workers-types': ^4.20250214.0
   '@dword-design/eslint-plugin-import-alias': ^5.1.1
   '@eslint/compat': ^1.2.6
   '@eslint/js': ^9.20.0
-  '@hono/hono': npm:@jsr/hono__hono@^4.7.1
+  '@hono/zod-validator': ^0.4.3
   '@iconify/svelte': ^4.2.0
   '@libsql/client': ^0.14.0
   '@nick/clsx': npm:@jsr/nick__clsx@^0.3.1
@@ -25,19 +28,21 @@ catalog:
   '@storybook/svelte': ^8.4.7
   '@storybook/sveltekit': ^8.4.7
   '@storybook/test': ^8.4.7
-  '@sveltejs/adapter-auto': ^3.0.0
   '@sveltejs/adapter-cloudflare': ^5.0.1
   '@sveltejs/kit': ^2.16.1
   '@sveltejs/vite-plugin-svelte': ^5.0.0
   '@tailwindcss/container-queries': ^0.1.1
   '@tailwindcss/forms': ^0.5.10
+  '@types/eslint-config-prettier': ^6.11.3
   '@types/node': ^22.13.5
   '@typescript-eslint/utils': ^8.24.0
   arctic: ^3.3.0
   autoprefixer: ^10.4.20
   bits-ui: 1.0.0-next.90
+  carta-md: ^4.7.0
   drizzle-kit: ^0.30.4
   drizzle-orm: ^0.39.3
+  drizzle-zod: 0.7.0 # patched
   eslint: ^9.20.1
   eslint-config-prettier: ^9.1.0
   eslint-import-resolver-typescript: ^3.8.0
@@ -46,7 +51,9 @@ catalog:
   eslint-plugin-perfectionist: ^4.9.0
   eslint-plugin-svelte: ^2.36.0
   globals: ^15.15.0
+  hono: ^4.7.4
   husky: ^9.1.7
+  isomorphic-dompurify: ^2.22.0
   lint-staged: ^15.4.3
   ofetch: ^1.4.1
   prettier: ^3.5.1
@@ -65,4 +72,5 @@ catalog:
   typescript-eslint: ^8.24.0
   uqr: ^0.1.2
   vite: ^6.1.0
-  wrangler: 3.109.2
+  wrangler: v4-rc
+  zod: ^3.24.2

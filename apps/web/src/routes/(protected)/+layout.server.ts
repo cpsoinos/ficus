@@ -1,4 +1,5 @@
-import { Bindings } from '$lib/server/bindings';
+import { getNotesClient } from '$lib/server/notes/client';
+import { getFoldersClient } from '$lib/server/folders/client';
 import type { SidebarItem } from '$lib/components/app-sidebar.svelte';
 import type { LayoutServerLoad } from './$types';
 
@@ -6,8 +7,18 @@ export const load: LayoutServerLoad = async (event) => {
 	const { user } = event.locals;
 	const userId = user!.id;
 
-	const notesList = await Bindings.NOTES.listNotes(userId);
-	const foldersList = await Bindings.FOLDERS.listFolders(userId);
+	const notesClient = getNotesClient();
+	const foldersClient = getFoldersClient();
+
+	const [notesListResp, foldersListResp] = await Promise.all([
+		notesClient.list.$get({ query: { userId } }),
+		foldersClient.list.$get({ query: { userId } })
+	]);
+
+	const [notesList, foldersList] = await Promise.all([
+		notesListResp.json(),
+		foldersListResp.json()
+	]);
 
 	const sidebarItems: SidebarItem[] = [
 		{

@@ -31,6 +31,9 @@
 		"test:unit": "vitest run"
 	},
 	"dependencies": {
+		"@cartamd/plugin-attachment": "catalog:",
+		"@cartamd/plugin-code": "catalog:",
+		"@cartamd/plugin-slash": "catalog:",
 		"@ficus/common": "workspace:*",
 		"@iconify/svelte": "catalog:",
 		"@libsql/client": "catalog:",
@@ -41,9 +44,13 @@
 		"@tailwindcss/container-queries": "catalog:",
 		"@tailwindcss/forms": "catalog:",
 		"arctic": "catalog:",
+		"carta-md": "catalog:",
 		"drizzle-orm": "catalog:",
+		"hono": "catalog:",
+		"isomorphic-dompurify": "catalog:",
 		"ofetch": "catalog:",
-		"uqr": "catalog:"
+		"uqr": "catalog:",
+		"zod": "catalog:"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "catalog:",
@@ -59,7 +66,6 @@
 		"@storybook/svelte": "catalog:",
 		"@storybook/sveltekit": "catalog:",
 		"@storybook/test": "catalog:",
-		"@sveltejs/adapter-auto": "catalog:",
 		"@sveltejs/adapter-cloudflare": "catalog:",
 		"@sveltejs/kit": "catalog:",
 		"@sveltejs/vite-plugin-svelte": "catalog:",
@@ -79,7 +85,7 @@
 		"tsx": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",
-		"vitest": "^3.0.5",
+		"vitest": "^3.0.7",
 		"wrangler": "catalog:"
 	}
 }
