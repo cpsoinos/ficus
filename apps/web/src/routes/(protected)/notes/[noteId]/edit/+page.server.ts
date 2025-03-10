@@ -1,7 +1,32 @@
 import { getNotesClient } from '$lib/server/notes/client';
-import { fail, redirect, type Actions } from '@sveltejs/kit';
-import { ZodError } from 'zod';
+import { fail } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
 import type { NewNote } from '@ficus/service-notes/src/db/schema';
+
+export const load: PageServerLoad = async (event) => {
+	const { user } = event.locals;
+	if (!user) {
+		return { status: 401, error: 'Unauthorized' };
+	}
+
+	const { noteId } = event.params;
+	const notesClient = getNotesClient();
+
+	const noteResp = await notesClient.findByIdWithAttachments.$get({
+		query: { noteId, userId: user.id }
+	});
+
+	if (noteResp.status === 404) {
+		return { status: 404, error: 'Note not found' };
+	}
+
+	if (noteResp.ok) {
+		const note = await noteResp.json();
+		return { note };
+	}
+
+	return { status: 500, error: 'Failed to load note' };
+};
 
 export const actions = {
 	default: async (event) => {
@@ -12,18 +37,19 @@ export const actions = {
 			});
 		}
 
+		const noteId = event.params.noteId;
 		const formData = await event.request.formData();
 		const title = formData.get('title') as string;
 		const content = formData.get('content') as string;
 
-		const newNote: NewNote = {
+		const noteAttrs: NewNote = {
 			userId,
 			title,
 			content
 		};
 
 		const notesClient = getNotesClient();
-		const noteResp = await notesClient.create.$post({ json: newNote });
+		const noteResp = await notesClient[':noteId'].$put({ param: { noteId }, json: noteAttrs });
 
 		if (!noteResp.ok) {
 			const result = await noteResp.json();
@@ -34,8 +60,6 @@ export const actions = {
 		}
 
 		const note = await noteResp.json();
-		// return { note };
-
-		return redirect(302, `/notes/${note.id}/edit`);
+		return { note };
 	}
 } satisfies Actions;

@@ -3,10 +3,24 @@
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
 	import NoteForm from '$lib/components/note-form.svelte';
-	import { uploadFile } from '$lib/file-upload';
+	import { uploadFile } from '$lib/uploadFile';
 	import { enhance } from '$app/forms';
 
-	async function handleSubmit(event: SubmitEvent) {
+	let note = $state({
+		title: '',
+		content: ''
+	});
+
+	let noteForm = $state<HTMLFormElement>();
+	let submitButton = $derived<HTMLButtonElement | null | undefined>(
+		noteForm?.querySelector('button[type="submit"]')
+	);
+
+	function save() {
+		noteForm?.requestSubmit.bind(noteForm)(submitButton);
+	}
+
+	async function handleAttachmentsSubmit(event: SubmitEvent) {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget as HTMLFormElement);
 		const file = formData.get('file') as File;
@@ -24,12 +38,18 @@
 </script>
 
 <h1>New note</h1>
-<form use:enhance method="post">
-	<NoteForm />
+<form
+	class="flex flex-col gap-4"
+	method="post"
+	use:enhance
+	bind:this={noteForm}
+	data-sveltekit-keepfocus
+>
+	<NoteForm bind:note autoFocus {save} />
 	<Button type="submit">Save</Button>
 </form>
 
-<form class="flex flex-col gap-4" onsubmit={handleSubmit}>
+<form class="flex flex-col gap-4" onsubmit={handleAttachmentsSubmit}>
 	<Label for="file">File</Label>
 	<Input id="file" type="file" name="file" />
 	<Button type="submit">Upload</Button>

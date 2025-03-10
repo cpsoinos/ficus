@@ -49,7 +49,8 @@
 		"hono": "catalog:",
 		"isomorphic-dompurify": "catalog:",
 		"ofetch": "catalog:",
-		"uqr": "catalog:"
+		"uqr": "catalog:",
+		"zod": "catalog:"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "catalog:",

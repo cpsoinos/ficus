@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { Input } from './ui/input/index.js';
+	import { Label } from './ui/label/index.js';
 	import { Carta, MarkdownEditor } from 'carta-md';
 	import { code } from '@cartamd/plugin-code';
 	import { attachment } from '@cartamd/plugin-attachment';
@@ -9,7 +11,18 @@
 	import '@cartamd/plugin-slash/default.css';
 	import DOMPurify from 'isomorphic-dompurify';
 
-	let markdown = $state('');
+	let {
+		note = $bindable(),
+		autoFocus,
+		save
+	}: {
+		note: { title: string; content: string };
+		autoFocus?: boolean;
+		save: () => void | Promise<void>;
+	} = $props();
+
+	let title = $state<string>(note.title ?? '');
+	let content = $state<string>(note.content ?? '');
 
 	let attachments = $state<File[]>([]);
 
@@ -27,18 +40,36 @@
 		]
 	});
 
-	// let timer: ReturnType<typeof setTimeout>;
+	let timer: ReturnType<typeof setTimeout>;
 
-	// const debounce = (value: string) => {
-	// 	clearTimeout(timer);
-	// 	timer = setTimeout(() => {
-	// 		val = value;
-	// 	}, 750);
-	// }
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const debounce = <CallbackType extends (...args: any[]) => any>(
+		cb: CallbackType,
+		timeout: number
+	) => {
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			cb();
+		}, timeout);
+	};
+
+	function debouncedSave() {
+		debounce(save, 5000);
+	}
 </script>
 
-<MarkdownEditor {carta} bind:value={markdown} />
-<input type="hidden" name="content" value={markdown} />
+<div class="flex flex-col gap-4">
+	<div class="flex flex-col gap-2">
+		<Label for="title">Title</Label>
+		<Input id="title" type="text" name="title" bind:value={title} onchange={save} />
+	</div>
+
+	<MarkdownEditor
+		{carta}
+		bind:value={content}
+		textarea={{ autoFocus, name: 'content', oninput: debouncedSave }}
+	/>
+</div>
 
 <style lang="postcss">
 	:global(.carta-toolbar) {

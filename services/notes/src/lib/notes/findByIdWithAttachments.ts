@@ -1,12 +1,16 @@
 import { db } from '../../db';
-import { notesTable, type Attachment, type Note } from '../../db/schema';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
+import type { Attachment, Note } from '../../db/schema';
 
-export async function findByIdWithAttachments(
-	noteId: string
-): Promise<(Note & { attachments: Attachment[] }) | undefined> {
+export async function findByIdWithAttachments({
+	noteId,
+	userId
+}: {
+	noteId: string;
+	userId: string;
+}): Promise<(Note & { attachments: Attachment[] }) | undefined> {
 	return db.query.notesTable.findFirst({
-		where: eq(notesTable.id, noteId),
+		where: (table) => and(eq(table.id, noteId), eq(table.userId, userId)),
 		with: {
 			attachments: true
 		}

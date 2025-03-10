@@ -16,10 +16,7 @@ export async function updateNote(noteId: string, data: Partial<NewNote>): Promis
 	// Update the note in the database
 	const [updatedNote] = await db
 		.update(notesTable)
-		.set({
-			...filteredData,
-			updatedAt: new Date()
-		})
+		.set(filteredData)
 		.where(eq(notesTable.id, noteId))
 		.returning();
 

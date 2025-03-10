@@ -3,7 +3,7 @@ import { listNotes } from './listNotes';
 import { createNote } from './createNote';
 import { updateNote } from './updateNote';
 import { deleteNote } from './deleteNote';
-import { noteInsertSchema } from '../../db/schema';
+import { noteInsertSchema, noteUpdateSchema } from '../../db/schema';
 import { Hono } from 'hono';
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator';
@@ -76,12 +76,13 @@ const _route = app
 		zValidator(
 			'query',
 			z.object({
-				noteId: z.string()
+				noteId: z.string(),
+				userId: z.string()
 			})
 		),
 		async (c) => {
-			const { noteId } = c.req.valid('query');
-			const note = await findByIdWithAttachments(noteId);
+			const { noteId, userId } = c.req.valid('query');
+			const note = await findByIdWithAttachments({ noteId, userId });
 
 			if (note === undefined) {
 				return c.json({ error: 'Note not found' }, 404);
@@ -97,9 +98,14 @@ const _route = app
 	})
 	.post('/create', zValidator('json', noteInsertSchema), async (c) => {
 		const { userId, title, content, folderId } = c.req.valid('json');
-		console.log({ userId, title, content, folderId });
 		const note = await createNote({ userId, title, content, folderId });
 		return c.json(note, 201);
+	})
+	.put('/:noteId', zValidator('json', noteUpdateSchema), async (c) => {
+		const noteId = c.req.param('noteId');
+		const { title, content, folderId } = c.req.valid('json');
+		const note = await updateNote(noteId, { title, content, folderId });
+		return c.json(note, 200);
 	});
 
 export type NotesAppType = typeof _route;
