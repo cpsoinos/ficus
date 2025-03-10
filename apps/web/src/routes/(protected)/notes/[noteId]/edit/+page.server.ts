@@ -1,5 +1,5 @@
 import { getNotesClient } from '$lib/server/notes/client';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import type { NewNote } from '@ficus/service-notes/src/db/schema';
 
@@ -29,7 +29,7 @@ export const load: PageServerLoad = async (event) => {
 };
 
 export const actions = {
-	default: async (event) => {
+	update: async (event) => {
 		const userId = event.locals.user?.id;
 		if (!userId) {
 			return fail(401, {
@@ -61,5 +61,28 @@ export const actions = {
 
 		const note = await noteResp.json();
 		return { note };
+	},
+
+	delete: async (event) => {
+		const userId = event.locals.user?.id;
+		if (!userId) {
+			return fail(401, {
+				message: 'Unauthorized'
+			});
+		}
+
+		const noteId = event.params.noteId;
+		const notesClient = getNotesClient();
+		const noteResp = await notesClient[':noteId'].$delete({ param: { noteId } });
+
+		if (!noteResp.ok) {
+			const result = await noteResp.json();
+			// @ts-expect-error hono zod validator doesn't work with middleware
+			const zodError = new ZodError(result.error.issues);
+			const error = zodError.format();
+			return fail(500, { error });
+		}
+
+		return redirect(302, '/');
 	}
 } satisfies Actions;

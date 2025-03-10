@@ -70,6 +70,7 @@ export const app = new Hono<{ Bindings: Env }>();
 
 app.route('/:userId/notes', router);
 
+// eslint-disable-next-line drizzle/enforce-delete-with-where
 const _route = app
 	.get(
 		'/findByIdWithAttachments',
@@ -106,6 +107,11 @@ const _route = app
 		const { title, content, folderId } = c.req.valid('json');
 		const note = await updateNote(noteId, { title, content, folderId });
 		return c.json(note, 200);
+	})
+	.delete('/:noteId', zValidator('param', z.object({ noteId: z.string() })), async (c) => {
+		const { noteId } = c.req.valid('param');
+		await deleteNote(noteId);
+		return c.json({ success: true }, 200);
 	});
 
 export type NotesAppType = typeof _route;
