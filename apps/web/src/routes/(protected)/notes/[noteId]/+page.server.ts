@@ -1,4 +1,6 @@
 import { getNotesClient } from '$lib/server/notes/client';
+import { Carta } from 'carta-md';
+import DOMPurify from 'isomorphic-dompurify';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
@@ -20,7 +22,14 @@ export const load: PageServerLoad = async (event) => {
 
 	if (noteResp.ok) {
 		const note = await noteResp.json();
-		return { note };
+
+		const carta = new Carta({
+			sanitizer: DOMPurify.sanitize
+		});
+
+		const html = await carta.render(note.content ?? '');
+
+		return { note, html };
 	}
 
 	return { status: 500, error: 'Failed to load note' };
