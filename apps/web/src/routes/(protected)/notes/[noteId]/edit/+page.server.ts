@@ -49,7 +49,11 @@ export const actions = {
 		};
 
 		const notesClient = getNotesClient();
-		const noteResp = await notesClient[':noteId'].$put({ param: { noteId }, json: noteAttrs });
+		const noteResp = await notesClient[':noteId'].$put({
+			param: { noteId },
+			query: { userId },
+			json: noteAttrs
+		});
 
 		if (!noteResp.ok) {
 			const result = await noteResp.json();
@@ -73,7 +77,7 @@ export const actions = {
 
 		const noteId = event.params.noteId;
 		const notesClient = getNotesClient();
-		const noteResp = await notesClient[':noteId'].$delete({ param: { noteId } });
+		const noteResp = await notesClient[':noteId'].$delete({ param: { noteId }, query: { userId } });
 
 		if (!noteResp.ok) {
 			const result = await noteResp.json();

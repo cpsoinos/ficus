@@ -20,7 +20,11 @@ export const PUT: RequestHandler = async ({ locals, request, params }) => {
 	};
 
 	const notesClient = getNotesClient();
-	const noteResp = await notesClient[':noteId'].$put({ param: { noteId }, json: noteAttrs });
+	const noteResp = await notesClient[':noteId'].$put({
+		param: { noteId },
+		query: { userId },
+		json: noteAttrs
+	});
 
 	if (!noteResp.ok) {
 		const result = await noteResp.json();
