@@ -10,7 +10,10 @@
 {#if !note}
 	<h1>Not found</h1>
 {:else}
-	<h1>{note.title}</h1>
+	<div class="flex items-center justify-between">
+		<h1>{note.title}</h1>
+		<Button variant="outline" href={`/notes/${note.id}/edit`}>Edit</Button>
+	</div>
 
 	<PreRendered {html} />
 

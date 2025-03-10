@@ -1,6 +1,7 @@
 import { loadIcons } from '@iconify/svelte';
 
 const ICONS = [
+	'lucide:arrow-left',
 	'lucide:check',
 	'lucide:chevron-right',
 	'lucide:circle',

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
 	import NoteForm from '$lib/components/note-form.svelte';
+	import Icon from '$lib/components/ui/icon/icon.svelte';
 	import type { PageProps } from './$types';
 	import type { Note } from '@ficus/service-notes/src/db/schema/notes';
 	import { enhance } from '$app/forms';
@@ -39,7 +40,13 @@
 {#if !note}
 	Note not found
 {:else}
-	<h1>Edit note</h1>
+	<div>
+		<!-- TODO: replace with breadcrumb usage -->
+		<Button variant="link" class="p-0" href={`/notes/${note.id}`} size="sm">
+			<Icon icon="lucide:arrow-left" />
+			Back
+		</Button>
+	</div>
 	<form
 		class="flex flex-col gap-4"
 		method="post"
