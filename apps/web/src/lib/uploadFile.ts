@@ -12,7 +12,11 @@
  * @returns A Promise that resolves with the parsed JSON response upon successful upload,
  *          or rejects with an error if the upload fails.
  */
-export function uploadFile(file: File, url: string, onProgress: (progress: number) => void) {
+export function uploadFile<R extends object>(
+	file: File,
+	url: string,
+	onProgress: (progress: number) => void
+): Promise<R> {
 	return new Promise((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
 		xhr.open('POST', url, true);
@@ -26,7 +30,8 @@ export function uploadFile(file: File, url: string, onProgress: (progress: numbe
 		};
 		xhr.onload = () => {
 			if (xhr.status >= 200 && xhr.status < 300) {
-				resolve(JSON.parse(xhr.responseText));
+				const parsed = JSON.parse(xhr.responseText) as R;
+				resolve(parsed);
 			} else {
 				reject(new Error(`Upload failed with status ${xhr.status}`));
 			}

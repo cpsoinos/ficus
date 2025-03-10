@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Input } from './ui/input/index.js';
 	import { Label } from './ui/label/index.js';
+	import { uploadFile } from '$lib/uploadFile';
 	import { Carta, MarkdownEditor } from 'carta-md';
 	import { code } from '@cartamd/plugin-code';
 	import { attachment } from '@cartamd/plugin-attachment';
@@ -10,13 +11,14 @@
 	import '@cartamd/plugin-attachment/default.css';
 	import '@cartamd/plugin-slash/default.css';
 	import DOMPurify from 'isomorphic-dompurify';
+	import type { Attachment, NewNote } from '@ficus/service-notes/src/db/schema';
 
 	let {
 		note = $bindable(),
 		autoFocus,
 		save
 	}: {
-		note: { title: string; content: string };
+		note: Partial<NewNote>;
 		autoFocus?: boolean;
 		save: () => void | Promise<void>;
 	} = $props();
@@ -24,16 +26,25 @@
 	let title = $state<string>(note.title ?? '');
 	let content = $state<string>(note.content ?? '');
 
-	let attachments = $state<File[]>([]);
-
 	const carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
 		extensions: [
 			code(),
 			attachment({
 				upload: async (file) => {
-					attachments.push(file);
-					return URL.createObjectURL(file);
+					if (!note.id) {
+						throw new Error('Note must be saved before uploading attachments');
+					}
+					const attachment = await uploadFile<Attachment>(
+						file,
+						`/notes/${note.id}/attachments`,
+						(progress) => {
+							console.log(`Upload Progress: ${progress}%`);
+						}
+					);
+					// force save after attachment upload
+					debouncedSave();
+					return `/notes/${note.id}/attachments/${attachment.id}`;
 				}
 			}),
 			slash()
@@ -54,7 +65,7 @@
 	};
 
 	function debouncedSave() {
-		debounce(save, 5000);
+		debounce(save, 3000);
 	}
 </script>
 
