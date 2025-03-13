@@ -2,10 +2,11 @@
 	import { Input } from './ui/input/index.js';
 	import { Label } from './ui/label/index.js';
 	import { uploadFile } from '$lib/uploadFile';
-	import { Carta, MarkdownEditor } from 'carta-md';
+	import { Carta, MarkdownEditor, type Plugin, type UnifiedTransformer } from 'carta-md';
 	import { code } from '@cartamd/plugin-code';
 	import { attachment } from '@cartamd/plugin-attachment';
 	import { slash } from '@cartamd/plugin-slash';
+	import remarkFrontmatter from 'remark-frontmatter';
 	import 'carta-md/default.css';
 	import '@cartamd/plugin-code/default.css';
 	import '@cartamd/plugin-attachment/default.css';
@@ -26,8 +27,25 @@
 	let title = $state<string>(note.title ?? '');
 	let content = $state<string>(note.content ?? '');
 
+	const frontmatter = (): Plugin => {
+		const transformer: UnifiedTransformer<'sync'> = {
+			execution: 'sync',
+			type: 'remark',
+			transform({ processor }) {
+				processor.use(remarkFrontmatter);
+			}
+		};
+		return {
+			transformers: [transformer]
+		};
+	};
+
 	const carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
+		theme: {
+			light: 'github-light',
+			dark: 'github-dark'
+		},
 		extensions: [
 			code(),
 			attachment({
@@ -47,7 +65,8 @@
 					return `/notes/${note.id}/attachments/${attachment.id}`;
 				}
 			}),
-			slash()
+			slash(),
+			frontmatter()
 		]
 	});
 

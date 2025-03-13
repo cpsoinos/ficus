@@ -2,6 +2,10 @@
 	import { Button } from '$lib/components/ui/button';
 	import { PreRendered } from 'carta-md';
 	import type { PageProps } from './$types';
+	import 'carta-md/default.css';
+	import '@cartamd/plugin-code/default.css';
+	import '@cartamd/plugin-attachment/default.css';
+	import '@cartamd/plugin-slash/default.css';
 
 	let { data }: PageProps = $props();
 	const { note, html } = $derived(data);
