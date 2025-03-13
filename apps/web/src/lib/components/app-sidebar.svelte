@@ -3,7 +3,6 @@
 		title: string;
 		url: string;
 		items?: SidebarItem[];
-		isActive?: boolean;
 	}
 </script>
 
@@ -13,12 +12,15 @@
 	import * as Sidebar from './ui/sidebar/index.js';
 	import Icon from './ui/icon/icon.svelte';
 	import type { ComponentProps } from 'svelte';
+	import { page } from '$app/state';
 
 	let {
 		ref = $bindable(null),
 		sidebarItems,
 		...restProps
 	}: ComponentProps<typeof Sidebar.Root> & { sidebarItems: SidebarItem[] } = $props();
+
+	let path = $derived(page.url.pathname);
 </script>
 
 <Sidebar.Root {...restProps} bind:ref>
@@ -42,8 +44,9 @@
 				<Sidebar.GroupContent>
 					<Sidebar.Menu>
 						{#each group.items ?? [] as item (item.title)}
+							{@const isActive = path === item.url}
 							<Sidebar.MenuItem>
-								<Sidebar.MenuButton isActive={item.isActive}>
+								<Sidebar.MenuButton {isActive}>
 									{#snippet child({ props })}
 										<a href={item.url} {...props}>{item.title}</a>
 									{/snippet}
