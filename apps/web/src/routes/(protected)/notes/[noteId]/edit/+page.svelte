@@ -56,7 +56,6 @@
 		data-sveltekit-keepfocus
 	>
 		<NoteForm bind:note autoFocus save={saveNote} />
-		<Button type="submit">Save</Button>
 	</form>
 
 	<form class="flex flex-col gap-4" method="post" action="?/delete" use:enhance>
