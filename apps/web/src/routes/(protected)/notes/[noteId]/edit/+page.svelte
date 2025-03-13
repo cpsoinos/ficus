@@ -2,6 +2,8 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import NoteForm from '$lib/components/note-form.client.svelte';
 	import Icon from '$lib/components/ui/icon/icon.svelte';
+	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
+	import { buttonVariants } from '$lib/components/ui/button/index.js';
 	import type { PageProps } from './$types';
 	import type { Note } from '@ficus/service-notes/src/db/schema/notes';
 	import { enhance } from '$app/forms';
@@ -56,10 +58,26 @@
 		data-sveltekit-keepfocus
 	>
 		<NoteForm bind:note autoFocus save={saveNote} />
-		<Button type="submit">Save</Button>
 	</form>
 
-	<form class="flex flex-col gap-4" method="post" action="?/delete" use:enhance>
-		<Button type="submit" variant="destructive">Delete note</Button>
-	</form>
+	<AlertDialog.Root>
+		<!-- <Button type="submit" variant="destructive">Delete note</Button> -->
+		<AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })} type="button">
+			Delete note
+		</AlertDialog.Trigger>
+		<AlertDialog.Content>
+			<AlertDialog.Header>
+				<AlertDialog.Title>Are you absolutely sure?</AlertDialog.Title>
+				<AlertDialog.Description>
+					This action cannot be undone. This will permanently delete your note.
+				</AlertDialog.Description>
+			</AlertDialog.Header>
+			<AlertDialog.Footer>
+				<AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
+				<form class="flex flex-col gap-4" method="post" action="?/delete" use:enhance>
+					<AlertDialog.Action type="submit">Continue</AlertDialog.Action>
+				</form>
+			</AlertDialog.Footer>
+		</AlertDialog.Content>
+	</AlertDialog.Root>
 {/if}

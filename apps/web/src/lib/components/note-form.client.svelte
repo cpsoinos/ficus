@@ -12,6 +12,7 @@
 	import '@cartamd/plugin-attachment/default.css';
 	import '@cartamd/plugin-slash/default.css';
 	import DOMPurify from 'isomorphic-dompurify';
+	import { toast } from 'svelte-sonner';
 	import type { Attachment, NewNote } from '@ficus/service-notes/src/db/schema';
 
 	let {
@@ -21,7 +22,7 @@
 	}: {
 		note: Partial<NewNote>;
 		autoFocus?: boolean;
-		save: () => void | Promise<void>;
+		save: () => Promise<void>;
 	} = $props();
 
 	let title = $state<string>(note.title ?? '');
@@ -83,8 +84,16 @@
 		}, timeout);
 	};
 
+	async function saveAndToast() {
+		toast.promise(save, {
+			loading: 'Saving…',
+			success: 'Note saved',
+			error: 'Failed to save note'
+		});
+	}
+
 	function debouncedSave() {
-		debounce(save, 3000);
+		debounce(saveAndToast, 3000);
 	}
 </script>
 
