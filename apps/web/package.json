@@ -46,7 +46,6 @@
 		"@tailwindcss/forms": "catalog:",
 		"arctic": "catalog:",
 		"carta-md": "catalog:",
-		"dompurify": "^3.2.4",
 		"drizzle-orm": "catalog:",
 		"hono": "catalog:",
 		"isomorphic-dompurify": "catalog:",
