@@ -20,7 +20,6 @@
 	</div>
 
 	<PreRendered {html} />
-	<!-- {@html html} -->
 
 	{#if note.attachments.length}
 		{#each note.attachments as attachment}

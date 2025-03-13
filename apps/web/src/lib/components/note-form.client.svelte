@@ -27,15 +27,14 @@
 	let title = $state<string>(note.title ?? '');
 	let content = $state<string>(note.content ?? '');
 
-	const transformer: UnifiedTransformer<'sync'> = {
-		execution: 'sync',
-		type: 'remark',
-		transform({ processor }) {
-			processor.use(remarkFrontmatter);
-		}
-	};
-
-	const frontmatterPlugin = (): Plugin => {
+	const frontmatter = (): Plugin => {
+		const transformer: UnifiedTransformer<'sync'> = {
+			execution: 'sync',
+			type: 'remark',
+			transform({ processor }) {
+				processor.use(remarkFrontmatter);
+			}
+		};
 		return {
 			transformers: [transformer]
 		};
@@ -67,7 +66,7 @@
 				}
 			}),
 			slash(),
-			frontmatterPlugin()
+			frontmatter()
 		]
 	});
 
