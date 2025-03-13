@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/ui/button/button.svelte';
-	import NoteForm from '$lib/components/note-form.svelte';
+	import NoteForm from '$lib/components/note-form.client.svelte';
 	import { enhance } from '$app/forms';
 
 	let note = $state({
