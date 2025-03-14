@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Icon, { getIcon } from '@iconify/svelte';
+
 	import type { ComponentProps } from 'svelte';
 
 	let { icon, ...rest }: ComponentProps<Icon> = $props();

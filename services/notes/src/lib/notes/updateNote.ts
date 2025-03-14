@@ -1,6 +1,7 @@
+import { and, eq } from 'drizzle-orm';
+
 import { db } from '../../db';
 import { notesTable, type NewNote, type Note } from '../../db/schema';
-import { and, eq } from 'drizzle-orm';
 
 /**
  * Update an existing note in the database.

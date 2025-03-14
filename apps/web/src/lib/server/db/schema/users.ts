@@ -1,10 +1,11 @@
-import { sessionsTable } from './sessions';
-import { passwordResetSessionsTable } from './passwordResetSessions';
+import { timestamps } from '@ficus/common/db/timestamp-columns';
+import { type SQL, sql, relations } from 'drizzle-orm';
+import { sqliteTable, text, integer, blob } from 'drizzle-orm/sqlite-core';
+
 import { emailVerificationRequestsTable } from './emailVerificationRequests';
 import { oAuthAccountsTable } from './oAuthAccounts';
-import { timestamps } from '@ficus/common/db/timestamp-columns';
-import { sqliteTable, text, integer, blob } from 'drizzle-orm/sqlite-core';
-import { type SQL, sql, relations } from 'drizzle-orm';
+import { passwordResetSessionsTable } from './passwordResetSessions';
+import { sessionsTable } from './sessions';
 
 export const usersTable = sqliteTable('users', {
 	id: text('id')

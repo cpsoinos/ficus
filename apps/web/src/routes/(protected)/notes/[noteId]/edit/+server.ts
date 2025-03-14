@@ -1,6 +1,7 @@
 import { getNotesClient } from '$lib/server/notes/client';
-import type { NewNote } from '@ficus/service-notes/src/db/schema/notes';
+
 import type { RequestHandler } from './$types';
+import type { NewNote } from '@ficus/service-notes/src/db/schema/notes';
 
 export const PUT: RequestHandler = async ({ locals, request, params }) => {
 	const userId = locals.user?.id;

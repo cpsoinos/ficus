@@ -1,12 +1,14 @@
-import { findByIdWithAttachments } from './findByIdWithAttachments';
-import { listNotes } from './listNotes';
-import { createNote } from './createNote';
-import { updateNote } from './updateNote';
-import { deleteNote } from './deleteNote';
-import { noteInsertSchema, noteUpdateSchema } from '../../db/schema';
+import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { z } from 'zod';
-import { zValidator } from '@hono/zod-validator';
+
+import { noteInsertSchema, noteUpdateSchema } from '../../db/schema';
+
+import { createNote } from './createNote';
+import { deleteNote } from './deleteNote';
+import { findByIdWithAttachments } from './findByIdWithAttachments';
+import { listNotes } from './listNotes';
+import { updateNote } from './updateNote';
 
 export const app = new Hono<{ Bindings: Env }>();
 

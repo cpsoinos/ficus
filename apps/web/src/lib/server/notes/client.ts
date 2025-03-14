@@ -1,5 +1,7 @@
-import { Bindings } from '$lib/server/bindings';
 import { hc } from 'hono/client';
+
+import { Bindings } from '$lib/server/bindings';
+
 import type { NotesAppType } from '@ficus/service-notes/src/lib/notes/app';
 
 export const getNotesClient = () => {

@@ -1,10 +1,12 @@
-import { updateUserTOTPKey } from '$lib/server/auth/user';
-import { setSessionAs2FAVerified } from '$lib/server/auth/session';
-import { getTotpUpdateBucket } from '$lib/server/auth/2fa';
+import { decodeBase64, encodeBase64 } from '@oslojs/encoding';
 import { createTOTPKeyURI, verifyTOTP } from '@oslojs/otp';
 import { fail, redirect } from '@sveltejs/kit';
-import { decodeBase64, encodeBase64 } from '@oslojs/encoding';
 import { renderSVG } from 'uqr';
+
+import { getTotpUpdateBucket } from '$lib/server/auth/2fa';
+import { setSessionAs2FAVerified } from '$lib/server/auth/session';
+import { updateUserTOTPKey } from '$lib/server/auth/user';
+
 import type { Actions, RequestEvent } from './$types';
 
 export async function load(event: RequestEvent) {

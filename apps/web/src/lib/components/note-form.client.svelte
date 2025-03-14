@@ -1,18 +1,21 @@
 <script lang="ts">
-	import { Input } from './ui/input/index.js';
-	import { Label } from './ui/label/index.js';
-	import { uploadFile } from '$lib/uploadFile';
-	import { Carta, MarkdownEditor, type Plugin, type UnifiedTransformer } from 'carta-md';
-	import { code } from '@cartamd/plugin-code';
 	import { attachment } from '@cartamd/plugin-attachment';
+	import { code } from '@cartamd/plugin-code';
 	import { slash } from '@cartamd/plugin-slash';
-	import remarkFrontmatter from 'remark-frontmatter';
 	import 'carta-md/default.css';
 	import '@cartamd/plugin-code/default.css';
 	import '@cartamd/plugin-attachment/default.css';
 	import '@cartamd/plugin-slash/default.css';
+	import { Carta, MarkdownEditor, type Plugin, type UnifiedTransformer } from 'carta-md';
 	import DOMPurify from 'isomorphic-dompurify';
+	import remarkFrontmatter from 'remark-frontmatter';
 	import { toast } from 'svelte-sonner';
+
+	import { uploadFile } from '$lib/uploadFile';
+
+	import { Input } from './ui/input';
+	import { Label } from './ui/label';
+
 	import type { Attachment, NewNote } from '@ficus/service-notes/src/db/schema';
 
 	let {

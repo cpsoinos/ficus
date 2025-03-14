@@ -1,3 +1,12 @@
+import { fail, redirect } from '@sveltejs/kit';
+
+import { checkEmailAvailability, verifyEmailInput } from '$lib/server/auth/email';
+import {
+	createEmailVerificationRequest,
+	sendVerificationEmail,
+	setEmailVerificationRequestCookie
+} from '$lib/server/auth/email-verification';
+import { verifyPasswordStrength } from '$lib/server/auth/password';
 import {
 	createSession,
 	generateSessionToken,
@@ -5,15 +14,8 @@ import {
 	type SessionFlags
 } from '$lib/server/auth/session';
 import { createUser } from '$lib/server/auth/user';
-import { verifyPasswordStrength } from '$lib/server/auth/password';
-import { checkEmailAvailability, verifyEmailInput } from '$lib/server/auth/email';
-import {
-	createEmailVerificationRequest,
-	sendVerificationEmail,
-	setEmailVerificationRequestCookie
-} from '$lib/server/auth/email-verification';
 import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
-import { fail, redirect } from '@sveltejs/kit';
+
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {

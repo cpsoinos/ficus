@@ -1,6 +1,7 @@
-import { ExpiringTokenBucket, type ExpiringBucket } from './ExpiringTokenBucket';
 import { env, runInDurableObject } from 'cloudflare:test';
 import { describe, it, expect } from 'vitest';
+
+import { ExpiringTokenBucket, type ExpiringBucket } from './ExpiringTokenBucket';
 
 describe('ExpiringTokenBucket', () => {
 	describe('setParams', () => {

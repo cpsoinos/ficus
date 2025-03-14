@@ -1,6 +1,7 @@
+import { BaseModel } from '../base-model';
+
 import { app } from './app';
 import { downloadAttachment } from './downloadAttachment';
-import { BaseModel } from '../base-model';
 
 export class AttachmentsEntrypoint extends BaseModel<'attachments'> {
 	async download({ attachmentId, userId }: { attachmentId: string; userId: string }): Promise<{

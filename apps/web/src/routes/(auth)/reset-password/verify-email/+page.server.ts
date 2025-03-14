@@ -1,10 +1,11 @@
+import { fail, redirect } from '@sveltejs/kit';
+
 import {
 	validatePasswordResetSessionRequest,
 	setPasswordResetSessionAsEmailVerified,
 	getVerifyEmailBucket
 } from '$lib/server/auth/password-reset';
 import { setUserAsEmailVerifiedIfEmailMatches } from '$lib/server/auth/user';
-import { fail, redirect } from '@sveltejs/kit';
 
 import type { Actions, RequestEvent } from './$types';
 

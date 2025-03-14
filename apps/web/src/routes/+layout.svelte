@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { TooltipProvider } from '$lib/components/ui/tooltip';
 	import { Toaster } from '$lib/components/ui/sonner/index.js';
+	import { TooltipProvider } from '$lib/components/ui/tooltip';
 	import '../app.css';
 
 	let { children } = $props();

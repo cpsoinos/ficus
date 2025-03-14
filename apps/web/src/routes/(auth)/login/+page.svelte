@@ -4,6 +4,7 @@
 	import Icon from '$lib/components/ui/icon/icon.svelte';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
+
 	import type { PageProps } from './$types';
 
 	let { form }: PageProps = $props();

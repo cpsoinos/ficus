@@ -1,6 +1,7 @@
-import { Throttler } from './Throttler';
 import { env, runInDurableObject } from 'cloudflare:test';
 import { describe, it, expect } from 'vitest';
+
+import { Throttler } from './Throttler';
 
 describe('Throttler', () => {
 	it('should set parameters correctly', async () => {

@@ -1,12 +1,14 @@
-import { getNotesClient } from '$lib/server/notes/client';
+import rehypeShiki from '@shikijs/rehype';
 import rehypeSanitize from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import rehypeShiki from '@shikijs/rehype';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkGfm from 'remark-gfm';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
+
+import { getNotesClient } from '$lib/server/notes/client';
+
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {

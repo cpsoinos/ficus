@@ -1,11 +1,13 @@
 <script lang="ts">
+	import { fade } from 'svelte/transition';
+
 	import { Button } from '$lib/components/ui/button/index.js';
 	import * as Card from '$lib/components/ui/card/index.js';
 	import Icon from '$lib/components/ui/icon/icon.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import * as Tooltip from '$lib/components/ui/tooltip/index.js';
-	import { fade } from 'svelte/transition';
+
 	import type { PageProps } from './$types';
 
 	let { data }: PageProps = $props();

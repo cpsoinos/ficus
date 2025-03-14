@@ -1,7 +1,8 @@
-import { notesTable } from './notes';
-import { tagsTable } from './tags';
 import { relations } from 'drizzle-orm';
 import { primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+
+import { notesTable } from './notes';
+import { tagsTable } from './tags';
 
 export const notesTagsTableJoin = sqliteTable(
 	'notes_tags',

@@ -1,16 +1,18 @@
+import { redirect, fail, type Actions, type RequestEvent } from '@sveltejs/kit';
+
+import { verifyEmailInput } from '$lib/server/auth/email';
+import { getOAuthAccountsForUser, getOAuthProviderName } from '$lib/server/auth/oauth';
+import { verifyPassword } from '$lib/server/auth/password';
 import {
 	createSession,
 	generateSessionToken,
 	setSessionTokenCookie,
 	type SessionFlags
 } from '$lib/server/auth/session';
-import { verifyPassword } from '$lib/server/auth/password';
-import { verifyEmailInput } from '$lib/server/auth/email';
+import { getUserFromEmail, getUserPasswordHash } from '$lib/server/auth/user';
 import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
 import { ThrottlerProxy } from '$lib/server/rate-limit/ThrottlerProxy';
-import { getUserFromEmail, getUserPasswordHash } from '$lib/server/auth/user';
-import { getOAuthAccountsForUser, getOAuthProviderName } from '$lib/server/auth/oauth';
-import { redirect, fail, type Actions, type RequestEvent } from '@sveltejs/kit';
+
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {

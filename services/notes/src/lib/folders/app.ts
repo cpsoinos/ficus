@@ -1,7 +1,8 @@
-import { listFolders } from './listFolders';
+import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { z } from 'zod';
-import { zValidator } from '@hono/zod-validator';
+
+import { listFolders } from './listFolders';
 
 export const app = new Hono<{ Bindings: Env }>();
 
