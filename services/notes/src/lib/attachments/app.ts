@@ -37,17 +37,19 @@ app.post('/upload', async (c) => {
 
 const _route = app.get(
 	'/:attachmentId/download',
-	zValidator('query', z.object({ userId: z.string().uuid() })),
+	zValidator('query', z.object({ userId: z.string().uuid(), download: z.boolean().optional() })),
 	async (c) => {
 		const attachmentId = c.req.param('attachmentId');
-		const { userId } = c.req.valid('query');
+		const { userId, download } = c.req.valid('query');
 
 		const attachment = await downloadAttachment({ attachmentId, userId });
 		if (!attachment) return c.text('Attachment not found', 404);
 
 		c.header('Content-Type', attachment.contentType);
 		c.header('Content-Length', String(attachment.size));
-		c.header('Content-Disposition', `attachment; filename="${attachment.fileName}"`);
+		if (download) {
+			c.header('Content-Disposition', `attachment; filename="${attachment.fileName}"`);
+		}
 
 		return c.body(attachment.body);
 	}

@@ -25,7 +25,7 @@
 
 	{#if note.attachments.length}
 		{#each note.attachments as attachment}
-			<div class="flex justify-between">
+			<div class="flex items-center justify-between">
 				<p>Attachment: {attachment.fileName}</p>
 				<Button
 					href={`/notes/${note.id}/attachments/${attachment.id}`}
