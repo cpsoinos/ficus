@@ -1,7 +1,7 @@
 <script module>
 	export interface BreadcrumbPart {
 		label: string;
-		href: string;
+		href?: string;
 	}
 </script>
 
@@ -90,15 +90,15 @@
 
 				{#each breadcrumbs.slice(-ITEMS_TO_DISPLAY + 1) as item}
 					<Breadcrumb.Item>
-						{#if item.href}
-							<Breadcrumb.Link href={item.href} class="max-w-20 truncate md:max-w-none">
-								{item.label}
-							</Breadcrumb.Link>
+						{@const Component =
+							!item.href || item === breadcrumbs[breadcrumbs.length - 1]
+								? Breadcrumb.Page
+								: Breadcrumb.Link}
+						<Component href={item.href} class="max-w-20 truncate md:max-w-none">
+							{item.label}
+						</Component>
+						{#if item !== breadcrumbs[breadcrumbs.length - 1]}
 							<Breadcrumb.Separator />
-						{:else}
-							<Breadcrumb.Page class="max-w-20 truncate md:max-w-none">
-								{item.label}
-							</Breadcrumb.Page>
 						{/if}
 					</Breadcrumb.Item>
 				{/each}

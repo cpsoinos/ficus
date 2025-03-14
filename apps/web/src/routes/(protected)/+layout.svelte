@@ -21,12 +21,12 @@
 			?.items?.find((item) => item.id === page.params.noteId);
 		return {
 			label: note?.title ?? 'Note',
-			href: resolveRoute('/notes/[noteId]', page.params)
+			...(page.params.noteId && { href: resolveRoute('/notes/[noteId]', page.params) })
 		};
 	});
 	const editNoteBreadcrumb = $derived({
 		label: 'Edit',
-		href: resolveRoute('/notes/[noteId]/edit', page.params)
+		...(page.params.noteId && { href: resolveRoute('/notes/[noteId]/edit', page.params) })
 	});
 
 	const PARTS_MAP: Record<string, BreadcrumbPart[]> = $derived({
