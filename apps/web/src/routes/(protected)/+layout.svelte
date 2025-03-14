@@ -10,21 +10,21 @@
 	const sidebarItems = $derived(data.sidebarItems);
 	let route = $derived(page.route);
 
-	const homeBreadcrumb = { label: 'Home', url: '/' };
-	const notesBreadcrumb = { label: 'Notes', url: '/notes' };
-	const newNoteBreadcrumb = { label: 'New', url: '/notes/new' };
+	const homeBreadcrumb = { label: 'Home', href: '/' };
+	const notesBreadcrumb = { label: 'Notes', href: '/notes' };
+	const newNoteBreadcrumb = { label: 'New', href: '/notes/new' };
 	const noteBreadcrumb = $derived.by(() => {
 		const note = sidebarItems
 			.find((group) => group.title === 'Notes')
 			?.items?.find((item) => item.id === page.params.noteId);
 		return {
 			label: note?.title ?? 'Note',
-			url: resolveRoute('/notes/[noteId]', page.params)
+			href: resolveRoute('/notes/[noteId]', page.params)
 		};
 	});
 	const editNoteBreadcrumb = $derived({
 		label: 'Edit',
-		url: resolveRoute('/notes/[noteId]/edit', page.params)
+		href: resolveRoute('/notes/[noteId]/edit', page.params)
 	});
 
 	const PARTS_MAP: Record<string, BreadcrumbPart[]> = $derived({
