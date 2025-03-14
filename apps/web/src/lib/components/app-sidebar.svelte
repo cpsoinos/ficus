@@ -1,6 +1,7 @@
 <script lang="ts" module>
 	export interface SidebarItem {
 		title: string;
+		id: string;
 		url: string;
 		items?: SidebarItem[];
 	}

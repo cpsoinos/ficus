@@ -1,3 +1,10 @@
+<script module>
+	export interface BreadcrumbPart {
+		label: string;
+		url: string;
+	}
+</script>
+
 <script lang="ts">
 	import * as DropdownMenu from './ui/dropdown-menu';
 	import { Button } from './ui/button';
@@ -5,6 +12,12 @@
 	import { Separator } from './ui/separator/index.js';
 	import SidebarTrigger from './ui/sidebar/sidebar-trigger.svelte';
 	import { enhance } from '$app/forms';
+
+	let {
+		breadcrumbs
+	}: {
+		breadcrumbs: BreadcrumbPart[];
+	} = $props();
 </script>
 
 <header class="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
@@ -13,13 +26,17 @@
 		<Separator orientation="vertical" class="mr-2 h-4" />
 		<Breadcrumb.Root>
 			<Breadcrumb.List>
-				<Breadcrumb.Item class="hidden md:block">
-					<Breadcrumb.Link href="#">Building Your Application</Breadcrumb.Link>
-				</Breadcrumb.Item>
-				<Breadcrumb.Separator class="hidden md:block" />
-				<Breadcrumb.Item>
-					<Breadcrumb.Page>Data Fetching</Breadcrumb.Page>
-				</Breadcrumb.Item>
+				{#each breadcrumbs as { label, url }, i (label)}
+					<Breadcrumb.Item>
+						{@const Component = i === breadcrumbs.length - 1 ? Breadcrumb.Page : Breadcrumb.Link}
+						<Component href={url}>
+							{label}
+						</Component>
+					</Breadcrumb.Item>
+					{#if i < breadcrumbs.length - 1}
+						<Breadcrumb.Separator />
+					{/if}
+				{/each}
 			</Breadcrumb.List>
 		</Breadcrumb.Root>
 	</div>
