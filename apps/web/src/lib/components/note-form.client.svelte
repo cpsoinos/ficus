@@ -53,6 +53,13 @@
 		extensions: [
 			code(),
 			attachment({
+				supportedMimeTypes: [
+					'image/png',
+					'image/jpeg',
+					'image/gif',
+					'image/svg+xml',
+					'application/pdf'
+				],
 				upload: async (file) => {
 					if (!note.id) {
 						throw new Error('Note must be saved before uploading attachments');
