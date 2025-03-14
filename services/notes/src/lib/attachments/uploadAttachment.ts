@@ -1,8 +1,9 @@
+import { eq } from 'drizzle-orm';
+
 import { db } from '../../db';
 import { notesTable } from '../../db/schema';
 import { attachmentsTable, type Attachment, type NewAttachment } from '../../db/schema/attachments';
 import { Bindings } from '../bindings';
-import { eq } from 'drizzle-orm';
 
 export async function uploadAttachment({
 	contentType,

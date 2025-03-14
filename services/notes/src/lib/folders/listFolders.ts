@@ -1,6 +1,7 @@
+import { eq } from 'drizzle-orm';
+
 import { db } from '../../db';
 import { foldersTable } from '../../db/schema';
-import { eq } from 'drizzle-orm';
 
 export async function listFolders(userId: string) {
 	return db.query.foldersTable.findMany({

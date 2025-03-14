@@ -1,3 +1,5 @@
+import { fail, redirect } from '@sveltejs/kit';
+
 import {
 	createEmailVerificationRequest,
 	deleteEmailVerificationRequestCookie,
@@ -10,7 +12,7 @@ import {
 import { invalidateUserPasswordResetSessions } from '$lib/server/auth/password-reset';
 import { updateUserEmailAndSetEmailAsVerified } from '$lib/server/auth/user';
 import { ExpiringTokenBucketProxy } from '$lib/server/rate-limit/ExpiringTokenBucketProxy';
-import { fail, redirect } from '@sveltejs/kit';
+
 import type { Actions, RequestEvent } from './$types';
 
 enum VerifyEmailEndpointKeys {

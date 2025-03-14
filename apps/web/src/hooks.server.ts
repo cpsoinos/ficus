@@ -1,14 +1,15 @@
-import { DbSingleton } from './lib/server/db';
-import { BindingsSingleton } from './lib/server/bindings';
+import { redirect, type Handle } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
+
+import { preloadIcons } from './lib/icons';
 import {
 	sessionCookieName,
 	validateSessionToken,
 	setSessionTokenCookie,
 	deleteSessionTokenCookie
 } from './lib/server/auth/session';
-import { preloadIcons } from './lib/icons';
-import { sequence } from '@sveltejs/kit/hooks';
-import { redirect, type Handle } from '@sveltejs/kit';
+import { BindingsSingleton } from './lib/server/bindings';
+import { DbSingleton } from './lib/server/db';
 
 const initBindings: Handle = async ({ event, resolve }) => {
 	BindingsSingleton.initialize(event.platform!.env);

@@ -9,6 +9,7 @@
 		"dev": "pnpm -r --parallel dev",
 		"format": "prettier --write .",
 		"lint": "pnpm -r --parallel lint",
+		"lint:fix": "pnpm -r --parallel lint:fix",
 		"prepare": "husky",
 		"preview": "pnpm --filter web preview & pnpm --filter !web dev",
 		"test": "pnpm -r --parallel test"

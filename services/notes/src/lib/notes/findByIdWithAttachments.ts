@@ -1,5 +1,7 @@
-import { db } from '../../db';
 import { and, eq } from 'drizzle-orm';
+
+import { db } from '../../db';
+
 import type { Attachment, Note } from '../../db/schema';
 
 export async function findByIdWithAttachments({

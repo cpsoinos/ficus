@@ -10,9 +10,11 @@
 <script lang="ts">
 	import SearchForm from './search-form.svelte';
 	import { Button } from './ui/button/index.js';
-	import * as Sidebar from './ui/sidebar/index.js';
 	import Icon from './ui/icon/icon.svelte';
+	import * as Sidebar from './ui/sidebar/index.js';
+
 	import type { ComponentProps } from 'svelte';
+
 	import { page } from '$app/state';
 
 	let {

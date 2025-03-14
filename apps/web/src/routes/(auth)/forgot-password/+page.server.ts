@@ -1,5 +1,6 @@
+import { fail, redirect } from '@sveltejs/kit';
+
 import { verifyEmailInput } from '$lib/server/auth/email';
-import { getUserFromEmail } from '$lib/server/auth/user';
 import {
 	createPasswordResetSession,
 	getIpBucket,
@@ -9,7 +10,7 @@ import {
 	setPasswordResetSessionTokenCookie
 } from '$lib/server/auth/password-reset';
 import { generateSessionToken } from '$lib/server/auth/session';
-import { fail, redirect } from '@sveltejs/kit';
+import { getUserFromEmail } from '$lib/server/auth/user';
 
 import type { Actions, RequestEvent } from './$types';
 

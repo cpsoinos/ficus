@@ -1,4 +1,5 @@
 import { Bindings } from '$lib/server/bindings';
+
 import type { RefillingTokenBucket } from '@ficus/rate-limiter/src';
 
 export class RefillingTokenBucketProxy {

@@ -1,6 +1,7 @@
-import { listFolders } from './listFolders';
-import { app } from './app';
 import { BaseModel } from '../base-model';
+
+import { app } from './app';
+import { listFolders } from './listFolders';
 
 export class FoldersEntrypoint extends BaseModel<'folders'> {
 	constructor(ctx: ExecutionContext, env: Env) {

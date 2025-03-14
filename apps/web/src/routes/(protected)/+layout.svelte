@@ -1,10 +1,12 @@
 <script lang="ts">
+	import Header, { type BreadcrumbPart } from '$lib/components/app-header.svelte';
 	import AppSidebar from '$lib/components/app-sidebar.svelte';
 	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
-	import Header, { type BreadcrumbPart } from '$lib/components/app-header.svelte';
+
 	import type { LayoutProps } from './$types';
-	import { page } from '$app/state';
+
 	import { resolveRoute } from '$app/paths';
+	import { page } from '$app/state';
 
 	let { children, data }: LayoutProps = $props();
 	const sidebarItems = $derived(data.sidebarItems);

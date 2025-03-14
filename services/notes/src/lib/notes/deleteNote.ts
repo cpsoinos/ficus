@@ -1,7 +1,8 @@
+import { and, eq } from 'drizzle-orm';
+
 import { db } from '../../db';
 import { notesTable } from '../../db/schema';
 import { Bindings } from '../bindings';
-import { and, eq } from 'drizzle-orm';
 
 /**
  * Delete a note and associated attachments from the database.

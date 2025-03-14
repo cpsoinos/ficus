@@ -1,6 +1,7 @@
-import { RefillingTokenBucket } from './RefillingTokenBucket';
 import { env, runDurableObjectAlarm, runInDurableObject } from 'cloudflare:test';
 import { describe, it, expect } from 'vitest';
+
+import { RefillingTokenBucket } from './RefillingTokenBucket';
 
 describe('RefillingTokenBucket', () => {
 	it('should throw an error if params are not set', async () => {

@@ -1,5 +1,7 @@
-import { getNotesClient } from '$lib/server/notes/client';
 import { fail, redirect } from '@sveltejs/kit';
+
+import { getNotesClient } from '$lib/server/notes/client';
+
 import type { Actions, PageServerLoad } from './$types';
 import type { NewNote } from '@ficus/service-notes/src/db/schema';
 

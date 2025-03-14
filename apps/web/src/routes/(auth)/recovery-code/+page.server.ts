@@ -1,5 +1,7 @@
-import { getUserRecoverCode } from '$lib/server/auth/user';
 import { redirect } from '@sveltejs/kit';
+
+import { getUserRecoverCode } from '$lib/server/auth/user';
+
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {

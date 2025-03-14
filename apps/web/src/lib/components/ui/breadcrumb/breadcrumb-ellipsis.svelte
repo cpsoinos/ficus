@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { cn } from '$lib/utils.js';
 	import Icon from '$lib/components/ui/icon/icon.svelte';
+	import { cn } from '$lib/utils.js';
+
 	import type { WithElementRef, WithoutChildren } from 'bits-ui';
 	import type { HTMLAttributes } from 'svelte/elements';
 

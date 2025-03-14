@@ -3,7 +3,9 @@
 	import * as Card from '$lib/components/ui/card/index.js';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label/index.js';
+
 	import type { PageProps } from './$types';
+
 	import { enhance } from '$app/forms';
 
 	let { form }: PageProps = $props();

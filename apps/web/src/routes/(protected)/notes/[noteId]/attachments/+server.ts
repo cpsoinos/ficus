@@ -1,4 +1,5 @@
 import { Bindings } from '$lib/server/bindings';
+
 import type { RequestHandler } from './$types';
 
 /**

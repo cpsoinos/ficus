@@ -1,9 +1,11 @@
+import { fail, redirect } from '@sveltejs/kit';
+
+import { verifyPasswordStrength } from '$lib/server/auth/password';
 import {
 	deletePasswordResetSessionTokenCookie,
 	invalidateUserPasswordResetSessions,
 	validatePasswordResetSessionRequest
 } from '$lib/server/auth/password-reset';
-import { verifyPasswordStrength } from '$lib/server/auth/password';
 import {
 	createSession,
 	generateSessionToken,
@@ -11,10 +13,9 @@ import {
 	setSessionTokenCookie
 } from '$lib/server/auth/session';
 import { updateUserPassword } from '$lib/server/auth/user';
-import { fail, redirect } from '@sveltejs/kit';
 
-import type { Actions, RequestEvent } from './$types';
 import type { SessionFlags } from '$lib/server/auth/session';
+import type { Actions, RequestEvent } from './$types';
 
 export async function load(event: RequestEvent) {
 	const { session, user } = await validatePasswordResetSessionRequest(event);

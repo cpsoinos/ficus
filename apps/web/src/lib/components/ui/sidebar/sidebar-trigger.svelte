@@ -1,8 +1,10 @@
 <script lang="ts">
-	import { useSidebar } from './context.svelte.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { cn } from '$lib/utils.js';
 	import Icon from '$lib/components/ui/icon/icon.svelte';
+	import { cn } from '$lib/utils.js';
+
+	import { useSidebar } from './context.svelte.js';
+
 	import type { ComponentProps } from 'svelte';
 
 	let {

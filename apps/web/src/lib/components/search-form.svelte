@@ -1,7 +1,8 @@
 <script lang="ts">
+	import Icon from './ui/icon/icon.svelte';
 	import { Label } from './ui/label/index.js';
 	import * as Sidebar from './ui/sidebar/index.js';
-	import Icon from './ui/icon/icon.svelte';
+
 	import type { WithElementRef } from 'bits-ui';
 	import type { HTMLFormAttributes } from 'svelte/elements';
 

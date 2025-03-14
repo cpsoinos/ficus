@@ -22,17 +22,22 @@ export const config = [
 				'error',
 				{
 					groups: [
-						'index',
-						'sibling',
-						'parent',
-						'internal',
-						'external',
 						'builtin',
+						'external',
+						'internal',
+						'parent',
+						'sibling',
+						'index',
 						'object',
 						'type'
-					]
+					],
+					alphabetize: {
+						order: 'asc'
+					},
+					'newlines-between': 'always'
 				}
-			]
+			],
+			'import-x/newline-after-import': 'error'
 		},
 		settings: {
 			'import-x/resolver-next': [

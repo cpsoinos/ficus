@@ -1,5 +1,6 @@
-import { getNotesClient } from '$lib/server/notes/client';
 import { getFoldersClient } from '$lib/server/folders/client';
+import { getNotesClient } from '$lib/server/notes/client';
+
 import type { SidebarItem } from '$lib/components/app-sidebar.svelte';
 import type { LayoutServerLoad } from './$types';
 

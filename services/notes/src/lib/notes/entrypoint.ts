@@ -1,5 +1,6 @@
-import { app } from './app';
 import { BaseModel } from '../base-model';
+
+import { app } from './app';
 
 export class NotesEntrypoint extends BaseModel<'notes'> {
 	constructor(ctx: ExecutionContext, env: Env) {

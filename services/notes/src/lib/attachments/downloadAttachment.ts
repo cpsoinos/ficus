@@ -1,6 +1,7 @@
-import { Bindings } from '../bindings';
-import { db } from '../../db';
 import { and, eq } from 'drizzle-orm';
+
+import { db } from '../../db';
+import { Bindings } from '../bindings';
 
 export async function downloadAttachment({
 	attachmentId,

@@ -1,9 +1,10 @@
-import { foldersTable } from './folders';
-import { attachmentsTable } from './attachments';
 import { timestamps } from '@ficus/common/db/timestamp-columns';
 import { relations } from 'drizzle-orm';
 import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createSelectSchema, createInsertSchema, createUpdateSchema } from 'drizzle-zod';
+
+import { attachmentsTable } from './attachments';
+import { foldersTable } from './folders';
 
 export const notesTable = sqliteTable('notes', {
 	id: text('id')

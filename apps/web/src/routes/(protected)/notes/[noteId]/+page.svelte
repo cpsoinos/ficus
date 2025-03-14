@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
 	import { PreRendered } from 'carta-md';
+
+	import { Button } from '$lib/components/ui/button';
+
 	import type { PageProps } from './$types';
 	import 'carta-md/default.css';
 	import '@cartamd/plugin-code/default.css';

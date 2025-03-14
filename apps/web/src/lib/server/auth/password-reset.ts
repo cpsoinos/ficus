@@ -1,5 +1,5 @@
-import { generateRandomOTP } from './utils';
-import { encodeSessionToken } from './session';
+import { eq } from 'drizzle-orm';
+
 import { db } from '$lib/server/db';
 import {
 	passwordResetSessionsTable,
@@ -7,9 +7,12 @@ import {
 	type PasswordResetSession,
 	type User
 } from '$lib/server/db/schema';
-import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
 import { ExpiringTokenBucketProxy } from '$lib/server/rate-limit/ExpiringTokenBucketProxy';
-import { eq } from 'drizzle-orm';
+import { RefillingTokenBucketProxy } from '$lib/server/rate-limit/RefillingTokenBucketProxy';
+
+import { encodeSessionToken } from './session';
+import { generateRandomOTP } from './utils';
+
 import type { RequestEvent } from '@sveltejs/kit';
 
 const REFILL_RATE = 3;

@@ -1,5 +1,7 @@
-import { invalidateSession, deleteSessionTokenCookie } from '$lib/server/auth/session';
 import { fail, redirect } from '@sveltejs/kit';
+
+import { invalidateSession, deleteSessionTokenCookie } from '$lib/server/auth/session';
+
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
