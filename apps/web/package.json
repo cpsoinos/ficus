@@ -94,6 +94,7 @@
 		"tailwindcss-animate": "catalog:",
 		"tsx": "catalog:",
 		"typescript": "catalog:",
+		"vaul-svelte": "1.0.0-next.6",
 		"vite": "catalog:",
 		"vitest": "^3.0.7",
 		"wrangler": "catalog:"

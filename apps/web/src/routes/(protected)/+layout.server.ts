@@ -23,10 +23,12 @@ export const load: LayoutServerLoad = async (event) => {
 	const sidebarItems: SidebarItem[] = [
 		{
 			title: 'Notes',
+			id: 'notes',
 			url: '#',
 			items: notesList.map((note) => {
 				return {
 					title: note.title,
+					id: note.id,
 					url: `/notes/${note.id}`
 				};
 			})
@@ -34,10 +36,12 @@ export const load: LayoutServerLoad = async (event) => {
 		...foldersList.map((folder) => {
 			return {
 				title: folder.name,
+				id: folder.id,
 				url: `/folders/${folder.id}`,
 				items: folder.subFolders.map((subFolder) => {
 					return {
 						title: subFolder.name,
+						id: subFolder.id,
 						url: `/folders/${subFolder.id}`
 					};
 				})

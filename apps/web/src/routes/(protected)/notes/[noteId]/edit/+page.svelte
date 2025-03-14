@@ -61,7 +61,6 @@
 	</form>
 
 	<AlertDialog.Root>
-		<!-- <Button type="submit" variant="destructive">Delete note</Button> -->
 		<AlertDialog.Trigger class={buttonVariants({ variant: 'destructive' })} type="button">
 			Delete note
 		</AlertDialog.Trigger>

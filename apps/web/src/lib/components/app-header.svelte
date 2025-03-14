@@ -1,10 +1,31 @@
+<script module>
+	export interface BreadcrumbPart {
+		label: string;
+		href: string;
+	}
+</script>
+
 <script lang="ts">
 	import * as DropdownMenu from './ui/dropdown-menu';
-	import { Button } from './ui/button';
+	import { Button, buttonVariants } from './ui/button';
 	import * as Breadcrumb from './ui/breadcrumb/index.js';
 	import { Separator } from './ui/separator/index.js';
 	import SidebarTrigger from './ui/sidebar/sidebar-trigger.svelte';
+	import * as Drawer from './ui/drawer/index.js';
+	import { MediaQuery } from 'svelte/reactivity';
 	import { enhance } from '$app/forms';
+
+	let {
+		breadcrumbs
+	}: {
+		breadcrumbs: BreadcrumbPart[];
+	} = $props();
+
+	const ITEMS_TO_DISPLAY = 3;
+
+	let open = $state(false);
+
+	const isDesktop = new MediaQuery('(min-width: 768px)');
 </script>
 
 <header class="flex h-16 shrink-0 items-center justify-between gap-2 border-b px-4">
@@ -13,13 +34,72 @@
 		<Separator orientation="vertical" class="mr-2 h-4" />
 		<Breadcrumb.Root>
 			<Breadcrumb.List>
-				<Breadcrumb.Item class="hidden md:block">
-					<Breadcrumb.Link href="#">Building Your Application</Breadcrumb.Link>
-				</Breadcrumb.Item>
-				<Breadcrumb.Separator class="hidden md:block" />
 				<Breadcrumb.Item>
-					<Breadcrumb.Page>Data Fetching</Breadcrumb.Page>
+					<Breadcrumb.Link href={breadcrumbs[0].href}>
+						{breadcrumbs[0].label}
+					</Breadcrumb.Link>
 				</Breadcrumb.Item>
+				<Breadcrumb.Separator />
+				{#if breadcrumbs.length > ITEMS_TO_DISPLAY}
+					<Breadcrumb.Item>
+						{#if isDesktop.current}
+							<DropdownMenu.Root bind:open>
+								<DropdownMenu.Trigger class="flex items-center gap-1" aria-label="Toggle menu">
+									<Breadcrumb.Ellipsis class="size-4" />
+								</DropdownMenu.Trigger>
+								<DropdownMenu.Content align="start">
+									{#each breadcrumbs.slice(1, -2) as item}
+										<DropdownMenu.Item>
+											<a href={item.href ? item.href : '#'}>
+												{item.label}
+											</a>
+										</DropdownMenu.Item>
+									{/each}
+								</DropdownMenu.Content>
+							</DropdownMenu.Root>
+						{:else}
+							<Drawer.Root bind:open>
+								<Drawer.Trigger aria-label="Toggle Menu">
+									<Breadcrumb.Ellipsis class="size-4" />
+								</Drawer.Trigger>
+								<Drawer.Content>
+									<Drawer.Header class="text-left">
+										<Drawer.Title>Navigate to</Drawer.Title>
+										<Drawer.Description>Select a page to navigate to.</Drawer.Description>
+									</Drawer.Header>
+									<div class="grid gap-1 px-4">
+										{#each breadcrumbs.slice(1, -2) as item}
+											<a href={item.href ? item.href : '#'} class="py-1 text-sm">
+												{item.label}
+											</a>
+										{/each}
+									</div>
+									<Drawer.Footer class="pt-4">
+										<Drawer.Close class={buttonVariants({ variant: 'outline' })}>
+											Close
+										</Drawer.Close>
+									</Drawer.Footer>
+								</Drawer.Content>
+							</Drawer.Root>
+						{/if}
+					</Breadcrumb.Item>
+					<Breadcrumb.Separator />
+				{/if}
+
+				{#each breadcrumbs.slice(-ITEMS_TO_DISPLAY + 1) as item}
+					<Breadcrumb.Item>
+						{#if item.href}
+							<Breadcrumb.Link href={item.href} class="max-w-20 truncate md:max-w-none">
+								{item.label}
+							</Breadcrumb.Link>
+							<Breadcrumb.Separator />
+						{:else}
+							<Breadcrumb.Page class="max-w-20 truncate md:max-w-none">
+								{item.label}
+							</Breadcrumb.Page>
+						{/if}
+					</Breadcrumb.Item>
+				{/each}
 			</Breadcrumb.List>
 		</Breadcrumb.Root>
 	</div>
