@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { noteInsertSchema, noteUpdateSchema } from '../../db/schema';
 
+import { autosaveNote } from './autosaveNote';
 import { createNote } from './createNote';
 import { deleteNote } from './deleteNote';
 import { findByIdWithAttachments } from './findByIdWithAttachments';
@@ -54,6 +55,18 @@ const _route = app
 			const { title, content, folderId } = c.req.valid('json');
 			const note = await updateNote({ noteId, userId }, { title, content, folderId });
 			return c.json(note, 200);
+		}
+	)
+	.put(
+		'/:noteId/autosave',
+		zValidator('json', noteUpdateSchema),
+		zValidator('query', z.object({ userId: z.string() })),
+		async (c) => {
+			const noteId = c.req.param('noteId');
+			const { userId } = c.req.valid('query');
+			const { title, content } = c.req.valid('json');
+			await autosaveNote({ noteId, userId }, { title, content });
+			return c.json({ success: true }, 200);
 		}
 	)
 	.delete(

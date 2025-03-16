@@ -26,7 +26,7 @@ bucket_name = "ficus-attachments"
 preview_bucket_name = "ficus-attachments-dev"
 
 [[kv_namespaces]]
-binding = "ficus_notes"
+binding = "KV"
 id = "04b805e7b9214552ba81d0383bccd3da"
 
 [[queues.producers]]

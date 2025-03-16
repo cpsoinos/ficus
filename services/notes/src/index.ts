@@ -1,8 +1,11 @@
+import { queueConsumer } from './lib/queueConsumer';
+
 export default {
 	async fetch() {
 		return new Response('Use named entrypoints', { status: 404 });
-	}
-} satisfies ExportedHandler<Env>;
+	},
+	queue: queueConsumer
+} satisfies ExportedHandler<Env, { noteId: string; timestamp: Date }>;
 
 export { NotesEntrypoint } from './lib/notes/entrypoint';
 export { FoldersEntrypoint } from './lib/folders/entrypoint';
