@@ -36,7 +36,6 @@ export const actions = {
 		}
 
 		const note = await noteResp.json();
-		// return { note };
 
 		return redirect(302, `/notes/${note.id}/edit`);
 	}

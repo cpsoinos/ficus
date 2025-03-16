@@ -21,7 +21,7 @@ export const PUT: RequestHandler = async ({ locals, request, params }) => {
 	};
 
 	const notesClient = getNotesClient();
-	const noteResp = await notesClient[':noteId'].$put({
+	const noteResp = await notesClient[':noteId'].autosave.$put({
 		param: { noteId },
 		query: { userId },
 		json: noteAttrs
