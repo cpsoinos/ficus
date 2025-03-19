@@ -3,6 +3,8 @@ name = "ficus-service-notes"
 main = "src/index.ts"
 compatibility_date = "2025-02-14"
 workers_dev = false
+compatibility_flags = ["nodejs_compat"]
+tail_consumers = [{ service = "ficus-service-notes-tail" }]
 
 [observability]
 enabled = true
