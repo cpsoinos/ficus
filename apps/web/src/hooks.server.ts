@@ -1,3 +1,4 @@
+import { handleErrorWithSentry, sentryHandle, initCloudflareSentryHandle } from '@sentry/sveltekit';
 import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 
@@ -10,6 +11,8 @@ import {
 } from './lib/server/auth/session';
 import { BindingsSingleton } from './lib/server/bindings';
 import { DbSingleton } from './lib/server/db';
+
+import { dev } from '$app/environment';
 
 const initBindings: Handle = async ({ event, resolve }) => {
 	BindingsSingleton.initialize(event.platform!.env);
@@ -59,4 +62,22 @@ const authHook: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-export const handle: Handle = sequence(initBindings, initDb, iconsHook, authHook);
+export const handleError = handleErrorWithSentry();
+
+const handlers = [
+	...(dev
+		? []
+		: [
+				initCloudflareSentryHandle({
+					dsn: 'https://0b7dd9fb35e2c89bf9673c2af0a8e234@o4508996084039680.ingest.us.sentry.io/4508996087054336',
+					tracesSampleRate: 1.0
+				}),
+				sentryHandle()
+			]),
+	initBindings,
+	initDb,
+	iconsHook,
+	authHook
+];
+
+export const handle: Handle = sequence(...handlers);

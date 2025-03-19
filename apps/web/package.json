@@ -41,6 +41,8 @@
 		"@oslojs/crypto": "catalog:",
 		"@oslojs/encoding": "catalog:",
 		"@oslojs/otp": "catalog:",
+		"@sentry/cloudflare": "^9.6.0",
+		"@sentry/sveltekit": "^9.6.0",
 		"@shikijs/rehype": "catalog:",
 		"@tailwindcss/container-queries": "catalog:",
 		"@tailwindcss/forms": "catalog:",
