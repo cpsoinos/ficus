@@ -2,9 +2,8 @@
 name = "ficus-rate-limiter"
 main = "src/index.ts"
 compatibility_date = "2024-12-18"
-compatibility_flags = [
-  "nodejs_compat",
-]
+compatibility_flags = ["nodejs_compat"]
+tail_consumers = [{ service = "ficus-rate-limiter-tail" }]
 
 [dev]
 port = 8788
@@ -35,8 +34,4 @@ class_name = "Throttler"
 # Docs: https://developers.cloudflare.com/workers/wrangler/configuration/#migrations
 [[migrations]]
 tag = "v1"
-new_classes = [
-  "RefillingTokenBucket",
-  "ExpiringTokenBucket",
-  "Throttler",
-]
+new_classes = ["RefillingTokenBucket", "ExpiringTokenBucket", "Throttler"]
