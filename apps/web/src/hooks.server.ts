@@ -12,6 +12,8 @@ import {
 import { BindingsSingleton } from './lib/server/bindings';
 import { DbSingleton } from './lib/server/db';
 
+import { dev } from '$app/environment';
+
 const initBindings: Handle = async ({ event, resolve }) => {
 	BindingsSingleton.initialize(event.platform!.env);
 	return resolve(event);
@@ -62,14 +64,20 @@ const authHook: Handle = async ({ event, resolve }) => {
 
 export const handleError = handleErrorWithSentry();
 
-export const handle: Handle = sequence(
-	initCloudflareSentryHandle({
-		dsn: 'https://0b7dd9fb35e2c89bf9673c2af0a8e234@o4508996084039680.ingest.us.sentry.io/4508996087054336',
-		tracesSampleRate: 1.0
-	}),
-	sentryHandle(),
+const handlers = [
+	...(dev
+		? []
+		: [
+				initCloudflareSentryHandle({
+					dsn: 'https://0b7dd9fb35e2c89bf9673c2af0a8e234@o4508996084039680.ingest.us.sentry.io/4508996087054336',
+					tracesSampleRate: 1.0
+				}),
+				sentryHandle()
+			]),
 	initBindings,
 	initDb,
 	iconsHook,
 	authHook
-);
+];
+
+export const handle: Handle = sequence(...handlers);
