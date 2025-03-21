@@ -9,7 +9,7 @@ catalog:
   '@cartamd/plugin-slash': ^4.1.2
   '@chromatic-com/storybook': ^3.2.3
   '@cloudflare/vitest-pool-workers': ^0.5.41
-  '@cloudflare/workers-types': ^4.20250214.0
+  '@cloudflare/workers-types': ^4.20250320.0
   '@dword-design/eslint-plugin-import-alias': ^5.1.1
   '@eslint/compat': ^1.2.6
   '@eslint/js': ^9.20.0
@@ -29,7 +29,7 @@ catalog:
   '@storybook/svelte': ^8.4.7
   '@storybook/sveltekit': ^8.4.7
   '@storybook/test': ^8.4.7
-  '@sveltejs/adapter-cloudflare': ^5.0.1
+  '@sveltejs/adapter-cloudflare': ^6.0.0
   '@sveltejs/kit': ^2.16.1
   '@sveltejs/vite-plugin-svelte': ^5.0.0
   '@tailwindcss/container-queries': ^0.1.1
@@ -80,5 +80,5 @@ catalog:
   unified: ^11.0.5
   uqr: ^0.1.2
   vite: ^6.1.0
-  wrangler: ^3.114.1
+  wrangler: 4.3.0
   zod: ^3.24.2
