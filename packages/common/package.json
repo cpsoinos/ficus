@@ -18,7 +18,6 @@
 		"drizzle-orm": "catalog:"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "catalog:",
 		"@ficus/eslint-config": "workspace:*",
 		"typescript": "catalog:"
 	}
