@@ -26,7 +26,6 @@
 		"zod": "catalog:"
 	},
 	"devDependencies": {
-		"@cloudflare/workers-types": "catalog:",
 		"@ficus/eslint-config": "workspace:",
 		"@types/node": "catalog:",
 		"drizzle-kit": "catalog:",
