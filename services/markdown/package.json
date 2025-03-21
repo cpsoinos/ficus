@@ -1,0 +1,24 @@
+{
+	"name": "markdown",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"cf-typegen": "wrangler types",
+		"deploy": "wrangler deploy",
+		"dev": "wrangler dev",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"start": "wrangler dev",
+		"test": "vitest"
+	},
+	"devDependencies": {
+		"@cloudflare/vitest-pool-workers": "^0.7.5",
+		"@cloudflare/workers-types": "^4.20250320.0",
+		"@ficus/eslint-config": "workspace:",
+		"@types/node": "catalog:",
+		"eslint": "catalog:",
+		"typescript": "catalog:",
+		"vitest": "~3.0.7",
+		"wrangler": "catalog:"
+	}
+}

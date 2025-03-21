@@ -1,0 +1,11 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "ficus-service-markdown"
+main = "src/index.ts"
+compatibility_date = "2025-03-20"
+observability.enabled = true
+workers_dev = false
+compatibility_flags = ["nodejs_compat"]
+
+[dev]
+port = 8790
+inspector_port = 9227
