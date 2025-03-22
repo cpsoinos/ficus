@@ -1,10 +1,14 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "ficus-service-markdown"
 main = "src/index.ts"
-compatibility_date = "2025-03-20"
+compatibility_date = "2025-03-19"
 observability.enabled = true
 workers_dev = false
 compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
 
 [dev]
 port = 8790

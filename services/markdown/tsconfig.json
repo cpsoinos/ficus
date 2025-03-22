@@ -13,5 +13,5 @@
 		"noEmit": true
 	},
 	"exclude": ["test"],
-	"include": ["worker-configuration.d.ts", "src/**/*.ts"]
+	"include": ["wasm.d.ts", "worker-configuration.d.ts", "src/**/*.ts"]
 }
