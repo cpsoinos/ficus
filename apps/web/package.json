@@ -6,7 +6,7 @@
 	"scripts": {
 		"build": "vite build",
 		"build-storybook": "storybook build",
-		"cf-typegen": "wrangler types && mv worker-configuration.d.ts src/",
+		"cf-typegen": "wrangler types && mv worker-configuration.d.ts src/ && node ./scripts/fix-cf-env-types.mjs",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"db:generate": "pnpm drizzle-kit generate",
@@ -93,6 +93,7 @@
 		"tailwind-variants": "catalog:",
 		"tailwindcss": "catalog:",
 		"tailwindcss-animate": "catalog:",
+		"toml": "^3.0.0",
 		"tsx": "catalog:",
 		"typescript": "catalog:",
 		"vaul-svelte": "1.0.0-next.6",

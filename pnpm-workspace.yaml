@@ -40,8 +40,8 @@ catalog:
   autoprefixer: ^10.4.20
   bits-ui: 1.0.0-next.90
   carta-md: ^4.7.0
-  drizzle-kit: ^0.30.4
-  drizzle-orm: ^0.39.3
+  drizzle-kit: 0.30.5
+  drizzle-orm: 0.41.0
   drizzle-zod: 0.7.0
   eslint: ^9.20.1
   eslint-config-prettier: ^9.1.0
@@ -79,5 +79,5 @@ catalog:
   unified: ^11.0.5
   uqr: ^0.1.2
   vite: ^6.1.0
-  wrangler: 4.3.0
+  wrangler: 4.4.0
   zod: ^3.24.2
