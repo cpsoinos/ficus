@@ -31,7 +31,7 @@ export async function render(raw: string, options?: RenderOptions): Promise<stri
 		...Object.values(highlighterOptions.themes ?? {})
 	].filter(Boolean) as ThemeName[];
 	const langs = extractCodeLanguages(raw);
-	const highlighter = await createHighlighter({ themes, langs });
+	using highlighter = await createHighlighter({ themes, langs });
 
 	const file = await unified()
 		.use(remarkParse)
