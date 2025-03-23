@@ -53,18 +53,7 @@ entrypoint = "FoldersEntrypoint"
 binding = "TAGS"
 service = "ficus-service-notes"
 entrypoint = "TagsEntrypoint"
-# To use different bindings for preview and production environments, follow the examples below.
-# When using environment-specific overrides for bindings, ALL bindings must be specified on a per-environment basis.
-# Docs: https://developers.cloudflare.com/pages/functions/wrangler-configuration#environment-specific-overrides
-######## PREVIEW environment config ########
-# [env.preview.vars]
-# API_KEY = "xyz789"
-# [[env.preview.kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "<PREVIEW_NAMESPACE_ID>"
-######## PRODUCTION environment config ########
-# [env.production.vars]
-# API_KEY = "abc123"
-# [[env.production.kv_namespaces]]
-# binding = "MY_KV_NAMESPACE"
-# id = "<PRODUCTION_NAMESPACE_ID>"
+
+[[services]]
+binding = "MARKDOWN"
+service = "ficus-service-markdown"

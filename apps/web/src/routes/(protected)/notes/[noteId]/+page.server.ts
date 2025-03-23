@@ -1,12 +1,4 @@
-import rehypeShiki from '@shikijs/rehype';
-import rehypeSanitize from 'rehype-sanitize';
-import rehypeStringify from 'rehype-stringify';
-import remarkFrontmatter from 'remark-frontmatter';
-import remarkGfm from 'remark-gfm';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import { unified } from 'unified';
-
+import { Bindings } from '$lib/server/bindings';
 import { getNotesClient } from '$lib/server/notes/client';
 
 import type { PageServerLoad } from './$types';
@@ -30,21 +22,12 @@ export const load: PageServerLoad = async (event) => {
 
 	if (noteResp.ok) {
 		const note = await noteResp.json();
-		const file = await unified()
-			.use(remarkParse)
-			.use(remarkFrontmatter)
-			.use(remarkGfm)
-			.use(remarkRehype)
-			.use(rehypeSanitize)
-			.use(rehypeStringify)
-			.use(rehypeShiki, {
-				themes: {
-					light: 'github-light',
-					dark: 'github-dark'
-				}
+		const html = await (
+			await Bindings.MARKDOWN.fetch('http://internal', {
+				method: 'POST',
+				body: note.content
 			})
-			.process(note.content ?? '');
-		const html = file.toString();
+		).text();
 
 		return { note, html };
 	}
