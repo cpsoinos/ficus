@@ -6,15 +6,171 @@ settings:
 
 catalogs:
   default:
+    '@cartamd/plugin-attachment':
+      specifier: ^4.1.1
+      version: 4.1.1
+    '@cartamd/plugin-code':
+      specifier: ^4.0.6
+      version: 4.1.1
+    '@cartamd/plugin-slash':
+      specifier: ^4.1.2
+      version: 4.1.2
+    '@chromatic-com/storybook':
+      specifier: ^3.2.3
+      version: 3.2.3
+    '@cloudflare/vitest-pool-workers':
+      specifier: ^0.5.41
+      version: 0.5.41
+    '@dword-design/eslint-plugin-import-alias':
+      specifier: ^5.1.1
+      version: 5.1.1
+    '@eslint/compat':
+      specifier: ^1.2.6
+      version: 1.2.6
+    '@eslint/js':
+      specifier: ^9.20.0
+      version: 9.20.0
+    '@hono/zod-validator':
+      specifier: ^0.4.3
+      version: 0.4.3
+    '@iconify/svelte':
+      specifier: ^4.2.0
+      version: 4.2.0
+    '@libsql/client':
+      specifier: ^0.14.0
+      version: 0.14.0
+    '@nick/clsx':
+      specifier: npm:@jsr/nick__clsx@^0.3.1
+      version: 0.3.1
+    '@oslojs/crypto':
+      specifier: ^1.0.1
+      version: 1.0.1
+    '@oslojs/encoding':
+      specifier: ^1.1.0
+      version: 1.1.0
+    '@oslojs/otp':
+      specifier: ^1.1.0
+      version: 1.1.0
+    '@playwright/test':
+      specifier: ^1.50.1
+      version: 1.50.1
     '@shikijs/rehype':
       specifier: ^3.2.1
       version: 3.2.1
+    '@storybook/addon-essentials':
+      specifier: ^8.4.7
+      version: 8.4.7
+    '@storybook/addon-interactions':
+      specifier: ^8.4.7
+      version: 8.4.7
+    '@storybook/addon-svelte-csf':
+      specifier: ^5.0.0-next.21
+      version: 5.0.0-next.21
+    '@storybook/blocks':
+      specifier: ^8.4.7
+      version: 8.4.7
+    '@storybook/svelte':
+      specifier: ^8.4.7
+      version: 8.4.7
+    '@storybook/sveltekit':
+      specifier: ^8.4.7
+      version: 8.4.7
+    '@storybook/test':
+      specifier: ^8.4.7
+      version: 8.4.7
+    '@sveltejs/adapter-cloudflare':
+      specifier: 6.0.1
+      version: 6.0.0
+    '@sveltejs/kit':
+      specifier: ^2.20.2
+      version: 2.20.2
+    '@sveltejs/vite-plugin-svelte':
+      specifier: ^5.0.0
+      version: 5.0.3
+    '@tailwindcss/container-queries':
+      specifier: ^0.1.1
+      version: 0.1.1
+    '@tailwindcss/forms':
+      specifier: ^0.5.10
+      version: 0.5.10
+    '@types/eslint-config-prettier':
+      specifier: ^6.11.3
+      version: 6.11.3
     '@types/node':
       specifier: ^22.13.5
       version: 22.13.5
+    '@typescript-eslint/utils':
+      specifier: ^8.24.0
+      version: 8.24.0
+    arctic:
+      specifier: ^3.3.0
+      version: 3.3.0
+    autoprefixer:
+      specifier: ^10.4.20
+      version: 10.4.20
+    bits-ui:
+      specifier: 1.0.0-next.90
+      version: 1.0.0-next.90
+    carta-md:
+      specifier: ^4.7.0
+      version: 4.7.0
+    drizzle-kit:
+      specifier: 0.30.5
+      version: 0.30.5
+    drizzle-orm:
+      specifier: 0.41.0
+      version: 0.41.0
+    drizzle-zod:
+      specifier: 0.7.0
+      version: 0.7.0
     eslint:
       specifier: ^9.20.1
       version: 9.20.1
+    eslint-config-prettier:
+      specifier: ^9.1.0
+      version: 9.1.0
+    eslint-import-resolver-typescript:
+      specifier: ^3.8.0
+      version: 3.8.0
+    eslint-plugin-drizzle:
+      specifier: ^0.2.3
+      version: 0.2.3
+    eslint-plugin-import-x:
+      specifier: ^4.6.1
+      version: 4.6.1
+    eslint-plugin-perfectionist:
+      specifier: ^4.9.0
+      version: 4.9.0
+    eslint-plugin-svelte:
+      specifier: ^2.36.0
+      version: 2.46.1
+    globals:
+      specifier: ^15.15.0
+      version: 15.15.0
+    hono:
+      specifier: ^4.7.4
+      version: 4.7.4
+    husky:
+      specifier: ^9.1.7
+      version: 9.1.7
+    isomorphic-dompurify:
+      specifier: ^2.22.0
+      version: 2.22.0
+    lint-staged:
+      specifier: ^15.4.3
+      version: 15.4.3
+    ofetch:
+      specifier: ^1.4.1
+      version: 1.4.1
+    prettier:
+      specifier: ^3.5.1
+      version: 3.5.1
+    prettier-plugin-svelte:
+      specifier: ^3.3.3
+      version: 3.3.3
+    prettier-plugin-tailwindcss:
+      specifier: ^0.6.11
+      version: 0.6.11
     rehype-sanitize:
       specifier: ^6.0.0
       version: 6.0.0
@@ -33,12 +189,48 @@ catalogs:
     remark-rehype:
       specifier: ^11.1.1
       version: 11.1.1
+    sort-package-json:
+      specifier: ^2.14.0
+      version: 2.14.0
+    svelte:
+      specifier: ^5.20.0
+      version: 5.20.0
+    svelte-check:
+      specifier: ^4.1.4
+      version: 4.1.4
+    tailwind-merge:
+      specifier: ^2.5.5
+      version: 2.6.0
+    tailwind-variants:
+      specifier: ^0.3.1
+      version: 0.3.1
+    tailwindcss:
+      specifier: ^3.4.9
+      version: 3.4.17
+    tailwindcss-animate:
+      specifier: ^1.0.7
+      version: 1.0.7
+    tslib:
+      specifier: ^2.3.0
+      version: 2.8.1
+    tsx:
+      specifier: ^4.19.2
+      version: 4.19.2
     typescript:
       specifier: ^5.7.3
       version: 5.7.3
+    typescript-eslint:
+      specifier: ^8.24.0
+      version: 8.24.0
     unified:
       specifier: ^11.0.5
       version: 11.0.5
+    uqr:
+      specifier: ^0.1.2
+      version: 0.1.2
+    vite:
+      specifier: ^6.1.0
+      version: 6.1.0
     wrangler:
       specifier: 4.4.0
       version: 4.4.0
@@ -96,7 +288,7 @@ importers:
         version: 4.1.1(carta-md@4.7.0(svelte@5.20.0))(svelte@5.20.0)
       '@cartamd/plugin-code':
         specifier: 'catalog:'
-        version: 4.0.6(carta-md@4.7.0(svelte@5.20.0))
+        version: 4.1.1(carta-md@4.7.0(svelte@5.20.0))
       '@cartamd/plugin-slash':
         specifier: 'catalog:'
         version: 4.1.2(carta-md@4.7.0(svelte@5.20.0))(svelte@5.20.0)
@@ -154,9 +346,6 @@ importers:
       remark-frontmatter:
         specifier: 'catalog:'
         version: 5.0.0
-      remark-gfm:
-        specifier: 'catalog:'
-        version: 4.0.1
       remark-parse:
         specifier: 'catalog:'
         version: 11.0.0
@@ -585,8 +774,8 @@ packages:
       carta-md: ^4.0.0
       svelte: ^3.54.0 || ^4.0.0 || ^5.0.0-next.1
 
-  '@cartamd/plugin-code@4.0.6':
-    resolution: {integrity: sha512-2Y+hu+dobLaZC4Wzfe3NT9rF75rAiNiZfgGuDXccQa3fOre1hr893GrMKw6h8qA8AfrHangyP4I1W2ca3phhrA==}
+  '@cartamd/plugin-code@4.1.1':
+    resolution: {integrity: sha512-lUBL8k7yF6uAenqVvPkn/b/a+ITiaS3QYJI6fdf+W2vyju2GbHEV92uwc5QhjKNlwZbk4s2hx4Vk9FjUnVu+pw==}
     peerDependencies:
       carta-md: ^4.0.0
 
@@ -6914,7 +7103,7 @@ snapshots:
       carta-md: 4.7.0(svelte@5.20.0)
       svelte: 5.20.0
 
-  '@cartamd/plugin-code@4.0.6(carta-md@4.7.0(svelte@5.20.0))':
+  '@cartamd/plugin-code@4.1.1(carta-md@4.7.0(svelte@5.20.0))':
     dependencies:
       '@shikijs/rehype': 1.29.2
       carta-md: 4.7.0(svelte@5.20.0)

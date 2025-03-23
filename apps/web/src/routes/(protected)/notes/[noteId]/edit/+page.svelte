@@ -1,5 +1,5 @@
 <script lang="ts">
-	import NoteForm from '$lib/components/note-form.client.svelte';
+	import NoteForm from '$lib/components/note-form.svelte';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { buttonVariants } from '$lib/components/ui/button/index.js';
@@ -8,6 +8,7 @@
 	import type { PageProps } from './$types';
 	import type { Note } from '@ficus/service-notes/src/db/schema/notes';
 
+	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/state';
 
@@ -59,7 +60,9 @@
 		bind:this={noteForm}
 		data-sveltekit-keepfocus
 	>
-		<NoteForm bind:note autoFocus save={saveNote} />
+		{#if browser}
+			<NoteForm bind:note autoFocus save={saveNote} />
+		{/if}
 	</form>
 
 	<AlertDialog.Root>

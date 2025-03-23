@@ -5,7 +5,6 @@
 
 	import type { PageProps } from './$types';
 	import 'carta-md/default.css';
-	import '@cartamd/plugin-code/default.css';
 	import '@cartamd/plugin-attachment/default.css';
 	import '@cartamd/plugin-slash/default.css';
 
