@@ -1,6 +1,10 @@
 import { themeNames } from '@shikijs/themes';
 import { z } from 'zod';
 
+import { Bindings } from '../lib/bindings';
+
+import type { ThemeRegistration } from 'shiki/core';
+
 // Define the theme schema using `z.enum`
 const themeSchema = z.enum(themeNames as [string, ...string[]]);
 
@@ -62,3 +66,9 @@ export type HighlighterThemeOptions =
 			theme?: never;
 			themes?: { light: ThemeName; dark: ThemeName };
 	  };
+
+export async function loadTheme(themeName: ThemeName): Promise<ThemeRegistration> {
+	const rawTheme = await Bindings.ASSETS.fetch(`http://internal/themes/${themeName}.json`);
+	const theme = await rawTheme.json<ThemeRegistration>();
+	return theme;
+}

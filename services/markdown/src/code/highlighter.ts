@@ -1,25 +1,27 @@
-import darkPlus from '@shikijs/themes/dark-plus';
 import { createHighlighterCore } from 'shiki/core';
 import { createOnigurumaEngine, loadWasm } from 'shiki/engine/oniguruma';
 
 import { loadLanguageData } from './load-languages';
-
-import type { ThemeName } from './themes';
+import { loadTheme, type ThemeName } from './themes';
 
 await loadWasm(import('shiki/onig.wasm'));
 
 export async function createHighlighter({
-	// themes,
+	themes,
 	langs
 }: {
 	themes: ThemeName[];
 	langs: string[];
 }) {
 	const { languages, aliasMap } = await loadLanguageData(langs);
+	const themeRegistrations = await Promise.all(
+		themes.map((themeName) => {
+			return loadTheme(themeName);
+		})
+	);
 
 	return createHighlighterCore({
-		themes: [darkPlus],
-		// themes: themes.map((theme) => import(`@shikijs/themes/${theme}`)),
+		themes: themeRegistrations,
 		langs: languages,
 		langAlias: aliasMap,
 		engine: createOnigurumaEngine(import('shiki/onig.wasm'))
