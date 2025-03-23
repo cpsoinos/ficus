@@ -10,7 +10,7 @@
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"start": "wrangler dev",
-		"test": "vitest"
+		"test": "vitest run"
 	},
 	"dependencies": {
 		"@shikijs/engine-oniguruma": "^3.2.1",

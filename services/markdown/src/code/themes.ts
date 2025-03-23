@@ -45,18 +45,9 @@ export const validateThemes = (themes: unknown): { light: ThemeName; dark: Theme
 		if (issues[0].code !== 'invalid_enum_value') {
 			return { light: DEFAULT_THEME, dark: DEFAULT_THEME };
 		}
-		// if the light theme is invalid, use the default theme as the fallback
-		// if the darkt theme is invalid, use the default theme as the fallback
-		let light: ThemeName = DEFAULT_THEME;
-		let dark: ThemeName = DEFAULT_THEME;
-		for (const issue of issues) {
-			if (issue.path[0] !== 'light' && light === DEFAULT_THEME) {
-				light = (themes as { light: string; [key: string]: unknown }).light;
-			}
-			if (issue.path[0] !== 'dark' && dark === DEFAULT_THEME) {
-				dark = (themes as { dark: string; [key: string]: unknown }).dark;
-			}
-		}
+		const light = validateTheme((themes as { light: string; dark: string }).light);
+		const dark = validateTheme((themes as { light: string; dark: string }).dark);
+
 		return { light, dark };
 	}
 	return result.data;
