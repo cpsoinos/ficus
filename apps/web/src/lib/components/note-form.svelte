@@ -9,7 +9,6 @@
 	import { Carta, MarkdownEditor, type Plugin, type UnifiedTransformer } from 'carta-md';
 	import DOMPurify from 'isomorphic-dompurify';
 	import remarkFrontmatter from 'remark-frontmatter';
-	import remarkGfm from 'remark-gfm';
 	import { toast } from 'svelte-sonner';
 
 	import { uploadFile } from '$lib/uploadFile';
@@ -37,7 +36,6 @@
 			execution: 'sync',
 			type: 'remark',
 			transform({ processor }) {
-				processor.use(remarkGfm);
 				processor.use(remarkFrontmatter);
 			}
 		};

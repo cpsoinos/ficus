@@ -1,7 +1,8 @@
 <script lang="ts">
-	import NoteForm from '$lib/components/note-form.client.svelte';
+	import NoteForm from '$lib/components/note-form.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 
+	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 
 	let note = $state({
@@ -14,8 +15,8 @@
 		noteForm?.querySelector('button[type="submit"]')
 	);
 
-	function save() {
-		noteForm?.requestSubmit.bind(noteForm)(submitButton);
+	async function save() {
+		Promise.resolve(noteForm?.requestSubmit.bind(noteForm)(submitButton));
 	}
 </script>
 
@@ -27,6 +28,8 @@
 	bind:this={noteForm}
 	data-sveltekit-keepfocus
 >
-	<NoteForm bind:note autoFocus {save} />
+	{#if browser}
+		<NoteForm bind:note autoFocus {save} />
+	{/if}
 	<Button type="submit">Save</Button>
 </form>
