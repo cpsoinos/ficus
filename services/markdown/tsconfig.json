@@ -10,7 +10,8 @@
 		"resolveJsonModule": true,
 		"allowJs": true,
 		"checkJs": false,
-		"noEmit": true
+		"noEmit": true,
+		"types": ["@cloudflare/workers-types", "node"]
 	},
 	"exclude": ["test"],
 	"include": ["wasm.d.ts", "worker-configuration.d.ts", "src/**/*.ts"]
