@@ -38,7 +38,7 @@ describe('validateThemes', () => {
 		});
 	});
 
-	it.only('returns default themes when both themes are invalid', () => {
+	it('returns default themes when both themes are invalid', () => {
 		const themes = { light: 'invalid-light', dark: 'invalid-dark' };
 		expect(validateThemes(themes)).toEqual({
 			light: DEFAULT_THEME,
