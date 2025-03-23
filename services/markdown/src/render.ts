@@ -1,5 +1,8 @@
 import rehypeShikiFromHighlighter from '@shikijs/rehype/core';
+import rehypeSanitize from 'rehype-sanitize';
 import rehypeStringify from 'rehype-stringify';
+import remarkFrontmatter from 'remark-frontmatter';
+import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
@@ -32,7 +35,10 @@ export async function render(raw: string, options?: RenderOptions): Promise<stri
 
 	const file = await unified()
 		.use(remarkParse)
+		.use(remarkFrontmatter)
+		.use(remarkGfm)
 		.use(remarkRehype)
+		.use(rehypeSanitize)
 		// @ts-expect-error - rehypeShikiFromHighlighter expects a HighlighterGeneric, but highlighter is a HighlighterCore
 		.use(rehypeShikiFromHighlighter, highlighter, highlighterOptions)
 		.use(rehypeStringify)
