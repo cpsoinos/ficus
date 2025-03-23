@@ -1,0 +1,18 @@
+{
+	"extends": ["../../tsconfig.base.json"],
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"strict": true,
+		"skipLibCheck": true,
+		"lib": ["ESNext"],
+		"resolveJsonModule": true,
+		"allowJs": true,
+		"checkJs": false,
+		"noEmit": true,
+		"types": ["@cloudflare/workers-types", "node"]
+	},
+	"exclude": ["test"],
+	"include": ["wasm.d.ts", "worker-configuration.d.ts", "src/**/*.ts"]
+}
