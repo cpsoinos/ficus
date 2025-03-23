@@ -2,15 +2,17 @@
 name = "ficus-service-markdown"
 main = "src/index.ts"
 compatibility_date = "2025-03-20"
-observability.enabled = true
 workers_dev = false
 compatibility_flags = ["nodejs_compat"]
 upload_source_maps = true
 
-[assets]
-directory = "./public"
-binding = "ASSETS"
+[observability]
+enabled = true
 
 [dev]
 port = 8790
 inspector_port = 9227
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
