@@ -2,27 +2,35 @@
 // Runtime types generated with workerd@1.20250320.0 2024-12-18 nodejs_compat
 declare namespace Cloudflare {
 	interface Env {
-		REFILLING_TOKEN_BUCKET: DurableObjectNamespace /* RefillingTokenBucket from ficus-rate-limiter */;
-		EXPIRING_TOKEN_BUCKET: DurableObjectNamespace /* ExpiringTokenBucket from ficus-rate-limiter */;
-		THROTTLER: DurableObjectNamespace /* Throttler from ficus-rate-limiter */;
+		REFILLING_TOKEN_BUCKET: DurableObjectNamespace<
+			import('@ficus/rate-limiter/src/index').RefillingTokenBucket
+		>;
+		EXPIRING_TOKEN_BUCKET: DurableObjectNamespace<
+			import('@ficus/rate-limiter/src/index').ExpiringTokenBucket
+		>;
+		THROTTLER: DurableObjectNamespace<import('@ficus/rate-limiter/src/index').Throttler>;
 		DB: D1Database;
 		ARGON2: Fetcher;
-		NOTES: Fetcher;
-		ATTACHMENTS: Fetcher;
-		FOLDERS: Fetcher;
-		TAGS: Fetcher;
+		NOTES: Fetcher<import('@ficus/service-notes/src/index').NotesEntrypoint>;
+		ATTACHMENTS: Fetcher<import('@ficus/service-notes/src/index').AttachmentsEntrypoint>;
+		FOLDERS: Fetcher<import('@ficus/service-notes/src/index').FoldersEntrypoint>;
+		TAGS: Fetcher<import('@ficus/service-notes/src/index').TagsEntrypoint>;
 	}
 }
 interface Env extends Cloudflare.Env {
-	REFILLING_TOKEN_BUCKET: DurableObjectNamespace /* RefillingTokenBucket from ficus-rate-limiter */;
-	EXPIRING_TOKEN_BUCKET: DurableObjectNamespace /* ExpiringTokenBucket from ficus-rate-limiter */;
-	THROTTLER: DurableObjectNamespace /* Throttler from ficus-rate-limiter */;
+	REFILLING_TOKEN_BUCKET: DurableObjectNamespace<
+		import('@ficus/rate-limiter/src/index').RefillingTokenBucket
+	>;
+	EXPIRING_TOKEN_BUCKET: DurableObjectNamespace<
+		import('@ficus/rate-limiter/src/index').ExpiringTokenBucket
+	>;
+	THROTTLER: DurableObjectNamespace<import('@ficus/rate-limiter/src/index').Throttler>;
 	DB: D1Database;
 	ARGON2: Fetcher;
-	NOTES: Fetcher;
-	ATTACHMENTS: Fetcher;
-	FOLDERS: Fetcher;
-	TAGS: Fetcher;
+	NOTES: Fetcher<import('@ficus/service-notes/src/index').NotesEntrypoint>;
+	ATTACHMENTS: Fetcher<import('@ficus/service-notes/src/index').AttachmentsEntrypoint>;
+	FOLDERS: Fetcher<import('@ficus/service-notes/src/index').FoldersEntrypoint>;
+	TAGS: Fetcher<import('@ficus/service-notes/src/index').TagsEntrypoint>;
 }
 
 // Begin runtime types
