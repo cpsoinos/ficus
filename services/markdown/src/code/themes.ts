@@ -1,3 +1,4 @@
+import { DEFAULT_HIGHLIGHTER_THEME } from '@ficus/common/markdown/constants';
 import { themeNames } from '@shikijs/themes';
 import { z } from 'zod';
 
@@ -10,10 +11,11 @@ const themeSchema = z.enum(themeNames as [string, ...string[]]);
 
 export type ThemeName = z.infer<typeof themeSchema>;
 
-export const DEFAULT_THEME: ThemeName = 'dark-plus';
-
 // Function to validate theme with a fallback to the default theme
-export const validateTheme = (theme: unknown, fallback: ThemeName = DEFAULT_THEME): ThemeName => {
+export const validateTheme = (
+	theme: unknown,
+	fallback: ThemeName = DEFAULT_HIGHLIGHTER_THEME
+): ThemeName => {
 	const result = themeSchema.safeParse(theme);
 	return result.success ? result.data : fallback;
 };
@@ -47,7 +49,7 @@ export const validateThemes = (themes: unknown): { light: ThemeName; dark: Theme
 	if (!result.success) {
 		const issues = result.error.issues;
 		if (issues[0].code !== 'invalid_enum_value') {
-			return { light: DEFAULT_THEME, dark: DEFAULT_THEME };
+			return { light: DEFAULT_HIGHLIGHTER_THEME, dark: DEFAULT_HIGHLIGHTER_THEME };
 		}
 		const light = validateTheme((themes as { light: string; dark: string }).light);
 		const dark = validateTheme((themes as { light: string; dark: string }).dark);
