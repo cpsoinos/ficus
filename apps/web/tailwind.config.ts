@@ -1,3 +1,4 @@
+import tailwindTypography from '@tailwindcss/typography';
 import { fontFamily } from 'tailwindcss/defaultTheme';
 import tailwindcssAnimate from 'tailwindcss-animate';
 
@@ -6,7 +7,7 @@ import type { Config } from 'tailwindcss';
 const config: Config = {
 	darkMode: ['class'],
 	content: ['./src/**/*.{html,js,svelte,ts}'],
-	safelist: ['dark'],
+	safelist: ['dark', 'markdown-body'],
 	theme: {
 		container: {
 			center: true,
@@ -91,7 +92,12 @@ const config: Config = {
 			}
 		}
 	},
-	plugins: [tailwindcssAnimate]
+	plugins: [
+		tailwindcssAnimate,
+		tailwindTypography({
+			className: 'markdown-body' // class added to rendered markdown content by Carta
+		})
+	]
 };
 
 export default config;

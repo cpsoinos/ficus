@@ -6,6 +6,11 @@
 	import '@cartamd/plugin-code/default.css';
 	import '@cartamd/plugin-attachment/default.css';
 	import '@cartamd/plugin-slash/default.css';
+	import {
+		DEFAULT_EDITOR_THEME__DARK,
+		DEFAULT_EDITOR_THEME__LIGHT,
+		DEFAULT_HIGHLIGHTER_THEME
+	} from '@ficus/common/markdown/constants';
 	import { Carta, MarkdownEditor, type Plugin, type UnifiedTransformer } from 'carta-md';
 	import DOMPurify from 'isomorphic-dompurify';
 	import remarkFrontmatter from 'remark-frontmatter';
@@ -46,12 +51,20 @@
 
 	const carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
+		// editor themes
 		theme: {
-			light: 'github-light',
-			dark: 'github-dark'
+			light: DEFAULT_EDITOR_THEME__LIGHT,
+			dark: DEFAULT_EDITOR_THEME__DARK
+		},
+		shikiOptions: {
+			// load theme for rendering code blocks
+			themes: [DEFAULT_HIGHLIGHTER_THEME]
 		},
 		extensions: [
-			code(),
+			code({
+				// rendered code block themes
+				theme: DEFAULT_HIGHLIGHTER_THEME
+			}),
 			attachment({
 				supportedMimeTypes: [
 					'image/png',
