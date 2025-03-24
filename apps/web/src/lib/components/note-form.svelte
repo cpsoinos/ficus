@@ -46,12 +46,17 @@
 
 	const carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
+		shikiOptions: {
+			themes: ['dark-plus']
+		},
 		theme: {
 			light: 'github-light',
 			dark: 'github-dark'
 		},
 		extensions: [
-			code(),
+			code({
+				theme: 'dark-plus'
+			}),
 			attachment({
 				supportedMimeTypes: [
 					'image/png',
