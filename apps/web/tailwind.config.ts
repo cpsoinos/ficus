@@ -95,7 +95,7 @@ const config: Config = {
 	plugins: [
 		tailwindcssAnimate,
 		tailwindTypography({
-			className: 'markdown-body'
+			className: 'markdown-body' // class added to rendered markdown content by Carta
 		})
 	]
 };
