@@ -17,7 +17,7 @@
 		"drizzle-kit:local": "DATABASE_URL=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) drizzle-kit",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
-		"sentry:release": "VERSION=$(sentry-cli releases propose-version) sentry-cli releases new -p ficus-notes $VERSION && sentry-cli releases set-commits --auto $VERSION",
+		"sentry:release": "export VERSION=$(sentry-cli releases propose-version); sentry-cli releases new -p ficus-notes $VERSION; sentry-cli releases set-commits --auto $VERSION",
 		"sentry:sourcemaps": "sentry-cli sourcemaps inject --org anderapps --project ficus-notes ./dist && sentry-cli sourcemaps upload --org anderapps --project ficus-notes ./dist"
 	},
 	"dependencies": {
