@@ -1,6 +1,7 @@
 {
 	"name": "@ficus/service-notes",
 	"scripts": {
+		"build": "wrangler deploy --outdir dist --dry-run",
 		"cf-typegen": "wrangler types",
 		"check": "tsc --noEmit",
 		"db:generate": "op run --env-file .env -- drizzle-kit generate",
@@ -15,11 +16,13 @@
 		"dev": "wrangler dev",
 		"drizzle-kit:local": "DATABASE_URL=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) drizzle-kit",
 		"lint": "eslint .",
-		"lint:fix": "eslint . --fix"
+		"lint:fix": "eslint . --fix",
+		"sentry:sourcemaps": "sentry-cli sourcemaps inject --org anderapps --project ficus-notes ./dist && sentry-cli sourcemaps upload --org anderapps --project ficus-notes ./dist"
 	},
 	"dependencies": {
 		"@ficus/common": "workspace:",
 		"@hono/zod-validator": "catalog:",
+		"@sentry/cli": "^2.42.4",
 		"drizzle-orm": "catalog:",
 		"drizzle-zod": "catalog:",
 		"hono": "catalog:",
