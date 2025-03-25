@@ -4,12 +4,15 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"build": "wrangler deploy --outdir dist --dry-run",
 		"cf-typegen": "wrangler types",
 		"check": "tsc --noEmit",
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
 		"lint": "eslint .",
 		"lint:fix": "eslint --fix .",
+		"sentry:release": "VERSION=$(sentry-cli releases propose-version) sentry-cli releases new -p ficus-rate-limiter $VERSION && sentry-cli releases set-commits --auto $VERSION",
+		"sentry:sourcemaps": "sentry-cli sourcemaps inject --org anderapps --project ficus-rate-limiter ./dist && sentry-cli sourcemaps upload --org anderapps --project ficus-rate-limiter ./dist",
 		"start": "wrangler dev",
 		"test": "vitest run",
 		"test:watch": "vitest"
@@ -20,6 +23,7 @@
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "catalog:",
 		"@ficus/eslint-config": "workspace:",
+		"@sentry/cli": "catalog:",
 		"@types/node": "catalog:",
 		"eslint": "catalog:",
 		"typescript": "catalog:",
