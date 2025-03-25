@@ -27,4 +27,4 @@ console.log(`Setting release version: ${version}`);
 await execAsync(`pnpm sentry-cli  releases new ${version}`);
 
 // set commits on the release
-await execAsync(`pnpm sentry-cli releases set-commits --auto ${version}`);
+await execAsync(`pnpm sentry-cli releases set-commits --auto ${version} --ignore-missing`);
