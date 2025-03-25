@@ -4,11 +4,14 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
+		"build": "wrangler deploy --outdir dist --dry-run",
 		"cf-typegen": "wrangler types --include-runtime false",
 		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
+		"sentry:release": "VERSION=$(sentry-cli releases propose-version) sentry-cli releases new -p ficus-markdown $VERSION && sentry-cli releases set-commits --auto $VERSION",
+		"sentry:sourcemaps": "sentry-cli sourcemaps inject --org anderapps --project ficus-markdown ./dist && sentry-cli sourcemaps upload --org anderapps --project ficus-markdown ./dist",
 		"start": "wrangler dev",
 		"test": "vitest run"
 	},
@@ -34,6 +37,7 @@
 		"@cloudflare/vitest-pool-workers": "catalog:",
 		"@cloudflare/workers-types": "catalog:",
 		"@ficus/eslint-config": "workspace:",
+		"@sentry/cli": "catalog:",
 		"@types/node": "catalog:",
 		"eslint": "catalog:",
 		"typescript": "catalog:",

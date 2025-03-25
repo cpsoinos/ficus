@@ -21,6 +21,7 @@ catalog:
   '@oslojs/encoding': ^1.1.0
   '@oslojs/otp': ^1.1.0
   '@playwright/test': ^1.50.1
+  '@sentry/cli': ^2.42.4
   '@sentry/cloudflare': 9.6.0
   '@sentry/sveltekit': 9.6.0
   '@shikijs/engine-oniguruma': ^3.2.1
