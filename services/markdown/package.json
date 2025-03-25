@@ -1,5 +1,5 @@
 {
-	"name": "markdown",
+	"name": "@ficus/service-markdown",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -10,8 +10,8 @@
 		"dev": "wrangler dev",
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
-		"sentry:release": "export VERSION=$(sentry-cli releases propose-version); sentry-cli releases new -p ficus-markdown $VERSION; sentry-cli releases set-commits --auto $VERSION",
-		"sentry:sourcemaps": "sentry-cli sourcemaps inject --org anderapps --project ficus-markdown ./dist && sentry-cli sourcemaps upload --org anderapps --project ficus-markdown ./dist",
+		"sentry:release": "export VERSION=$(sentry-cli releases propose-version); sentry-cli --auth-token $SENTRY_AUTH_TOKEN releases new -p ficus-markdown $VERSION; sentry-cli --auth-token $SENTRY_AUTH_TOKEN releases set-commits --auto $VERSION",
+		"sentry:sourcemaps": "sentry-cli sourcemaps inject --org anderapps --project ficus-markdown ./dist && sentry-cli sourcemaps upload --org anderapps --project ficus-markdown --auth-token $SENTRY_AUTH_TOKEN ./dist",
 		"start": "wrangler dev",
 		"test": "vitest run"
 	},
