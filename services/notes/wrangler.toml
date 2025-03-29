@@ -4,7 +4,7 @@ main = "src/index.ts"
 compatibility_date = "2025-02-14"
 workers_dev = false
 compatibility_flags = ["nodejs_compat"]
-tail_consumers = [{ service = "ficus-service-notes-tail" }]
+# tail_consumers = [{ service = "ficus-service-notes-tail" }]
 upload_source_maps = true
 
 [observability]

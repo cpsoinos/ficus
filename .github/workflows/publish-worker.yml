@@ -33,14 +33,23 @@ jobs:
       - id: changes-matrix
         name: Create matrix of changed directories
         run: |
-          changes=$(jq -c -n '{
-            "include": [
-              ${{ steps.filter.outputs.rate-limiter == 'true' }} && {"service": "rate-limiter", "directory": "packages/rate-limiter"},
-              ${{ steps.filter.outputs.markdown == 'true' }} && {"service": "markdown", "directory": "services/markdown"},
-              ${{ steps.filter.outputs.notes == 'true' }} && {"service": "notes", "directory": "services/notes"}
-            ] | map(select(. != false))
-          }')
-          echo "changes=$changes" >> $GITHUB_OUTPUT
+          services=()
+          if [[ "${{ steps.filter.outputs.rate-limiter }}" == "true" ]]; then
+            services+=('{"service": "rate-limiter", "directory": "packages/rate-limiter"}')
+          fi
+          if [[ "${{ steps.filter.outputs.markdown }}" == "true" ]]; then
+            services+=('{"service": "markdown", "directory": "services/markdown"}')
+          fi
+          if [[ "${{ steps.filter.outputs.notes }}" == "true" ]]; then
+            services+=('{"service": "notes", "directory": "services/notes"}')
+          fi
+
+          if [ ${#services[@]} -eq 0 ]; then
+            echo "changes={\"include\":[]}" >> $GITHUB_OUTPUT
+          else
+            changes=$(printf '{"include":[%s]}' "$(IFS=,; echo "${services[*]}")")
+            echo "changes=$changes" >> $GITHUB_OUTPUT
+          fi
 
   deploy:
     needs: detect-changes
