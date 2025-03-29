@@ -80,6 +80,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ vars.SENTRY_ORG }}
         with:
+          working_directory: ${{ matrix.directory }}
           sourcemaps: ./dist
           ignore_missing: true
           projects: ficus-${{ matrix.service }}
