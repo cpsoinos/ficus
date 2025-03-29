@@ -1,5 +1,9 @@
 import { exec } from 'child_process';
 
+console.log('🚀 Creating new release on Sentry...');
+console.log(`Org: ${process.env.SENTRY_ORG}`);
+console.log(`Project: ${process.env.SENTRY_PROJECT}`);
+
 async function execAsync(command: string): Promise<string> {
 	return new Promise((resolve, reject) => {
 		exec(command, (err, stdout) => {
