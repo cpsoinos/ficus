@@ -1,0 +1,76 @@
+name: Publish Cloudflare Worker
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/rate-limiter/**'
+      - 'services/markdown/**'
+      - 'services/notes/**'
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changes: ${{ steps.changes-matrix.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            rate-limiter:
+              - 'packages/rate-limiter/**'
+            markdown:
+              - 'services/markdown/**'
+            notes:
+              - 'services/notes/**'
+      - id: changes-matrix
+        name: Create matrix of changed directories
+        run: |
+          changes=$(jq -c -n '{
+            "include": [
+              ${{ steps.filter.outputs.rate-limiter == 'true' }} && {"service": "rate-limiter", "directory": "packages/rate-limiter"},
+              ${{ steps.filter.outputs.markdown == 'true' }} && {"service": "markdown", "directory": "services/markdown"},
+              ${{ steps.filter.outputs.notes == 'true' }} && {"service": "notes", "directory": "services/notes"}
+            ] | map(select(. != false))
+          }')
+          echo "changes=$changes" >> $GITHUB_OUTPUT
+
+  deploy:
+    needs: detect-changes
+    if: fromJSON(needs.detect-changes.outputs.changes).include[0]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJSON(needs.detect-changes.outputs.changes) }}
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - name: Deploy ${{ matrix.service }} to Cloudflare Workers
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+        working-directory: ${{ matrix.directory }}
+        run: pnpm wrangler deploy --outdir ./dist
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v3
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ vars.SENTRY_ORG }}
+        with:
+          sourcemaps: ./dist
+          ignore_missing: true
+          projects: ficus-${{ matrix.service }}
