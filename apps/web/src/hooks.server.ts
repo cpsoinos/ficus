@@ -69,7 +69,7 @@ const handlers = [
 		? []
 		: [
 				initCloudflareSentryHandle({
-					dsn: 'https://0b7dd9fb35e2c89bf9673c2af0a8e234@o4508996084039680.ingest.us.sentry.io/4508996087054336',
+					dsn: 'https://12974ab20425bb602572ca34045db540@o4509062120865792.ingest.us.sentry.io/4509062125780992',
 					tracesSampleRate: 1.0
 				}),
 				sentryHandle()

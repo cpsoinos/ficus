@@ -5,7 +5,7 @@ import { render } from './render';
 
 const handler = Sentry.withSentry(
 	(_env) => ({
-		dsn: 'https://6f53f64e54966ce49795387f356e4bff@o4508996084039680.ingest.us.sentry.io/4509027808837632',
+		dsn: 'https://116e96886fe4ee09842b9c4e8f11262e@o4509062120865792.ingest.us.sentry.io/4509062326190080',
 		// Set tracesSampleRate to 1.0 to capture 100% of spans for tracing.
 		// Learn more at
 		// https://docs.sentry.io/platforms/javascript/configuration/options/#traces-sample-rate
