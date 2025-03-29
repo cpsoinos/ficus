@@ -16,6 +16,9 @@ async function execAsync(command: string): Promise<string> {
 	});
 }
 
+// login to the sentry cli
+await execAsync(`pnpm sentry-cli login --auth-token $SENTRY_AUTH_TOKEN`);
+
 // inject markers into sourcemaps
 await execAsync(`pnpm sentry-cli sourcemaps inject ./dist`);
 
