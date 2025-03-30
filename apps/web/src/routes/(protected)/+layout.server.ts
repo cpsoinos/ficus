@@ -12,7 +12,7 @@ export const load: LayoutServerLoad = async (event) => {
 	const foldersClient = getFoldersClient();
 
 	const [notesListResp, foldersListResp] = await Promise.all([
-		notesClient.list.$get({ query: { userId } }),
+		notesClient.index.$get({ query: { userId } }),
 		foldersClient.list.$get({ query: { userId } })
 	]);
 

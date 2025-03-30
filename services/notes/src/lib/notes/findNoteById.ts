@@ -5,17 +5,27 @@ import { Bindings } from '../bindings';
 
 import { noteContentStoragePath } from './utils';
 
-import type { NoteWithContent } from './types';
+import type { NoteQueryIncludes, NoteWithContent } from './types';
 
 export async function findNoteById({
 	noteId,
-	userId
+	userId,
+	includes = []
 }: {
 	noteId: string;
 	userId: string;
+	includes?: NoteQueryIncludes;
 }): Promise<NoteWithContent | undefined> {
+	const includesClause = includes.reduce((acc, include) => {
+		return {
+			...acc,
+			[include]: true
+		};
+	}, {});
+
 	const note = await db.query.notesTable.findFirst({
-		where: (table) => and(eq(table.id, noteId), eq(table.userId, userId))
+		where: (table) => and(eq(table.id, noteId), eq(table.userId, userId)),
+		with: includesClause
 	});
 	if (!note) {
 		return undefined;

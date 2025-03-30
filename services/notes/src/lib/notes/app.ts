@@ -6,39 +6,37 @@ import { noteInsertSchema, noteUpdateSchema } from '../../db/schema';
 
 import { createNote } from './createNote';
 import { deleteNote } from './deleteNote';
-import { findByIdWithAttachments } from './findByIdWithAttachments';
+import { findNoteById } from './findNoteById';
 import { listNotes } from './listNotes';
+import { noteQueryIncludesSchema } from './types';
 import { updateNote } from './updateNote';
 
 export const app = new Hono<{ Bindings: Env }>();
 
 // eslint-disable-next-line drizzle/enforce-delete-with-where
 const _route = app
-	.get(
-		'/findByIdWithAttachments',
-		zValidator(
-			'query',
-			z.object({
-				noteId: z.string(),
-				userId: z.string()
-			})
-		),
-		async (c) => {
-			const { noteId, userId } = c.req.valid('query');
-			const note = await findByIdWithAttachments({ noteId, userId });
-
-			if (note === undefined) {
-				return c.json({ error: 'Note not found' }, 404);
-			}
-
-			return c.json(note, 200);
-		}
-	)
-	.get('/list', zValidator('query', z.object({ userId: z.string() })), async (c) => {
+	.get('/', zValidator('query', z.object({ userId: z.string() })), async (c) => {
 		const { userId } = c.req.valid('query');
 		const notes = await listNotes(userId);
 		return c.json(notes, 200);
 	})
+	.get(
+		'/:noteId',
+		zValidator('param', z.object({ noteId: z.string() })),
+		zValidator(
+			'query',
+			z.object({ userId: z.string(), includes: noteQueryIncludesSchema.optional() })
+		),
+		async (c) => {
+			const { noteId } = c.req.valid('param');
+			const { userId, includes } = c.req.valid('query');
+			const note = await findNoteById({ noteId, userId, includes });
+			if (note === undefined) {
+				return c.json({ error: 'Note not found' }, 404);
+			}
+			return c.json(note, 200);
+		}
+	)
 	.post('/create', zValidator('json', noteInsertSchema), async (c) => {
 		const { content, ...metadata } = c.req.valid('json');
 		const note = await createNote(metadata, content);
@@ -52,6 +50,7 @@ const _route = app
 			const noteId = c.req.param('noteId');
 			const { userId } = c.req.valid('query');
 			const { title, content, folderId } = c.req.valid('json');
+			console.log('🚀 ~ content:', content);
 			const note = await updateNote({ noteId, userId }, { title, folderId }, content);
 			return c.json(note, 200);
 		}
