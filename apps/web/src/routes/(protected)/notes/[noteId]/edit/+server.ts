@@ -1,7 +1,6 @@
 import { getNotesClient } from '$lib/server/notes/client';
 
 import type { RequestHandler } from './$types';
-import type { NewNote } from '@ficus/service-notes/src/db/schema/notes';
 
 export const PUT: RequestHandler = async ({ locals, request, params }) => {
 	const userId = locals.user?.id;
@@ -14,7 +13,7 @@ export const PUT: RequestHandler = async ({ locals, request, params }) => {
 	const title = formData.get('title') as string;
 	const content = formData.get('content') as string;
 
-	const noteAttrs: NewNote = {
+	const noteAttrs = {
 		userId,
 		title,
 		content

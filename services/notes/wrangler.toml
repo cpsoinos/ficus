@@ -21,6 +21,6 @@ migrations_dir = "migrations"
 migrations_table = "__drizzle_migrations"
 
 [[r2_buckets]]
+bucket_name = "ficus-notes"
 binding = "R2"
-bucket_name = "ficus-attachments"
-preview_bucket_name = "ficus-attachments-dev"
+preview_bucket_name = "ficus-notes-dev"

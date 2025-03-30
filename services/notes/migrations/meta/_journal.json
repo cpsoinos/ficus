@@ -15,6 +15,13 @@
 			"when": 1740344136724,
 			"tag": "0001_eminent_revanche",
 			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "6",
+			"when": 1743361097878,
+			"tag": "0002_free_pride",
+			"breakpoints": true
 		}
 	]
 }

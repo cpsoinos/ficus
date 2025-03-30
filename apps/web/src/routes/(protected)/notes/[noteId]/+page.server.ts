@@ -12,8 +12,9 @@ export const load: PageServerLoad = async (event) => {
 	const { noteId } = event.params;
 	const notesClient = getNotesClient();
 
-	const noteResp = await notesClient.findByIdWithAttachments.$get({
-		query: { noteId, userId: user.id }
+	const noteResp = await notesClient[':noteId'].$get({
+		param: { noteId },
+		query: { userId: user.id, includes: ['attachments'] }
 	});
 
 	if (noteResp.status === 404) {

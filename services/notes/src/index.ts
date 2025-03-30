@@ -2,7 +2,7 @@ export default {
 	async fetch() {
 		return new Response('Use named entrypoints', { status: 404 });
 	}
-} satisfies ExportedHandler<Env>;
+} satisfies ExportedHandler;
 
 export { NotesEntrypoint } from './lib/notes/entrypoint';
 export { FoldersEntrypoint } from './lib/folders/entrypoint';
