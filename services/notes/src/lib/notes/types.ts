@@ -1,8 +1,12 @@
 import { z } from 'zod';
 
-import { type Note } from '../../db/schema';
+import { type NewNote, type Note } from '../../db/schema';
 
 export interface NoteWithContent extends Note {
+	content: string;
+}
+
+export interface NewNoteWithContent extends NewNote {
 	content: string;
 }
 

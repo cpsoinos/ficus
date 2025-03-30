@@ -1,5 +1,5 @@
 import { Bindings } from '$lib/server/bindings';
-import { getNotesClient } from '$lib/server/notes/client';
+import { getNotesClient } from '$lib/server/clients';
 
 import type { PageServerLoad } from './$types';
 

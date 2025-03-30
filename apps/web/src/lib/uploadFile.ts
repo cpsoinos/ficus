@@ -18,6 +18,11 @@ export function uploadFile<R extends object>(
 	onProgress: (progress: number) => void
 ): Promise<R> {
 	return new Promise((resolve, reject) => {
+		// const formData = new FormData();
+		// formData.append('file', file);
+		// formData.append('fileName', file.name);
+		// formData.append('contentType', file.type);
+
 		const xhr = new XMLHttpRequest();
 		xhr.open('POST', url, true);
 		xhr.setRequestHeader('X-File-Name', file.name);
@@ -31,6 +36,7 @@ export function uploadFile<R extends object>(
 		xhr.onload = () => {
 			if (xhr.status >= 200 && xhr.status < 300) {
 				const parsed = JSON.parse(xhr.responseText) as R;
+				console.log(parsed);
 				resolve(parsed);
 			} else {
 				reject(new Error(`Upload failed with status ${xhr.status}`));

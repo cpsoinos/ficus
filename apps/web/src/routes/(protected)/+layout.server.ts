@@ -1,5 +1,4 @@
-import { getFoldersClient } from '$lib/server/folders/client';
-import { getNotesClient } from '$lib/server/notes/client';
+import { getNotesClient, getFoldersClient } from '$lib/server/clients';
 
 import type { SidebarItem } from '$lib/components/app-sidebar.svelte';
 import type { LayoutServerLoad } from './$types';
@@ -13,7 +12,7 @@ export const load: LayoutServerLoad = async (event) => {
 
 	const [notesListResp, foldersListResp] = await Promise.all([
 		notesClient.index.$get({ query: { userId } }),
-		foldersClient.list.$get({ query: { userId } })
+		foldersClient.index.$get({ query: { userId } })
 	]);
 
 	const [notesList, foldersList] = await Promise.all([

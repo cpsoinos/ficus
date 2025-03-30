@@ -1,3 +1,4 @@
+import { noteContentStoragePath } from '@ficus/common';
 import { and, eq } from 'drizzle-orm';
 
 import { db } from '../../db';
@@ -5,7 +6,6 @@ import { notesTable, type NewNote } from '../../db/schema';
 import { Bindings } from '../bindings';
 
 import { findNoteById } from './findNoteById';
-import { noteContentStoragePath } from './utils';
 
 import type { NoteWithContent } from './types';
 

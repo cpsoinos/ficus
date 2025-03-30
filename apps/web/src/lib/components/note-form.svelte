@@ -21,14 +21,15 @@
 	import { Input } from './ui/input';
 	import { Label } from './ui/label';
 
-	import type { Attachment, NewNote } from '@ficus/service-notes/src/db/schema';
+	import type { Attachment } from '@ficus/service-notes/src/db/schema';
+	import type { NewNoteWithContent } from '@ficus/service-notes/src/lib/notes/types';
 
 	let {
 		note = $bindable(),
 		autoFocus,
 		save
 	}: {
-		note: Partial<NewNote>;
+		note: Partial<NewNoteWithContent>;
 		autoFocus?: boolean;
 		save: () => Promise<void>;
 	} = $props();

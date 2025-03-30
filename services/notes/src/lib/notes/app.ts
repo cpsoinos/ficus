@@ -11,10 +11,8 @@ import { listNotes } from './listNotes';
 import { noteQueryIncludesSchema } from './types';
 import { updateNote } from './updateNote';
 
-export const app = new Hono<{ Bindings: Env }>();
-
 // eslint-disable-next-line drizzle/enforce-delete-with-where
-const _route = app
+export const app = new Hono<{ Bindings: Env }>()
 	.get('/', zValidator('query', z.object({ userId: z.string() })), async (c) => {
 		const { userId } = c.req.valid('query');
 		const notes = await listNotes(userId);
@@ -66,4 +64,4 @@ const _route = app
 		}
 	);
 
-export type NotesAppType = typeof _route;
+export type NotesAppType = typeof app;

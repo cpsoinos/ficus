@@ -1,8 +1,8 @@
+import { noteContentStoragePath } from '@ficus/common';
+
 import { db } from '../../db';
 import { notesTable, type NewNote, type Note } from '../../db/schema';
 import { Bindings } from '../bindings';
-
-import { noteContentStoragePath } from './utils';
 
 /**
  * Create a new note. Stores metadata in the database and content in R2.

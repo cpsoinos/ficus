@@ -1,3 +1,4 @@
+import { noteAttachmentStoragePath } from '@ficus/common';
 import { eq } from 'drizzle-orm';
 
 import { db } from '../../db';
@@ -26,10 +27,14 @@ export async function uploadAttachment({
 
 	const attachmentId = crypto.randomUUID();
 
-	const object = await Bindings.R2.put(`${userId}/${noteId}/${attachmentId}`, body, {
-		httpMetadata: { contentType },
-		customMetadata: { filename: fileName }
-	});
+	const object = await Bindings.R2.put(
+		noteAttachmentStoragePath(userId, noteId, attachmentId),
+		body,
+		{
+			httpMetadata: { contentType },
+			customMetadata: { filename: fileName }
+		}
+	);
 
 	const attachmentRecord: NewAttachment = {
 		id: attachmentId,

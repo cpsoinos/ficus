@@ -1,4 +1,4 @@
-import { getAttachmentsClient } from '$lib/server/attachments/client';
+import { getAttachmentsClient } from '$lib/server/clients';
 
 import type { RequestHandler } from './$types';
 

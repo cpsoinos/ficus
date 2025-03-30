@@ -38,22 +38,6 @@ service = "ficus-argon2"
 [[services]]
 binding = "NOTES"
 service = "ficus-service-notes"
-entrypoint = "NotesEntrypoint"
-
-[[services]]
-binding = "ATTACHMENTS"
-service = "ficus-service-notes"
-entrypoint = "AttachmentsEntrypoint"
-
-[[services]]
-binding = "FOLDERS"
-service = "ficus-service-notes"
-entrypoint = "FoldersEntrypoint"
-
-[[services]]
-binding = "TAGS"
-service = "ficus-service-notes"
-entrypoint = "TagsEntrypoint"
 
 [[services]]
 binding = "MARKDOWN"
