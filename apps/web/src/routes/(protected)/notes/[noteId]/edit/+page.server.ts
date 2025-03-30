@@ -3,7 +3,6 @@ import { fail, redirect } from '@sveltejs/kit';
 import { getNotesClient } from '$lib/server/notes/client';
 
 import type { Actions, PageServerLoad } from './$types';
-import type { NewNote } from '@ficus/service-notes/src/db/schema';
 
 export const load: PageServerLoad = async (event) => {
 	const { user } = event.locals;
@@ -14,8 +13,9 @@ export const load: PageServerLoad = async (event) => {
 	const { noteId } = event.params;
 	const notesClient = getNotesClient();
 
-	const noteResp = await notesClient.findByIdWithAttachments.$get({
-		query: { noteId, userId: user.id }
+	const noteResp = await notesClient[':noteId'].$get({
+		param: { noteId },
+		query: { userId: user.id, includes: ['attachments'] }
 	});
 
 	if (noteResp.status === 404) {
@@ -44,7 +44,7 @@ export const actions = {
 		const title = formData.get('title') as string;
 		const content = formData.get('content') as string;
 
-		const noteAttrs: NewNote = {
+		const noteAttrs = {
 			userId,
 			title,
 			content

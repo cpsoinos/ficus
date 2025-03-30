@@ -12,12 +12,10 @@ export const load: PageServerLoad = async (event) => {
 	const { noteId } = event.params;
 	const notesClient = getNotesClient();
 
-	const noteReq = notesClient[':noteId'].$get({
+	const noteResp = await notesClient[':noteId'].$get({
 		param: { noteId },
 		query: { userId: user.id, includes: ['attachments'] }
 	});
-
-	const noteResp = await noteReq;
 
 	if (noteResp.status === 404) {
 		return { status: 404, error: 'Note not found' };

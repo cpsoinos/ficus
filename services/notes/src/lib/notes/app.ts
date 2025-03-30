@@ -50,7 +50,6 @@ const _route = app
 			const noteId = c.req.param('noteId');
 			const { userId } = c.req.valid('query');
 			const { title, content, folderId } = c.req.valid('json');
-			console.log('🚀 ~ content:', content);
 			const note = await updateNote({ noteId, userId }, { title, folderId }, content);
 			return c.json(note, 200);
 		}

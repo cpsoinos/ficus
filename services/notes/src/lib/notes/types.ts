@@ -6,10 +6,10 @@ export interface NoteWithContent extends Note {
 	content: string;
 }
 
-export const noteIncludesSchema = z.enum(['attachments', 'folder', 'tags']);
+const noteIncludesEnum = z.enum(['attachments', 'folder', 'tags']);
 
 export const noteQueryIncludesSchema = z
-	.array(noteIncludesSchema)
-	.or(noteIncludesSchema.transform((val) => [val]));
+	.array(noteIncludesEnum)
+	.or(noteIncludesEnum.transform((val) => [val]));
 
 export type NoteQueryIncludes = z.infer<typeof noteQueryIncludesSchema>;
