@@ -3,7 +3,7 @@ import { ZodError } from 'zod';
 
 import { getNotesClient } from '$lib/server/clients';
 
-import type { NewNote } from '@ficus/service-notes/src/db/schema';
+export const ssr = false;
 
 export const actions = {
 	default: async (event) => {
@@ -18,7 +18,7 @@ export const actions = {
 		const title = formData.get('title') as string;
 		const content = formData.get('content') as string;
 
-		const newNote: NewNote = {
+		const newNote = {
 			userId,
 			title,
 			content
