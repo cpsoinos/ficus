@@ -18,11 +18,6 @@ export function uploadFile<R extends object>(
 	onProgress: (progress: number) => void
 ): Promise<R> {
 	return new Promise((resolve, reject) => {
-		// const formData = new FormData();
-		// formData.append('file', file);
-		// formData.append('fileName', file.name);
-		// formData.append('contentType', file.type);
-
 		const xhr = new XMLHttpRequest();
 		xhr.open('POST', url, true);
 		xhr.setRequestHeader('X-File-Name', file.name);
