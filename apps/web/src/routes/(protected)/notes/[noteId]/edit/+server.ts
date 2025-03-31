@@ -1,4 +1,4 @@
-import { getNotesClient } from '$lib/server/notes/client';
+import { getNotesClient } from '$lib/server/clients';
 
 import type { RequestHandler } from './$types';
 

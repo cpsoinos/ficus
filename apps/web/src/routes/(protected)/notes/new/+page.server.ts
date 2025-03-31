@@ -1,7 +1,7 @@
 import { fail, redirect, type Actions } from '@sveltejs/kit';
 import { ZodError } from 'zod';
 
-import { getNotesClient } from '$lib/server/notes/client';
+import { getNotesClient } from '$lib/server/clients';
 
 import type { NewNote } from '@ficus/service-notes/src/db/schema';
 

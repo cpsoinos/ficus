@@ -6,7 +6,7 @@ import type { RequestHandler } from './$types';
  * Attach a file to a note
  *
  * Forwards the upload request to the SERVICE_ATTACHMENTS binding.
- * @note file uploads are not supported by the Hono RPC client at this time
+ * @note streaming file uploads are not supported by the Hono RPC client at this time
  *
  * Expects the following headers:
  *   - content-type: The content type of the file
@@ -26,8 +26,9 @@ export const POST: RequestHandler = async ({ locals, request, params }) => {
 	const clonedRequest = request.clone();
 	clonedRequest.headers.set('x-user-id', userId);
 	clonedRequest.headers.set('x-note-id', noteId);
-	const result = await Bindings.ATTACHMENTS.fetch(
-		'http://internal/upload',
+
+	const result = await Bindings.NOTES.fetch(
+		'http://internal/attachments/upload',
 		clonedRequest as Request
 	);
 

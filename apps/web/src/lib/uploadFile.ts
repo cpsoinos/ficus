@@ -31,6 +31,7 @@ export function uploadFile<R extends object>(
 		xhr.onload = () => {
 			if (xhr.status >= 200 && xhr.status < 300) {
 				const parsed = JSON.parse(xhr.responseText) as R;
+				console.log(parsed);
 				resolve(parsed);
 			} else {
 				reject(new Error(`Upload failed with status ${xhr.status}`));

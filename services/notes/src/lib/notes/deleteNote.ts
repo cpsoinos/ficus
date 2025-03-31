@@ -1,10 +1,9 @@
+import { noteContentStoragePath } from '@ficus/common';
 import { and, eq } from 'drizzle-orm';
 
 import { db } from '../../db';
 import { notesTable } from '../../db/schema';
 import { Bindings } from '../bindings';
-
-import { noteContentStoragePath } from './utils';
 
 /**
  * Delete a note and associated attachments from the database.
