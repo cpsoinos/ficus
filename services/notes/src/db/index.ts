@@ -1,3 +1,4 @@
+import { instrumentD1WithSentry } from '@sentry/cloudflare';
 import { drizzle, type DrizzleD1Database } from 'drizzle-orm/d1';
 
 import * as schema from './schema';
@@ -15,7 +16,7 @@ export class DbSingleton {
 	static _db: SchematizedDatabase;
 
 	static initialize(database: D1Database) {
-		DbSingleton._db = drizzle(database, {
+		DbSingleton._db = drizzle(instrumentD1WithSentry(database), {
 			schema,
 			logger: false // set to true to log all queries
 		});
