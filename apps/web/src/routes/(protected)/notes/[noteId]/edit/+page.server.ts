@@ -4,6 +4,8 @@ import { getNotesClient } from '$lib/server/clients';
 
 import type { Actions, PageServerLoad } from './$types';
 
+export const ssr = false;
+
 export const load: PageServerLoad = async (event) => {
 	const { user } = event.locals;
 	if (!user) {

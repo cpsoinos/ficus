@@ -6,7 +6,7 @@
 	import Icon from '$lib/components/ui/icon/icon.svelte';
 
 	import type { PageProps } from './$types';
-	import type { Note } from '@ficus/service-notes/src/db/schema/notes';
+	import type { NoteWithContent } from '@ficus/service-notes/src/lib/notes/types';
 
 	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
@@ -31,7 +31,7 @@
 			body: formData
 		});
 		if (resp.ok) {
-			const updatedNote = await resp.json<Note>();
+			const updatedNote = await resp.json<NoteWithContent>();
 			note = {
 				...updatedNote,
 				content: updatedNote.content ?? ''
