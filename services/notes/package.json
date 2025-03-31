@@ -28,8 +28,10 @@
 		"zod": "catalog:"
 	},
 	"devDependencies": {
+		"@cloudflare/workers-types": "catalog:",
 		"@ficus/eslint-config": "workspace:",
 		"@sentry/cli": "catalog:",
+		"@sentry/cloudflare": "catalog:",
 		"@types/node": "catalog:",
 		"drizzle-kit": "catalog:",
 		"eslint": "catalog:",

@@ -4,4 +4,4 @@ declare namespace Cloudflare {
 		ASSETS: Fetcher;
 	}
 }
-interface Env extends Cloudflare.Env {}
+type Env = Cloudflare.Env;
