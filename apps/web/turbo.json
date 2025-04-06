@@ -1,0 +1,19 @@
+{
+	"extends": ["//"],
+	"tasks": {
+		"build": {
+			"outputs": [".svelte-kit/**"]
+		},
+		"preview": {
+			"persistent": true,
+			"cache": false,
+			"dependsOn": ["build"],
+			"with": [
+				"@ficus/argon2#dev",
+				"@ficus/rate-limiter#dev",
+				"@ficus/service-notes#dev",
+				"@ficus/service-markdown#dev"
+			]
+		}
+	}
+}

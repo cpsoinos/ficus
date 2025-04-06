@@ -13,5 +13,6 @@
 		"allowJs": true,
 		/* Enable error reporting in type-checked JavaScript files. */
 		"checkJs": false
-	}
+	},
+	"exclude": ["dist", "node_modules"]
 }

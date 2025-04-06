@@ -4,15 +4,15 @@
 	"private": true,
 	"license": "MIT",
 	"scripts": {
-		"build": "pnpm -r --parallel build",
-		"check": "pnpm -r --parallel check",
-		"dev": "pnpm -r --parallel dev",
+		"build": "turbo build",
+		"check": "turbo check",
+		"dev": "turbo dev",
 		"format": "prettier --write .",
-		"lint": "pnpm -r --parallel lint",
-		"lint:fix": "pnpm -r --parallel lint:fix",
+		"lint": "turbo lint",
+		"lint:fix": "turbo lint:fix",
 		"prepare": "husky",
-		"preview": "pnpm --filter web preview & pnpm --filter !web dev",
-		"test": "pnpm -r --parallel test"
+		"preview": "turbo preview",
+		"test": "turbo test"
 	},
 	"devDependencies": {
 		"@playwright/test": "catalog:",

@@ -30,6 +30,7 @@ jobs:
               - 'services/markdown/**'
             notes:
               - 'services/notes/**'
+
       - id: changes-matrix
         name: Create matrix of changed directories
         run: |
@@ -61,12 +62,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
+
       - run: pnpm install --frozen-lockfile
+
       - name: Deploy ${{ matrix.service }} to Cloudflare Workers
         env:
           CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

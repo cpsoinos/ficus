@@ -1,6 +1,7 @@
 packages:
   - libs/**
   - packages/**
+  - '!packages/**/build/**'
   - apps/**
   - services/**
 catalog:
