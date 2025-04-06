@@ -39,10 +39,11 @@
 	const carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
 		// editor themes
-		theme: {
-			light: DEFAULT_EDITOR_THEME__LIGHT,
-			dark: DEFAULT_EDITOR_THEME__DARK
-		},
+		// theme: {
+		// 	light: DEFAULT_EDITOR_THEME__LIGHT,
+		// 	dark: DEFAULT_EDITOR_THEME__DARK
+		// },
+		theme: DEFAULT_HIGHLIGHTER_THEME,
 		shikiOptions: {
 			// load theme for rendering code blocks
 			themes: [DEFAULT_HIGHLIGHTER_THEME]
