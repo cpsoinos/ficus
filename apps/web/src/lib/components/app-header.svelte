@@ -1,4 +1,4 @@
-<script module>
+<script module lang="ts">
 	export interface BreadcrumbPart {
 		label: string;
 		href?: string;

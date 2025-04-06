@@ -24,7 +24,6 @@
 		"@shikijs/themes": "catalog:",
 		"rehype-sanitize": "catalog:",
 		"rehype-stringify": "catalog:",
-		"remark-frontmatter": "catalog:",
 		"remark-gfm": "catalog:",
 		"remark-parse": "catalog:",
 		"remark-rehype": "catalog:",

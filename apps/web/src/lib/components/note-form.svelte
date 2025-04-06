@@ -11,9 +11,8 @@
 		DEFAULT_EDITOR_THEME__LIGHT,
 		DEFAULT_HIGHLIGHTER_THEME
 	} from '@ficus/common/markdown/constants';
-	import { Carta, MarkdownEditor, type Plugin, type UnifiedTransformer } from 'carta-md';
+	import { Carta, MarkdownEditor } from 'carta-md';
 	import DOMPurify from 'isomorphic-dompurify';
-	import remarkFrontmatter from 'remark-frontmatter';
 	import { toast } from 'svelte-sonner';
 
 	import { uploadFile } from '$lib/uploadFile';
@@ -36,19 +35,6 @@
 
 	let title = $state<string>(note.title ?? '');
 	let content = $state<string>(note.content ?? '');
-
-	const remarkPlugins = (): Plugin => {
-		const transformer: UnifiedTransformer<'sync'> = {
-			execution: 'sync',
-			type: 'remark',
-			transform({ processor }) {
-				processor.use(remarkFrontmatter);
-			}
-		};
-		return {
-			transformers: [transformer]
-		};
-	};
 
 	const carta = new Carta({
 		sanitizer: DOMPurify.sanitize,
@@ -90,8 +76,8 @@
 					return `/notes/${note.id}/attachments/${attachment.id}`;
 				}
 			}),
-			slash(),
-			remarkPlugins()
+			slash()
+			// remarkPlugins()
 		]
 	});
 
