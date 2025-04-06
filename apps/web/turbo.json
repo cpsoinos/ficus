@@ -2,7 +2,8 @@
 	"extends": ["//"],
 	"tasks": {
 		"build": {
-			"outputs": [".svelte-kit/**"]
+			"outputs": [".svelte-kit/**"],
+			"passThroughEnv": ["ENCRYPTION_KEY", "GITHUB_CLIENT_ID", "GITHUB_CLIENT_SECRET"]
 		},
 		"preview": {
 			"persistent": true,
