@@ -5,9 +5,9 @@ packages:
   - apps/**
   - services/**
 catalog:
-  '@cartamd/plugin-attachment': ^4.1.1
-  '@cartamd/plugin-code': ^4.0.6
-  '@cartamd/plugin-slash': ^4.1.2
+  '@cartamd/plugin-attachment': ^4.2.0
+  '@cartamd/plugin-code': ^4.1.2
+  '@cartamd/plugin-slash': ^4.2.0
   '@chromatic-com/storybook': ^3.2.3
   '@cloudflare/vitest-pool-workers': ^0.7.5
   '@cloudflare/workers-types': ^4.20250321.0
@@ -47,7 +47,7 @@ catalog:
   arctic: ^3.3.0
   autoprefixer: ^10.4.20
   bits-ui: 1.0.0-next.90
-  carta-md: ^4.7.0
+  carta-md: ^4.9.0
   drizzle-kit: 0.30.5
   drizzle-orm: 0.41.0
   drizzle-zod: 0.7.0
