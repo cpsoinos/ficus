@@ -65,3 +65,6 @@ vite.config.ts.timestamp-*
 
 # Sentry Config File
 .sentryclirc
+
+# Turborepo
+.turbo
