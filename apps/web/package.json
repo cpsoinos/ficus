@@ -31,9 +31,9 @@
 		"test:unit": "vitest run"
 	},
 	"dependencies": {
-		"@cartamd/plugin-attachment": "catalog:",
-		"@cartamd/plugin-code": "catalog:",
-		"@cartamd/plugin-slash": "catalog:",
+		"@cartamd/plugin-attachment": "^4.2.0",
+		"@cartamd/plugin-code": "^4.1.2",
+		"@cartamd/plugin-slash": "^4.2.0",
 		"@ficus/common": "workspace:*",
 		"@iconify/svelte": "catalog:",
 		"@libsql/client": "catalog:",
@@ -46,13 +46,11 @@
 		"@tailwindcss/container-queries": "catalog:",
 		"@tailwindcss/forms": "catalog:",
 		"arctic": "catalog:",
-		"carta-md": "catalog:",
+		"carta-md": "^4.9.0",
 		"drizzle-orm": "catalog:",
 		"hono": "catalog:",
-		"isomorphic-dompurify": "catalog:",
+		"isomorphic-dompurify": "^2.23.0",
 		"ofetch": "catalog:",
-		"remark-parse": "catalog:",
-		"unified": "catalog:",
 		"uqr": "catalog:",
 		"zod": "catalog:"
 	},

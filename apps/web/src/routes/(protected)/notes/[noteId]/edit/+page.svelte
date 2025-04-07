@@ -8,7 +8,6 @@
 	import type { PageProps } from './$types';
 	import type { NoteWithContent } from '@ficus/service-notes/src/lib/notes/types';
 
-	import { browser } from '$app/environment';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/state';
 
@@ -60,9 +59,7 @@
 		bind:this={noteForm}
 		data-sveltekit-keepfocus
 	>
-		{#if browser}
-			<NoteForm bind:note autoFocus save={saveNote} />
-		{/if}
+		<NoteForm bind:note autoFocus save={saveNote} />
 	</form>
 
 	<AlertDialog.Root>
