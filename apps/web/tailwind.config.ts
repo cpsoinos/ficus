@@ -1,5 +1,4 @@
 import tailwindTypography from '@tailwindcss/typography';
-import { fontFamily } from 'tailwindcss/defaultTheme';
 import tailwindcssAnimate from 'tailwindcss-animate';
 
 import type { Config } from 'tailwindcss';
@@ -67,9 +66,6 @@ const config: Config = {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
-			},
-			fontFamily: {
-				sans: [...fontFamily.sans]
 			},
 			keyframes: {
 				'accordion-down': {
