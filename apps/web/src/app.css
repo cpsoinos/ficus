@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+@source inline("dark");
+@source inline("markdown-body");
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
@@ -177,3 +180,9 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+@plugin "@tailwindcss/typography" {
+	classname: markdown-body;
+}
+
+@plugin "@tailwindcss/forms";
