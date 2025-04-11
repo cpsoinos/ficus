@@ -88,7 +88,7 @@
 		"tsx": "catalog:",
 		"tw-animate-css": "^1.2.5",
 		"typescript": "catalog:",
-		"vaul-svelte": "catalog:",
+		"vaul-svelte": "1.0.0-next.7",
 		"vite": "catalog:",
 		"vitest": "^3.0.7",
 		"wrangler": "catalog:"
