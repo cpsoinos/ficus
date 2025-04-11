@@ -195,9 +195,6 @@ catalogs:
     svelte-check:
       specifier: ^4.1.4
       version: 4.1.4
-    svelte-sonner:
-      specifier: ^0.3.28
-      version: 0.3.28
     toml:
       specifier: ^3.0.0
       version: 3.0.0
@@ -426,11 +423,11 @@ importers:
         specifier: 'catalog:'
         version: 4.1.4(picomatch@4.0.2)(svelte@5.20.0)(typescript@5.7.3)
       svelte-sonner:
-        specifier: 'catalog:'
+        specifier: ^0.3.28
         version: 0.3.28(svelte@5.20.0)
       tailwind-merge:
-        specifier: ^2.5.5
-        version: 2.6.0
+        specifier: ^3.2.0
+        version: 3.2.0
       tailwind-variants:
         specifier: ^0.3.1
         version: 0.3.1(tailwindcss@4.1.3)
@@ -6507,8 +6504,8 @@ packages:
   tailwind-merge@2.5.4:
     resolution: {integrity: sha512-0q8cfZHMu9nuYP/b5Shb7Y7Sh1B7Nnl5GqNr1U+n2p6+mybvRtayrQ+0042Z5byvTA8ihjlP8Odo8/VnHbZu4Q==}
 
-  tailwind-merge@2.6.0:
-    resolution: {integrity: sha512-P+Vu1qXfzediirmHOC3xKGAYeZtPcV9g76X+xg2FD4tYgR71ewMA35Y3sCz3zhiN/dwefRpJX0yBcgwi1fXNQA==}
+  tailwind-merge@3.2.0:
+    resolution: {integrity: sha512-FQT/OVqCD+7edmmJpsgCsY820RTD5AkBryuG5IUqR5YQZSdj5xlH5nLgH7YPths7WsLPSpSBNneJdM8aS8aeFA==}
 
   tailwind-variants@0.3.1:
     resolution: {integrity: sha512-krn67M3FpPwElg4FsZrOQd0U26o7UDH/QOkK8RNaiCCrr052f6YJPBUfNKnPo/s/xRzNPtv1Mldlxsg8Tb46BQ==}
@@ -13318,7 +13315,7 @@ snapshots:
 
   tailwind-merge@2.5.4: {}
 
-  tailwind-merge@2.6.0: {}
+  tailwind-merge@3.2.0: {}
 
   tailwind-variants@0.3.1(tailwindcss@4.1.3):
     dependencies:
