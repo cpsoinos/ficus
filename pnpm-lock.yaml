@@ -27,15 +27,9 @@ catalogs:
     '@hono/zod-validator':
       specifier: ^0.4.3
       version: 0.4.3
-    '@iconify/svelte':
-      specifier: ^4.2.0
-      version: 4.2.0
     '@libsql/client':
       specifier: ^0.14.0
       version: 0.14.0
-    '@nick/clsx':
-      specifier: npm:@jsr/nick__clsx@^0.3.1
-      version: 0.3.1
     '@oslojs/crypto':
       specifier: ^1.0.1
       version: 1.0.1
@@ -90,15 +84,6 @@ catalogs:
     '@storybook/test':
       specifier: ^8.4.7
       version: 8.4.7
-    '@sveltejs/adapter-cloudflare':
-      specifier: 7.0.1
-      version: 7.0.1
-    '@sveltejs/kit':
-      specifier: 2.20.4
-      version: 2.20.4
-    '@sveltejs/vite-plugin-svelte':
-      specifier: ^5.0.0
-      version: 5.0.3
     '@types/eslint-config-prettier':
       specifier: ^6.11.3
       version: 6.11.3
@@ -153,9 +138,6 @@ catalogs:
     lint-staged:
       specifier: ^15.4.3
       version: 15.4.3
-    mode-watcher:
-      specifier: ^0.5.1
-      version: 0.5.1
     ofetch:
       specifier: ^1.4.1
       version: 1.4.1
@@ -189,12 +171,6 @@ catalogs:
     sort-package-json:
       specifier: ^2.14.0
       version: 2.14.0
-    svelte:
-      specifier: ^5.20.0
-      version: 5.20.0
-    svelte-check:
-      specifier: ^4.1.4
-      version: 4.1.4
     toml:
       specifier: ^3.0.0
       version: 3.0.0
@@ -290,13 +266,13 @@ importers:
         specifier: workspace:*
         version: link:../../packages/common
       '@iconify/svelte':
-        specifier: 'catalog:'
+        specifier: ^4.2.0
         version: 4.2.0(svelte@5.20.0)
       '@libsql/client':
         specifier: 'catalog:'
         version: 0.14.0
       '@nick/clsx':
-        specifier: 'catalog:'
+        specifier: npm:@jsr/nick__clsx@^0.3.1
         version: '@jsr/nick__clsx@0.3.1'
       '@oslojs/crypto':
         specifier: 'catalog:'
@@ -313,9 +289,6 @@ importers:
       '@sentry/sveltekit':
         specifier: 'catalog:'
         version: 9.6.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/instrumentation@0.57.2(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.30.0)(@sveltejs/kit@2.20.4(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.20.0)(vite@6.2.5(@types/node@22.13.5)(jiti@2.4.2)(less@4.1.3)(lightningcss@1.29.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(svelte@5.20.0)(vite@6.2.5(@types/node@22.13.5)(jiti@2.4.2)(less@4.1.3)(lightningcss@1.29.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(svelte@5.20.0)(vite@6.2.5(@types/node@22.13.5)(jiti@2.4.2)(less@4.1.3)(lightningcss@1.29.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
-      '@tailwindcss/forms':
-        specifier: ^0.5.10
-        version: 0.5.10(tailwindcss@4.1.3)
       arctic:
         specifier: 'catalog:'
         version: 3.3.0
@@ -378,14 +351,17 @@ importers:
         specifier: 'catalog:'
         version: 8.4.7(storybook@8.4.7(prettier@3.5.1))
       '@sveltejs/adapter-cloudflare':
-        specifier: 'catalog:'
+        specifier: 7.0.1
         version: 7.0.1(@sveltejs/kit@2.20.4(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.20.0)(vite@6.2.5(@types/node@22.13.5)(jiti@2.4.2)(less@4.1.3)(lightningcss@1.29.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(svelte@5.20.0)(vite@6.2.5(@types/node@22.13.5)(jiti@2.4.2)(less@4.1.3)(lightningcss@1.29.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(wrangler@4.7.2)
       '@sveltejs/kit':
-        specifier: 'catalog:'
+        specifier: 2.20.4
         version: 2.20.4(@sveltejs/vite-plugin-svelte@5.0.3(svelte@5.20.0)(vite@6.2.5(@types/node@22.13.5)(jiti@2.4.2)(less@4.1.3)(lightningcss@1.29.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0)))(svelte@5.20.0)(vite@6.2.5(@types/node@22.13.5)(jiti@2.4.2)(less@4.1.3)(lightningcss@1.29.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
       '@sveltejs/vite-plugin-svelte':
-        specifier: 'catalog:'
+        specifier: ^5.0.0
         version: 5.0.3(svelte@5.20.0)(vite@6.2.5(@types/node@22.13.5)(jiti@2.4.2)(less@4.1.3)(lightningcss@1.29.2)(sass@1.83.0)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+      '@tailwindcss/forms':
+        specifier: ^0.5.10
+        version: 0.5.10(tailwindcss@4.1.3)
       '@tailwindcss/typography':
         specifier: ^0.5.16
         version: 0.5.16(tailwindcss@4.1.3)
@@ -408,16 +384,16 @@ importers:
         specifier: 'catalog:'
         version: 15.15.0
       mode-watcher:
-        specifier: 'catalog:'
+        specifier: ^0.5.1
         version: 0.5.1(svelte@5.20.0)
       storybook:
         specifier: ^8.4.7
         version: 8.4.7(prettier@3.5.1)
       svelte:
-        specifier: 'catalog:'
+        specifier: ^5.20.0
         version: 5.20.0
       svelte-check:
-        specifier: 'catalog:'
+        specifier: ^4.1.4
         version: 4.1.4(picomatch@4.0.2)(svelte@5.20.0)(typescript@5.7.3)
       svelte-sonner:
         specifier: ^0.3.28
