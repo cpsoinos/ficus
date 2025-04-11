@@ -72,7 +72,7 @@
 		"@tailwindcss/typography": "^0.5.16",
 		"@tailwindcss/vite": "^4.1.3",
 		"@types/node": "catalog:",
-		"bits-ui": "catalog:",
+		"bits-ui": "^1.3.19",
 		"drizzle-kit": "catalog:",
 		"eslint": "catalog:",
 		"globals": "catalog:",
