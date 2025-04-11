@@ -23,7 +23,6 @@
 		"prettier-plugin-svelte": "catalog:",
 		"prettier-plugin-tailwindcss": "catalog:",
 		"sort-package-json": "catalog:",
-		"storybook": "^8.4.6",
 		"tslib": "catalog:",
 		"turbo": "^2.5.0",
 		"typescript": "catalog:"
