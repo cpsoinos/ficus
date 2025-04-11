@@ -17,5 +17,6 @@
 		"lint": {},
 		"lint:fix": {},
 		"test": {}
-	}
+	},
+	"globalEnv": ["SENTRY_AUTH_TOKEN"]
 }

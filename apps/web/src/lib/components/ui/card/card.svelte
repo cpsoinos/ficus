@@ -14,7 +14,7 @@
 
 <div
 	bind:this={ref}
-	class={cn('bg-card text-card-foreground rounded-lg border shadow-sm', className)}
+	class={cn('bg-card text-card-foreground shadow-xs rounded-lg border', className)}
 	{...restProps}
 >
 	{@render children?.()}

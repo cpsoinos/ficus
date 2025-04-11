@@ -97,10 +97,10 @@
 						<Component href={item.href} class="max-w-20 truncate md:max-w-none">
 							{item.label}
 						</Component>
-						{#if item !== breadcrumbs[breadcrumbs.length - 1]}
-							<Breadcrumb.Separator />
-						{/if}
 					</Breadcrumb.Item>
+					{#if item !== breadcrumbs[breadcrumbs.length - 1]}
+						<Breadcrumb.Separator />
+					{/if}
 				{/each}
 			</Breadcrumb.List>
 		</Breadcrumb.Root>
