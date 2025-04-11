@@ -86,7 +86,6 @@
 	/* prettier-ignore */
 	className: markdown-body;
 }
-@plugin '@tailwindcss/container-queries';
 
 @utility container {
 	margin-inline: auto;

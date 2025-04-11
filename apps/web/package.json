@@ -43,7 +43,6 @@
 		"@oslojs/otp": "catalog:",
 		"@sentry/cloudflare": "catalog:",
 		"@sentry/sveltekit": "catalog:",
-		"@tailwindcss/container-queries": "^0.1.1",
 		"@tailwindcss/forms": "^0.5.10",
 		"arctic": "catalog:",
 		"carta-md": "^4.9.0",
