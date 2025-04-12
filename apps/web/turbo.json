@@ -3,7 +3,12 @@
 	"tasks": {
 		"build": {
 			"outputs": [".svelte-kit/**"],
-			"passThroughEnv": ["ENCRYPTION_KEY", "GITHUB_CLIENT_ID", "GITHUB_CLIENT_SECRET"]
+			"passThroughEnv": [
+				"ENCRYPTION_KEY",
+				"GITHUB_CLIENT_ID",
+				"GITHUB_CLIENT_SECRET",
+				"SENTRY_AUTH_TOKEN"
+			]
 		},
 		"preview": {
 			"persistent": true,
