@@ -1,4 +1,9 @@
-import { handleErrorWithSentry, sentryHandle, initCloudflareSentryHandle } from '@sentry/sveltekit';
+import {
+	handleErrorWithSentry,
+	sentryHandle,
+	initCloudflareSentryHandle,
+	setUser as sentrySetUser
+} from '@sentry/sveltekit';
 import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 
@@ -39,6 +44,21 @@ const authHook: Handle = async ({ event, resolve }) => {
 		setSessionTokenCookie(event, sessionToken!, session.expiresAt);
 	} else {
 		deleteSessionTokenCookie(event);
+	}
+
+	if (user) {
+		sentrySetUser({
+			id: user.id,
+			email: user.email,
+			ip_address: event.getClientAddress(),
+			geo: {
+				country_code: event.platform?.cf.country as string | undefined,
+				region: event.platform?.cf.region as string | undefined,
+				city: event.platform?.cf.city as string | undefined
+			}
+		});
+	} else {
+		sentrySetUser(null);
 	}
 
 	event.locals.user = user;

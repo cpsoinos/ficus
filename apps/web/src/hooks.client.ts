@@ -19,11 +19,8 @@ if (!dev) {
 	});
 }
 
-const myErrorHandler: HandleClientError = ({ error, event }) => {
+const devErrorHandler: HandleClientError = ({ error, event }) => {
 	console.error('An error occurred on the client side:', error, event);
 };
 
-export const handleError = dev ? myErrorHandler : Sentry.handleErrorWithSentry(myErrorHandler);
-
-// or alternatively, if you don't have a custom error handler:
-// export const handleError = handleErrorWithSentry();
+export const handleError = dev ? devErrorHandler : Sentry.handleErrorWithSentry(devErrorHandler);
