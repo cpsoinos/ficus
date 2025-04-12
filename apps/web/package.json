@@ -4,7 +4,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "vite build",
+		"build": "vite build --mode development",
 		"cf-typegen": "wrangler types && mv worker-configuration.d.ts src/ && node ./scripts/fix-cf-env-types.mjs",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
@@ -67,6 +67,7 @@
 		"eslint": "catalog:",
 		"globals": "catalog:",
 		"mode-watcher": "^0.5.1",
+		"rollup": "^4.39.0",
 		"svelte": "^5.25.12",
 		"svelte-check": "^4.1.5",
 		"svelte-sonner": "^0.3.28",
