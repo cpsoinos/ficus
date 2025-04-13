@@ -23,7 +23,7 @@
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"prepare": "svelte-kit sync",
-		"preview": "wrangler pages dev",
+		"preview": "wrangler dev",
 		"test": "pnpm run test:unit",
 		"test:e2e": "playwright test",
 		"test:unit": "vitest run"
