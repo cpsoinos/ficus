@@ -16,7 +16,7 @@
 		"db:push:local": "pnpm drizzle-kit:local push",
 		"db:studio": "pnpm drizzle-kit studio",
 		"db:studio:local": "pnpm drizzle-kit:local studio",
-		"deploy": "pnpm run build && wrangler pages deploy",
+		"deploy": "wrangler deploy",
 		"dev": "vite dev --open",
 		"drizzle-kit": "tsx node_modules/drizzle-kit/bin.cjs",
 		"drizzle-kit:local": "DATABASE_URL=$(find .wrangler/state/v3/d1/miniflare-D1DatabaseObject -type f -name '*.sqlite' -print -quit) pnpm drizzle-kit",
