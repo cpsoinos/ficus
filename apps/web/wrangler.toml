@@ -1,13 +1,17 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "ficus-web"
-compatibility_date = "2024-12-18"
+compatibility_date = "2025-04-01"
 compatibility_flags = ["nodejs_compat"]
-pages_build_output_dir = ".svelte-kit/cloudflare"
+main = ".svelte-kit/cloudflare/_worker.js"
 upload_source_maps = true
 
 [dev]
 port = 8764
 inspector_port = 9224
+
+[assets]
+directory = ".svelte-kit/cloudflare"
+binding = "ASSETS"
 
 [[d1_databases]]
 binding = "DB"

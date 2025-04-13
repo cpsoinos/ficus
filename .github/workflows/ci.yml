@@ -14,6 +14,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
     env:
+      TURBO_SCM_BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
       ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
       CF_D1_TOKEN: ${{ secrets.CF_D1_TOKEN }}
       CF_D1_DB_ID: ${{ secrets.CF_D1_DB_ID }}
@@ -23,13 +24,13 @@ jobs:
       GITHUB_CLIENT_SECRET: ${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}
     steps:
       - uses: actions/checkout@v4
-        # with:
-        #   fetch-depth: 0
+        with:
+          fetch-depth: 2
 
-      - name: Cache turbo build setup
+      - name: Cache Turbo setup
         uses: actions/cache@v4
         with:
-          path: .turbo
+          path: '**/.turbo'
           key: ${{ runner.os }}-turbo-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-turbo-
@@ -49,10 +50,10 @@ jobs:
       #   run: pnpm run check
 
       - name: Build
-        run: pnpm run build
+        run: pnpm run ci:build
 
       - name: Lint
-        run: pnpm run lint
+        run: pnpm run ci:lint
 
       - name: Test
-        run: pnpm run test
+        run: pnpm run ci:test

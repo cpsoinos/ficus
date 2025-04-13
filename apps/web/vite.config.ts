@@ -4,7 +4,16 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-	plugins: [tailwindcss(), sentrySvelteKit(), sveltekit()],
+	plugins: [
+		tailwindcss(),
+		sentrySvelteKit({
+			sourceMapsUploadOptions: {
+				org: 'anderapps-96',
+				project: 'ficus-web'
+			}
+		}),
+		sveltekit()
+	],
 	define: {
 		__ENABLE_CARTA_SSR_HIGHLIGHTER__: false
 	},
