@@ -23,8 +23,8 @@ jobs:
       GITHUB_CLIENT_SECRET: ${{ secrets.AUTH_GITHUB_CLIENT_SECRET }}
     steps:
       - uses: actions/checkout@v4
-        # with:
-        #   fetch-depth: 0
+        with:
+          fetch-depth: 0
 
       - name: Cache turbo build setup
         uses: actions/cache@v4
@@ -49,10 +49,10 @@ jobs:
       #   run: pnpm run check
 
       - name: Build
-        run: pnpm run build
+        run: pnpm run ci:build
 
       - name: Lint
-        run: pnpm run lint
+        run: pnpm run ci:lint
 
       - name: Test
-        run: pnpm run test
+        run: pnpm run ci:test

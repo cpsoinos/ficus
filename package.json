@@ -6,6 +6,9 @@
 	"scripts": {
 		"build": "turbo build",
 		"check": "turbo check",
+		"ci:build": "turbo build --affected",
+		"ci:lint": "turbo lint --affected",
+		"ci:test": "turbo test --affected",
 		"dev": "turbo dev",
 		"format": "prettier --write .",
 		"lint": "turbo lint",
