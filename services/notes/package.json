@@ -19,7 +19,7 @@
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"sentry:release": "export VERSION=$(sentry-cli releases propose-version); sentry-cli --auth-token $SENTRY_AUTH_TOKEN releases new -p ficus-notes $VERSION; sentry-cli --auth-token $SENTRY_AUTH_TOKEN releases set-commits --auto $VERSION",
-		"sentry:sourcemaps": "sentry-cli sourcemaps inject --org anderapps --project ficus-notes ./dist && sentry-cli sourcemaps upload --org anderapps --project ficus-notes --auth-token $SENTRY_AUTH_TOKEN ./dist"
+		"sentry:sourcemaps": "sentry-cli sourcemaps inject --project ficus-notes ./dist && sentry-cli sourcemaps upload --project ficus-notes --auth-token $SENTRY_AUTH_TOKEN ./dist"
 	},
 	"dependencies": {
 		"@ficus/common": "workspace:",
