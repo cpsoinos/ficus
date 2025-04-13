@@ -2,6 +2,8 @@ import { Bindings } from '$lib/server/bindings';
 
 import type { RequestHandler } from './$types';
 
+import { dev } from '$app/environment';
+
 /**
  * Attach a file to a note
  *
@@ -23,14 +25,25 @@ export const POST: RequestHandler = async ({ locals, request, params }) => {
 
 	const noteId = params.noteId;
 
-	const clonedRequest = request.clone();
-	clonedRequest.headers.set('x-user-id', userId);
-	clonedRequest.headers.set('x-note-id', noteId);
+	// Create a new Headers object with all original headers
+	const newHeaders = new Headers(request.headers);
+	// Add our custom headers
+	newHeaders.set('x-user-id', userId);
+	newHeaders.set('x-note-id', noteId);
 
-	const result = await Bindings.NOTES.fetch(
-		'http://internal/attachments/upload',
-		clonedRequest as Request
-	);
+	// Create a new Request with the same method, body and URL, but with the new headers
+	const newRequest = new Request(request.url, {
+		method: request.method,
+		headers: newHeaders,
+		body: request.body,
+		...(dev ? { duplex: 'half' } : {}), // Add the required duplex option for streaming bodies in dev, bc vite uses Node
+		// Preserve other properties if needed
+		redirect: request.redirect,
+		integrity: request.integrity,
+		signal: request.signal
+	});
+
+	const result = await Bindings.NOTES.fetch('http://internal/attachments/upload', newRequest);
 
 	return new Response(await result.text());
 };
