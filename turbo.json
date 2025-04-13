@@ -16,7 +16,11 @@
 		},
 		"lint": {},
 		"lint:fix": {},
-		"test": {}
+		"test": {},
+		"sentry:sourcemaps": {
+			"dependsOn": ["build"]
+		},
+		"sentry:release": {}
 	},
 	"globalEnv": ["SENTRY_AUTH_TOKEN"]
 }
