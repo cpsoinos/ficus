@@ -4,7 +4,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "vite build --mode development",
+		"build": "vite build",
 		"cf-typegen": "wrangler types && mv worker-configuration.d.ts src/ && node ./scripts/fix-cf-env-types.mjs",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
