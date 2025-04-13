@@ -2,6 +2,8 @@ import { Bindings } from '$lib/server/bindings';
 
 import type { RequestHandler } from './$types';
 
+import { dev } from '$app/environment';
+
 /**
  * Attach a file to a note
  *
@@ -34,7 +36,7 @@ export const POST: RequestHandler = async ({ locals, request, params }) => {
 		method: request.method,
 		headers: newHeaders,
 		body: request.body,
-		duplex: 'half', // Add the required duplex option for streaming bodies
+		...(dev ? { duplex: 'half' } : {}), // Add the required duplex option for streaming bodies in dev, bc vite uses Node
 		// Preserve other properties if needed
 		redirect: request.redirect,
 		integrity: request.integrity,
