@@ -46,16 +46,16 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Deploy to Cloudflare Workers
-        run: pnpm turbo run deploy --affected
+        run: pnpm turbo run deploy --affected --color
 
       - name: Upload source maps
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ vars.SENTRY_ORG }}
-        run: pnpm turbo run sentry:sourcemaps --affected
+        run: pnpm turbo run sentry:sourcemaps --affected --color
 
       - name: Create Sentry release
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ vars.SENTRY_ORG }}
-        run: pnpm turbo run sentry:release --affected
+        run: pnpm turbo run sentry:release --affected --color
