@@ -13,6 +13,10 @@ inspector_port = 9224
 directory = ".svelte-kit/cloudflare"
 binding = "ASSETS"
 
+[[routes]]
+pattern = "ficus.anderapps.com"
+custom_domain = true
+
 [[d1_databases]]
 binding = "DB"
 database_name = "ficus-web"
